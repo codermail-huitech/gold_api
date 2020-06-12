@@ -12,9 +12,10 @@ class PriceCodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getPriceCodes()
     {
-        //
+        $data=PriceCode::select('id','price_code_name')->get();
+        return response()->json(['success'=>1,'data'=>$data], 200);
     }
 
     /**

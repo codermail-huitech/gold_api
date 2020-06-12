@@ -12,9 +12,10 @@ class ProductCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getProductCategories()
     {
-        //
+        $data=ProductCategory::select()->get();
+        return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

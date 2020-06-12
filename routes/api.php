@@ -24,12 +24,15 @@ Route::post('/login', 'AuthController@login');
 Route::get('/me', 'AuthController@me');
 Route::delete('/customers/{id}', 'CustomerController@deleteCustomer');
 
+Route::get('/priceCodes', 'PriceCodeController@getPriceCodes');
 
+Route::get('/productCategory', 'ProductCategoryController@getProductCategories');
 
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('logout', 'AuthController@logout');
     Route::get('/products', 'ProductController@index');
     Route::post('/products', 'ProductController@saveProduct');
+
 
 
     Route::get('/customers', 'CustomerController@index');
