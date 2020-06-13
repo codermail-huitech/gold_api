@@ -25,7 +25,14 @@ class ProductController extends Controller
      */
     public function saveProduct(Request $request)
     {
-        return response()->json(['success'=>1,'data'=>$request->input('product_name')], 200);
+//        return response()->json(['success'=>1,'data'=>$request->input('model_number')], 200,[],JSON_NUMERIC_CHECK);
+        $product=new Product();
+        $product->model_number=$request->input('model_number');
+        $product->product_name=$request->input('product_name');
+        $product->price_code_id=$request->input('price_code_id');
+        $product->product_category_id=$request->input('product_category_id');
+        $product->save();
+        return response()->json(['success'=>1,'data'=>$product], 200,[],JSON_NUMERIC_CHECK);
     }
 
     /**
