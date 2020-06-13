@@ -27,6 +27,10 @@ class ProductController extends Controller
         $product->price_code_id=$request->input('price_code_id');
         $product->product_category_id=$request->input('product_category_id');
         $product->save();
+
+        $product->setAttribute('category_name', $product->category->category_name);
+        $product->setAttribute('price_code_name', $product->priceCode->price_code_name);
+
         return response()->json(['success'=>1,'data'=>$product], 200,[],JSON_NUMERIC_CHECK);
     }
 
@@ -40,6 +44,17 @@ class ProductController extends Controller
         $product->product_category_id=$request->input('product_category_id');
         $product->update();
         return response()->json(['success'=>1,'data'=>$product], 200,[],JSON_NUMERIC_CHECK);
+    }
+
+
+    public function deleteProduct(Request $request,$id)
+    {
+        $product = Product::find($id);
+        $result=$product->delete();
+        return response()->json(['success'=>$result,'id'=>$id], 200);
+
+
+
     }
 
     public function show(Product $product)
