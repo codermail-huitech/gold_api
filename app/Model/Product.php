@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = ['model_number','product_name','product_category_id','price_code_id'];
+    /**
+     * @var mixed
+     */
+    private $model_number;
 
     public function category()
     {
