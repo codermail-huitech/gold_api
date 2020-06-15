@@ -36,37 +36,10 @@ class CustomerController extends Controller
         return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
     }
 
-    public function getAgent()
-    {
-//        $customers = PersonType::find(10)->people;
-        $query = User::select('id',
-            'person_name',
-            'person_type_id',
-            'email',
-            'mobile1',
-            'mobile2',
-            'customer_category_id',
-            'address1',
-            'address2',
-            'state',
-            'city',
-            'po',
-            'area',
-            'pin')->where('person_type_id','=',7);
 
-        //to bind the parameters, the above statement does not bind the parameters so we need to bind them
-        // using following statement
-        $finalQuery=Str::replaceArray('?', $query->getBindings(), $query->toSql());
-
-        $result=DB::table(DB::raw("($finalQuery) as table1"))->select()->get();
-
-        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
-    }
 
     public function saveCustomer(Request $request)
     {
-//        return $request;
-
         $customer=new User();
 
         $customer->person_name=$request->input('person_name');
@@ -86,21 +59,17 @@ class CustomerController extends Controller
 
         $customer->save();
         return response()->json(['success'=>1,'data'=>$customer], 200);
-
-
     }
 
     public function updateCustomer($id,Request $request)
     {
         $customer=User::find($id);
-
         if($request->input('person_name')){
             $customer->person_name=$request->input('person_name');
         }
         if($request->input('email')){
             $customer->email=$request->input('email');
         }
-
         if($request->input('password')){
             $customer->password=$request->input('password');
         }
