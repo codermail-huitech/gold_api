@@ -31,6 +31,7 @@ Route::get('/productCategory', 'ProductCategoryController@getProductCategories')
 
 Route::get('/products', 'ProductController@index');
 
+
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('logout', 'AuthController@logout');
 
