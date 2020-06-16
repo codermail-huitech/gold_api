@@ -45,6 +45,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::delete('/products/{id}', 'ProductController@deleteProduct');
 
     Route::get('/materials', 'MaterialController@getMaterials');
+    Route::get('/orderMaterials', 'MaterialController@getOrderMaterials');
 
 
     Route::get('/customers', 'CustomerController@index');

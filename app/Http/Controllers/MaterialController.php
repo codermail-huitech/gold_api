@@ -19,6 +19,15 @@ class MaterialController extends Controller
         return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
     }
 
+    public function getOrderMaterials()
+    {
+        $result=Material::select()
+                ->where('is_base_material','=',1)
+                ->get();
+
+        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);        
+    }
+
     /**
      * Show the form for creating a new resource.
      *
