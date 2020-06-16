@@ -9,6 +9,7 @@ use App\Model\JobTask;
 use App\Model\MaterialCategory;
 use App\Model\Rate;
 use App\Model\ProductCategory;
+use App\Model\Material;
 
 class DatabaseSeeder extends Seeder
 {
@@ -102,6 +103,16 @@ class DatabaseSeeder extends Seeder
         MaterialCategory::create(['mc_name' => 'Zinc']);
         MaterialCategory::create(['mc_name' => 'Dal']);
 
+
+         //materials  table data
+         Material::create(['material_name' => 'Pure Gold','material_category_id'=>1,'gold'=>100,'silver'=>0,'is_main_production_material'=>0,'is_base_material'=>0]);
+         Material::create(['material_name' => 'Pure Silver','material_category_id'=>2,'gold'=>0,'silver'=>100,'is_main_production_material'=>0,'is_base_material'=>0]);
+         Material::create(['material_name' => '92 Ginnie','material_category_id'=>1,'gold'=>92,'silver'=>0,'is_main_production_material'=>1,'is_base_material'=>0]);
+         Material::create(['material_name' => 'Pan','material_category_id'=>1,'gold'=>40,'silver'=>20,'is_main_production_material'=>1,'is_base_material'=>1]);
+         Material::create(['material_name' => '90 Ginnie','material_category_id'=>1,'gold'=>90,'silver'=>0,'is_main_production_material'=>1,'is_base_material'=>0]);
+         Material::create(['material_name' => 'Dal','material_category_id'=>6,'gold'=>10,'silver'=>70,'is_main_production_material'=>1,'is_base_material'=>0]);
+         Material::create(['material_name' => 'Nitric','material_category_id'=>1,'gold'=>88,'silver'=>0,'is_main_production_material'=>0,'is_base_material'=>0]);
+         Material::create(['material_name' => 'Production_dust ','material_category_id'=>1,'gold'=>20,'silver'=>0,'is_main_production_material'=>0,'is_base_material'=>0]);
 
         //rates  table data
         //base Rate
