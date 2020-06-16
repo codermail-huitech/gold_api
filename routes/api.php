@@ -35,6 +35,8 @@ Route::post('/orders', 'OrderMasterController@saveOrder');
 Route::get('/agents', 'AgentController@index');
 
 
+
+//secured links here
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('logout', 'AuthController@logout');
 
