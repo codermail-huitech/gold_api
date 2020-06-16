@@ -32,6 +32,8 @@ Route::get('/productCategory', 'ProductCategoryController@getProductCategories')
 Route::get('/products', 'ProductController@index');
 
 Route::post('/orders', 'OrderMasterController@saveOrder');
+Route::get('/agents', 'AgentController@index');
+
 
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('logout', 'AuthController@logout');
@@ -40,8 +42,6 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::patch('/products', 'ProductController@updateProduct');
     Route::delete('/products/{id}', 'ProductController@deleteProduct');
 
-
-    Route::get('/agents', 'CustomerController@getAgent');
     Route::get('/materials', 'MaterialController@getMaterials');
 
 
