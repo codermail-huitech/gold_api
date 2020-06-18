@@ -20,21 +20,26 @@ class OrderMasterController extends Controller
     }
 
     public function saveOrder(Request $request){
+
         $input=($request->json()->all());
 
-        $inputOrderMaster=(object)($input['orderMaster']);
-        $inputOrderDetails=($input['orderDetails']);
+//        return response()->json(['Success'=>1,'data'=>$input], 200);
+
+
+        $inputOrderMaster=(object)($input['master']);
+        $inputOrderDetails=($input['details']);
 
         DB::beginTransaction();
-        $customVoucher=CustomVoucher::where('voucher_name',$inputOrderMaster->voucher_name)->Where('accounting_year',$inputOrderMaster->accounting_year)->first();
+        $customVoucher=CustomVoucher::where('voucher_name',"order")->Where('accounting_year',"2020")->first();
 
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
             $customVoucher->save();
         }else{
             $customVoucher= new CustomVoucher();
-            $customVoucher->voucher_name=$inputOrderMaster->voucher_name;
-            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
+            $customVoucher->voucher_name="order";
+//            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
+            $customVoucher->accounting_year="2020";
             $customVoucher->last_counter=1;
             $customVoucher->delimiter='/';
             $customVoucher->prefix='ORD';
@@ -51,21 +56,21 @@ class OrderMasterController extends Controller
                 .$customVoucher->accounting_year;
             $orderMaster->order_number=$voucherNumber;
             $orderMaster->agent_id=$inputOrderMaster->agent_id;
-            $orderMaster->person_id=$inputOrderMaster->person_id;
+            $orderMaster->person_id=$inputOrderMaster->customer_id;
             $orderMaster->employee_id=$inputOrderMaster->employee_id;
-            $orderMaster->date_of_order=$inputOrderMaster->date_of_order;
-            $orderMaster->date_of_delivery=$inputOrderMaster->date_of_delivery;
+            $orderMaster->date_of_order=$inputOrderMaster->order_date;
+            $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
             $orderMaster->save();
 
             //Saving Order Details
             foreach ($inputOrderDetails as $row){
                 $orderDetails=new OrderDetail();
                 $orderDetails->order_master_id=$orderMaster->id;
-                $orderDetails->approx_gold=$row['approxGold'];
+                $orderDetails->approx_gold=$row['approx_gold'];
                 $orderDetails->quantity=$row['quantity'];
                 $orderDetails->p_loss=$row['pLoss'];
                 $orderDetails->price=$row['price'];
-                $orderDetails->product_id=$row['model_id'];
+                $orderDetails->product_id=$row['product_id'];
                 $orderDetails->size=$row['size'];
                 $orderDetails->material_id=$row['material_id'];
                 $orderDetails->save();
