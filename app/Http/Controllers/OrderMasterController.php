@@ -83,7 +83,7 @@ class OrderMasterController extends Controller
             DB::rollBack();
             return response()->json(['Success'=>1,'Exception'=>$e], 401);
         }
-        return response()->json(['Success'=>1,'product'=>$customVoucher], 200);
+        return response()->json(['success'=>1,'data'=>$customVoucher], 200);
     }
     /**
      * Store a newly created resource in storage.
