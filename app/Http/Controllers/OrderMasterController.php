@@ -13,8 +13,9 @@ class OrderMasterController extends Controller
 {
     public function index()
     {
-        $data=OrderMaster::select()
-            ->join('price_codes', 'price_codes.id', '=', 'products.price_code_id')
+        $data=OrderMaster::select('order_masters.person_id','order_masters.date_of_order','order_masters.date_of_delivery','order_masters.order_number',DB::raw('customer.person_name as customer_name'),DB::raw('agent.person_name as agent_name'))
+            ->join('users as customer', 'customer.id', '=', 'order_masters.person_id')
+            ->join('users as agent', 'agent.id', '=', 'order_masters.agent_id')
             ->get();
         return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }

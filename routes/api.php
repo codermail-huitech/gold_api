@@ -32,6 +32,7 @@ Route::get('/productCategory', 'ProductCategoryController@getProductCategories')
 Route::get('/products', 'ProductController@index');
 
 Route::post('/orders', 'OrderMasterController@saveOrder');
+Route::get('/orders', 'OrderMasterController@index');
 Route::get('/agents', 'AgentController@index');
 
 
