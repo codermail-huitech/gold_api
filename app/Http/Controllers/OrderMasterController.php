@@ -86,15 +86,10 @@ class OrderMasterController extends Controller
         }
         return response()->json(['success'=>1,'data'=>$customVoucher], 200);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function updateOrder(Request $request)
     {
-        //
+        return response()->json(['success'=>1,'data'=>$request->input('master'),'data2'=>$request->input('details') ], 200);
     }
 
     /**
