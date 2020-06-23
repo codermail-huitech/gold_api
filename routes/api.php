@@ -33,6 +33,7 @@ Route::get('/products', 'ProductController@index');
 
 Route::post('/orders', 'OrderMasterController@saveOrder');
 Route::get('/orders', 'OrderMasterController@index');
+Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
 Route::get('/agents', 'AgentController@index');
 
 

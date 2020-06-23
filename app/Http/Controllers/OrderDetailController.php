@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrderDetailController extends Controller
 {
@@ -12,9 +13,15 @@ class OrderDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function fetchingDetails(Request $request)
     {
-        //
+//        return response()->json(['success'=>1,'data'=>$request->input('orderMasterId')], 200,[],JSON_NUMERIC_CHECK);
+        $data=OrderDetail::select('order_details.price','order_details.size','order_details.approx_gold','order_details.p_loss','order_details.quantity','products.model_number',DB::raw("price_codes.price_code_name as price_code"),DB::raw("order_details.quantity * order_details.price as  amount"))
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->join('price_codes', 'price_codes.id', '=', 'products.price_code_id')
+            ->where('order_master_id',$request->input('orderMasterId'))
+            ->get();
+        return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
 
     /**
