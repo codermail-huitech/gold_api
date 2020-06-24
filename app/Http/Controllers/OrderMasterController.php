@@ -115,7 +115,7 @@ class OrderMasterController extends Controller
         $orderDetails->material_id=$inputOrderDetails->material_id;
         $orderDetails->update();
 
-        return response()->json(['success'=>1,'orderMaster'=>$orderMaster ,'orderDetails'=>$orderDetails], 200);
+        return response()->json(['success'=>1, 'data'=>$orderDetails], 200);
     }
 
     /**

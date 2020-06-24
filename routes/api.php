@@ -34,6 +34,7 @@ Route::get('/products', 'ProductController@index');
 Route::post('/orders', 'OrderMasterController@saveOrder');
 Route::get('/orders', 'OrderMasterController@index');
 Route::patch('/orders', 'OrderMasterController@updateOrder');
+Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
 Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
 Route::get('/agents', 'AgentController@index');
 

@@ -24,14 +24,14 @@ class OrderDetailController extends Controller
         return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function deleteOrder($id)
     {
-        //
+//        return response()->json(['success'=>1,'data'=>$id], 200);
+        
+        $orderDetails = OrderDetail::find($id);
+        $result=$orderDetails->delete();
+        return response()->json(['success'=>$result,'id'=>$id], 200);
     }
 
     /**
