@@ -89,7 +89,33 @@ class OrderMasterController extends Controller
 
     public function updateOrder(Request $request)
     {
-        return response()->json(['success'=>1,'data'=>$request->input('master'),'data2'=>$request->input('details') ], 200);
+        $input=($request->json()->all());
+        $inputOrderMaster=(object)($input['master']);
+        $inputOrderDetails=(object)($input['details']);
+//        $inputOrderDetails = $inputOrderDetails->first->approx_gold();
+
+//        return response()->json(['success'=>1,'data2'=>$inputOrderDetails], 200);
+        $orderMaster= new OrderMaster();
+        $orderMaster=OrderMaster::find($inputOrderMaster->id);
+        $orderMaster->agent_id=$inputOrderMaster->agent_id;
+        $orderMaster->person_id=$inputOrderMaster->customer_id;
+        $orderMaster->employee_id=$inputOrderMaster->employee_id;
+        $orderMaster->date_of_order=$inputOrderMaster->order_date;
+        $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
+        $orderMaster->update();
+
+        $orderDetails=new OrderDetail();
+        $orderDetails=OrderDetail::find($inputOrderDetails->id);
+        $orderDetails->approx_gold=$inputOrderDetails->approx_gold;
+        $orderDetails->quantity=$inputOrderDetails->quantity;
+        $orderDetails->p_loss=$inputOrderDetails->p_loss;
+        $orderDetails->price=$inputOrderDetails->price;
+        $orderDetails->product_id=$inputOrderDetails->product_id;
+        $orderDetails->size=$inputOrderDetails->size;
+        $orderDetails->material_id=$inputOrderDetails->material_id;
+        $orderDetails->update();
+
+        return response()->json(['success'=>1,'orderMaster'=>$orderMaster ,'orderDetails'=>$orderDetails], 200);
     }
 
     /**
