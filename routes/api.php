@@ -34,7 +34,8 @@ Route::get('/products', 'ProductController@index');
 Route::post('/orders', 'OrderMasterController@saveOrder');
 Route::get('/orders', 'OrderMasterController@index');
 Route::patch('/orders', 'OrderMasterController@updateOrder');
-Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
+Route::patch('/orderMaster', 'OrderMasterController@updateMaster');
+Route::delete('/orderMasterDelete/{id}', 'OrderMasterController@deleteOrderMaster');
 Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
 Route::get('/agents', 'AgentController@index');
 
@@ -56,6 +57,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/customers', 'CustomerController@saveCustomer');
     Route::patch('/customers/{id}', 'CustomerController@updateCustomer');
 
+    Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
 
     Route::get('test', function(){
         return response()->json(['foo'=>'bar']);

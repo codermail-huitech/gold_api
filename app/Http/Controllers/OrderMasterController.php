@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\CustomVoucher;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\OrderDetailController;
@@ -115,29 +116,49 @@ class OrderMasterController extends Controller
         $orderDetails->material_id=$inputOrderDetails->material_id;
         $orderDetails->update();
 
-        return response()->json(['success'=>1, 'data'=>$orderDetails], 200);
+        $orderDetails->amount=$inputOrderDetails->price * $inputOrderDetails->quantity;
+        $orderDetails->model_number=$inputOrderDetails->model_number;
+        $orderDetails->price_code=$inputOrderDetails->price_code;
+
+        $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
+        $orderMaster->customer_name = $data[0]->person_name;
+
+        $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
+        $orderMaster->agent_name = $data[0]->person_name;
+
+        return response()->json(['success'=>1, 'orderDetail'=>$orderDetails, 'orderMaster'=>$orderMaster], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\OrderMaster  $orderMaster
-     * @return \Illuminate\Http\Response
-     */
-    public function show(OrderMaster $orderMaster)
+    public function deleteOrderMaster($id)
     {
-        //
+        $detailsDelete = OrderDetail::where('order_master_id',$id)->delete();
+        $orderMaster= new OrderMaster();
+        $orderMaster=OrderMaster::find($id);
+        $orderMaster->delete();
+        $success=0;
+        if($orderMaster){
+            $success=1;
+        }
+        return response()->json(['success'=>$success, 'data'=>$orderMaster], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\OrderMaster  $orderMaster
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(OrderMaster $orderMaster)
+    public function updateMaster(Request $request)
     {
-        //
+        $input=($request->json()->all());
+        $inputOrderMaster=(object)($input['master']);
+        $orderMaster= new OrderMaster();
+        $orderMaster=OrderMaster::find($inputOrderMaster->id);
+        $orderMaster->agent_id=$inputOrderMaster->agent_id;
+        $orderMaster->person_id=$inputOrderMaster->customer_id;
+        $orderMaster->employee_id=$inputOrderMaster->employee_id;
+        $orderMaster->date_of_order=$inputOrderMaster->order_date;
+        $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
+        $orderMaster->update();
+        $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
+        $orderMaster->customer_name = $data[0]->person_name;
+        $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
+        $orderMaster->agent_name = $data[0]->person_name;
+        return response()->json(['success'=>1, 'data'=>$orderMaster], 200);
     }
 
     /**

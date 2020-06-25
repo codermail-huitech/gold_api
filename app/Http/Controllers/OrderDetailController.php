@@ -28,9 +28,14 @@ class OrderDetailController extends Controller
     public function deleteOrder($id)
     {
 //        return response()->json(['success'=>1,'data'=>$id], 200);
-        
+
         $orderDetails = OrderDetail::find($id);
         $result=$orderDetails->delete();
+        if($result == 1){
+            $result = 1;
+        }else{
+            $result = 0;
+        }
         return response()->json(['success'=>$result,'id'=>$id], 200);
     }
 
