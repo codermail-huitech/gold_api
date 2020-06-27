@@ -51,18 +51,43 @@ class OrderMasterController extends Controller
         {
             //Saving Order Master
             $orderMaster= new OrderMaster();
+            // $voucherNumber=$customVoucher->prefix
+            //     .$customVoucher->delimiter
+            //     .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
+            //     .$customVoucher->delimiter
+            //     .$customVoucher->accounting_year;
+            // $orderMaster->order_number=$voucherNumber;
+            // $orderMaster->agent_id=$inputOrderMaster->agent_id;
+            // $orderMaster->person_id=$inputOrderMaster->customer_id;
+            // $orderMaster->employee_id=$inputOrderMaster->employee_id;
+            // $orderMaster->date_of_order=$inputOrderMaster->order_date;
+            // $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
+            // $orderMaster->save();
+
+
             $voucherNumber=$customVoucher->prefix
-                .$customVoucher->delimiter
-                .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
-                .$customVoucher->delimiter
-                .$customVoucher->accounting_year;
-            $orderMaster->order_number=$voucherNumber;
-            $orderMaster->agent_id=$inputOrderMaster->agent_id;
-            $orderMaster->person_id=$inputOrderMaster->customer_id;
-            $orderMaster->employee_id=$inputOrderMaster->employee_id;
-            $orderMaster->date_of_order=$inputOrderMaster->order_date;
-            $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
-            $orderMaster->save();
+            .$customVoucher->delimiter
+            .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
+            .$customVoucher->delimiter
+            .$customVoucher->accounting_year;
+        $orderMaster->order_number=$voucherNumber;
+        $orderMaster->agent_id=$inputOrderMaster->agent_id;
+        $orderMaster->person_id=$inputOrderMaster->customer_id;
+        $orderMaster->employee_id=$inputOrderMaster->employee_id;
+        $orderMaster->date_of_order=$inputOrderMaster->order_date;
+        $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
+        $orderMaster->save();
+
+
+        $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
+        $orderMaster->customer_name = $data[0]->person_name;
+
+        $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
+        $orderMaster->agent_name = $data[0]->person_name;
+
+
+
+            
 
             //Saving Order Details
             foreach ($inputOrderDetails as $row){
@@ -85,7 +110,8 @@ class OrderMasterController extends Controller
             DB::rollBack();
             return response()->json(['Success'=>1,'Exception'=>$e], 401);
         }
-        return response()->json(['success'=>1,'data'=>$customVoucher], 200);
+        // return response()->json(['success'=>1,'data'=>$customVoucher], 200);
+        return response()->json(['success'=>1,'data'=> $orderMaster], 200);
     }
 
     public function updateOrder(Request $request)
