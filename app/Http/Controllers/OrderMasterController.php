@@ -87,7 +87,7 @@ class OrderMasterController extends Controller
 
 
 
-            
+
 
             //Saving Order Details
             foreach ($inputOrderDetails as $row){
@@ -131,16 +131,29 @@ class OrderMasterController extends Controller
         $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
         $orderMaster->update();
 
-        $orderDetails=new OrderDetail();
-        $orderDetails=OrderDetail::find($inputOrderDetails->id);
-        $orderDetails->approx_gold=$inputOrderDetails->approx_gold;
-        $orderDetails->quantity=$inputOrderDetails->quantity;
-        $orderDetails->p_loss=$inputOrderDetails->p_loss;
-        $orderDetails->price=$inputOrderDetails->price;
-        $orderDetails->product_id=$inputOrderDetails->product_id;
-        $orderDetails->size=$inputOrderDetails->size;
-        $orderDetails->material_id=$inputOrderDetails->material_id;
-        $orderDetails->update();
+        if($inputOrderDetails->id==null){
+            $orderDetails=new OrderDetail();
+            $orderDetails->approx_gold=$inputOrderDetails->approx_gold;
+            $orderDetails->order_master_id=$orderMaster->id;
+            $orderDetails->quantity=$inputOrderDetails->quantity;
+            $orderDetails->p_loss=$inputOrderDetails->p_loss;
+            $orderDetails->price=$inputOrderDetails->price;
+            $orderDetails->product_id=$inputOrderDetails->product_id;
+            $orderDetails->size=$inputOrderDetails->size;
+            $orderDetails->material_id=$inputOrderDetails->material_id;
+            $orderDetails->save();
+        }else{
+            $orderDetails=new OrderDetail();
+            $orderDetails=OrderDetail::find($inputOrderDetails->id);
+            $orderDetails->approx_gold=$inputOrderDetails->approx_gold;
+            $orderDetails->quantity=$inputOrderDetails->quantity;
+            $orderDetails->p_loss=$inputOrderDetails->p_loss;
+            $orderDetails->price=$inputOrderDetails->price;
+            $orderDetails->product_id=$inputOrderDetails->product_id;
+            $orderDetails->size=$inputOrderDetails->size;
+            $orderDetails->material_id=$inputOrderDetails->material_id;
+            $orderDetails->update();
+        }
 
         $orderDetails->amount=$inputOrderDetails->price * $inputOrderDetails->quantity;
         $orderDetails->model_number=$inputOrderDetails->model_number;
