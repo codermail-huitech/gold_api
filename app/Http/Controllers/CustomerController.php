@@ -131,4 +131,11 @@ class CustomerController extends Controller
             return response()->json(['success'=>0,'data'=>'Not Deleted'], 200,[],JSON_NUMERIC_CHECK);
         }
     }
+    public function getkarigarhs()
+    {
+        $result = User::select('id','person_name')->where('person_type_id','=',11)->get();
+
+        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
+
+    }
 }

@@ -14,7 +14,7 @@ class PersonTypeController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**

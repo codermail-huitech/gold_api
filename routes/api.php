@@ -38,6 +38,7 @@ Route::patch('/orderMaster', 'OrderMasterController@updateMaster');
 Route::delete('/orderMasterDelete/{id}', 'OrderMasterController@deleteOrderMaster');
 Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
 Route::get('/agents', 'AgentController@index');
+Route::get('/karigarhs', 'CustomerController@getkarigarhs');
 
 
 
