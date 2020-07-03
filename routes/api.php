@@ -40,7 +40,7 @@ Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
 Route::get('/agents', 'AgentController@index');
 Route::get('/karigarhs', 'CustomerController@getkarigarhs');
 
-
+Route::post('/jobs', 'JobMasterController@saveJob');
 
 //secured links here
 Route::group(['middleware' => ['jwt.auth']], function() {

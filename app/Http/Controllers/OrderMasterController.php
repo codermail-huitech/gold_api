@@ -51,20 +51,6 @@ class OrderMasterController extends Controller
         {
             //Saving Order Master
             $orderMaster= new OrderMaster();
-            // $voucherNumber=$customVoucher->prefix
-            //     .$customVoucher->delimiter
-            //     .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
-            //     .$customVoucher->delimiter
-            //     .$customVoucher->accounting_year;
-            // $orderMaster->order_number=$voucherNumber;
-            // $orderMaster->agent_id=$inputOrderMaster->agent_id;
-            // $orderMaster->person_id=$inputOrderMaster->customer_id;
-            // $orderMaster->employee_id=$inputOrderMaster->employee_id;
-            // $orderMaster->date_of_order=$inputOrderMaster->order_date;
-            // $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
-            // $orderMaster->save();
-
-
             $voucherNumber=$customVoucher->prefix
             .$customVoucher->delimiter
             .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
