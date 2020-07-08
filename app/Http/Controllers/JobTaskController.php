@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Model\JobTask;
 use Illuminate\Http\Request;
+use App\Model\OrderDetail;
+use App\Model\OrderMaster;
 
 class JobTaskController extends Controller
 {
@@ -15,6 +17,19 @@ class JobTaskController extends Controller
     public function index()
     {
         //
+    }
+
+    public function getSavedJobs()
+    {
+        $data=OrderDetail::select('order_masters.order_number','order_details.price','order_details.p_loss','order_details.approx_gold','order_details.quantity','order_details.size')
+              ->join('order_masters','order_details.order_master_id','=','order_masters.id')
+              ->where('order_details.job_status','=',1)
+              ->get();
+
+       
+              
+        return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);      
+
     }
 
     /**

@@ -39,8 +39,11 @@ Route::delete('/orderMasterDelete/{id}', 'OrderMasterController@deleteOrderMaste
 Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
 Route::get('/agents', 'AgentController@index');
 Route::get('/karigarhs', 'CustomerController@getkarigarhs');
+Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
 
 Route::post('/jobs', 'JobMasterController@saveJob');
+
+
 
 //secured links here
 Route::group(['middleware' => ['jwt.auth']], function() {
