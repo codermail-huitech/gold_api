@@ -42,6 +42,9 @@ Route::get('/karigarhs', 'CustomerController@getkarigarhs');
 Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
 
 Route::post('/jobs', 'JobMasterController@saveJob');
+Route::post('/goldReturn', 'JobTaskController@saveGoldReturn');
+
+// Route::get('/orderMaterials', 'MaterialController@getOrderMaterials');
 
 
 
@@ -62,6 +65,8 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::patch('/customers/{id}', 'CustomerController@updateCustomer');
 
     Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
+
+    // Route::get('/agents', 'AgentController@index');
 
     Route::get('test', function(){
         return response()->json(['foo'=>'bar']);

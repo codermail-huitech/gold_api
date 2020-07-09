@@ -6,6 +6,8 @@ use App\Model\JobTask;
 use Illuminate\Http\Request;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
+use App\Model\JobMaster;
+use App\Model\JobDetail;
 
 class JobTaskController extends Controller
 {
@@ -21,9 +23,11 @@ class JobTaskController extends Controller
 
     public function getSavedJobs()
     {
-        $data=OrderDetail::select('order_masters.order_number','order_details.price','order_details.p_loss','order_details.approx_gold','order_details.quantity','order_details.size')
+        $data=JobMaster::select('job_masters.id','order_masters.order_number','job_masters.order_details_id','order_details.price','order_details.p_loss','order_details.approx_gold','order_details.quantity','order_details.size')
+              ->join('order_details','job_masters.order_details_id','order_details.id')
               ->join('order_masters','order_details.order_master_id','=','order_masters.id')
               ->where('order_details.job_status','=',1)
+              
               ->get();
 
        
@@ -32,14 +36,24 @@ class JobTaskController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function saveGoldReturn(Request $request)
     {
-        //
+        $input=$request->json()->all();
+       
+
+        $data=(object)($input['data']);
+
+        // return response()->json(['success'=>1,'data'=>$result->id], 200,[],JSON_NUMERIC_CHECK); 
+
+        $jobDetails=new JobDetail();
+        $jobDetails->job_master_id=$data->id;
+        $jobDetails->employee_id=1;
+        $jobDetails->material_id=3;
+        $jobDetails->job_task_id=2;
+        $jobDetails->material_quantity=$data->return_quantity;
+        $jobDetails->save();
+
+        return response()->json(['success'=>1,'data'=>$jobDetails], 200,[],JSON_NUMERIC_CHECK);  
     }
 
     /**
