@@ -42,7 +42,7 @@ Route::get('/karigarhs', 'CustomerController@getkarigarhs');
 Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
 
 Route::post('/jobs', 'JobMasterController@saveJob');
-Route::post('/goldReturn', 'JobTaskController@saveGoldReturn');
+Route::post('/saveReturn', 'JobTaskController@saveReturn');
 
 // Route::get('/orderMaterials', 'MaterialController@getOrderMaterials');
 
