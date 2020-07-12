@@ -23,7 +23,7 @@ class JobTaskController extends Controller
 
     public function getSavedJobs()
     {
-        $data=JobMaster::select('job_masters.id','order_masters.order_number','job_masters.order_details_id','order_details.price','order_details.p_loss','order_details.approx_gold','order_details.quantity','order_details.size','order_details.material_id')
+        $data=JobMaster::select('job_masters.id','job_masters.job_number','job_masters.order_details_id','order_details.quantity','order_details.size','order_details.material_id')
               ->join('order_details','job_masters.order_details_id','order_details.id')
               ->join('order_masters','order_details.order_master_id','=','order_masters.id')
               ->where('order_details.job_status','=',1)
@@ -43,13 +43,30 @@ class JobTaskController extends Controller
 
         $data=(object)($input['data']);
 
+       if($data->flag==-1){
+
         $jobDetails=new JobDetail();
         $jobDetails->job_master_id=JobMaster::find($data->id)->id;
         $jobDetails->employee_id= $data->employee_id;
         $jobDetails->material_id=$data->material_id;
-        $jobDetails->job_task_id=2;
+        $jobDetails->job_task_id=$data->job_Task_id;
         $jobDetails->material_quantity=-($data->return_quantity);
         $jobDetails->save();
+
+       }
+       else{
+
+        $jobDetails=new JobDetail();
+        $jobDetails->job_master_id=JobMaster::find($data->id)->id;
+        $jobDetails->employee_id= $data->employee_id;
+        $jobDetails->material_id=$data->material_id;
+        $jobDetails->job_task_id=$data->job_Task_id;
+        $jobDetails->material_quantity=$data->return_quantity;
+        $jobDetails->save();
+
+
+       }
+        
 
         return response()->json(['success'=>1,'data'=>$jobDetails], 200,[],JSON_NUMERIC_CHECK);
     }
