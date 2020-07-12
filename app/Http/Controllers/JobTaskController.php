@@ -39,11 +39,7 @@ class JobTaskController extends Controller
     public function saveReturn(Request $request)
     {
         $input=$request->json()->all();
-
-
         $data=(object)($input['data']);
-
-       if($data->flag==-1){
 
         $jobDetails=new JobDetail();
         $jobDetails->job_master_id=JobMaster::find($data->id)->id;
@@ -52,21 +48,6 @@ class JobTaskController extends Controller
         $jobDetails->job_task_id=$data->job_Task_id;
         $jobDetails->material_quantity=-($data->return_quantity);
         $jobDetails->save();
-
-       }
-       else{
-
-        $jobDetails=new JobDetail();
-        $jobDetails->job_master_id=JobMaster::find($data->id)->id;
-        $jobDetails->employee_id= $data->employee_id;
-        $jobDetails->material_id=$data->material_id;
-        $jobDetails->job_task_id=$data->job_Task_id;
-        $jobDetails->material_quantity=$data->return_quantity;
-        $jobDetails->save();
-
-
-       }
-        
 
         return response()->json(['success'=>1,'data'=>$jobDetails], 200,[],JSON_NUMERIC_CHECK);
     }
