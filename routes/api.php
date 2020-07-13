@@ -43,6 +43,7 @@ Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
 
 Route::post('/jobs', 'JobMasterController@saveJob');
 Route::post('/saveReturn', 'JobTaskController@saveReturn');
+Route::get('/getJobTaskData/{task_id}', 'JobTaskController@getJobTaskData');
 
 // Route::get('/orderMaterials', 'MaterialController@getOrderMaterials');
 

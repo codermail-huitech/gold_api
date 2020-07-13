@@ -52,6 +52,16 @@ class JobTaskController extends Controller
         return response()->json(['success'=>1,'data'=>$jobDetails], 200,[],JSON_NUMERIC_CHECK);
     }
 
+    public function getJobTaskData($task_id){
+
+        $goldReturnData = JobDetail:: select()
+            ->where('job_task_id','=',$task_id)
+            ->get();
+
+
+        return response()->json(['success'=>1,'data'=> $goldReturnData], 200,[],JSON_NUMERIC_CHECK);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
