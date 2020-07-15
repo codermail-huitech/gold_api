@@ -52,11 +52,15 @@ class JobTaskController extends Controller
         return response()->json(['success'=>1,'data'=>$jobDetails], 200,[],JSON_NUMERIC_CHECK);
     }
 
-    public function getJobTaskData($task_id){
+    public function getJobTaskData(Request $request){
+
+        $input=$request->json()->all();
+        $data=(object)($input['data']);
 
         $goldReturnData = JobDetail:: select()
-            ->where('job_task_id','=',$task_id)
-            ->get();
+                          ->where('job_task_id','=',$data->job_Task_id)
+                          ->where('job_master_id','=',$data->id)
+                          ->get();
 
 
         return response()->json(['success'=>1,'data'=> $goldReturnData], 200,[],JSON_NUMERIC_CHECK);
