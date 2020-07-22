@@ -55,15 +55,22 @@ class OrderMasterController extends Controller
             .$customVoucher->delimiter
             .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
             .$customVoucher->delimiter
-            .$customVoucher->accounting_year;
-        $orderMaster->order_number=$voucherNumber;
-        $orderMaster->agent_id=$inputOrderMaster->agent_id;
-        $orderMaster->person_id=$inputOrderMaster->customer_id;
-        $orderMaster->employee_id=$inputOrderMaster->employee_id;
-        $orderMaster->date_of_order=$inputOrderMaster->order_date;
-        $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
-        $orderMaster->save();
+            .$customVoucher->accounting_year;  
 
+            if($inputOrderMaster->id==null){  
+                
+              
+                $orderMaster->order_number=$voucherNumber;
+                $orderMaster->agent_id=$inputOrderMaster->agent_id;
+                $orderMaster->person_id=$inputOrderMaster->customer_id;
+                $orderMaster->employee_id=$inputOrderMaster->employee_id;
+                $orderMaster->date_of_order=$inputOrderMaster->order_date;
+                $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
+                 $orderMaster->save();
+    
+
+            }
+           
 
         $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
         $orderMaster->customer_name = $data[0]->person_name;
@@ -77,16 +84,29 @@ class OrderMasterController extends Controller
 
             //Saving Order Details
             foreach ($inputOrderDetails as $row){
-                $orderDetails=new OrderDetail();
-                $orderDetails->order_master_id=$orderMaster->id;
-                $orderDetails->approx_gold=$row['approx_gold'];
-                $orderDetails->quantity=$row['quantity'];
-                $orderDetails->p_loss=$row['p_loss'];
-                $orderDetails->price=$row['price'];
-                $orderDetails->product_id=$row['product_id'];
-                $orderDetails->size=$row['size'];
-                $orderDetails->material_id=$row['material_id'];
-                $orderDetails->save();
+                if($row['id']==null){
+
+                    $orderDetails=new OrderDetail();
+                    if($inputOrderMaster->id!=null){
+
+                        $orderDetails->order_master_id=$inputOrderMaster->id;
+
+                    }
+                    else{
+                        $orderDetails->order_master_id=$orderMaster->id;
+                    }
+                    $orderDetails->approx_gold=$row['approx_gold'];
+                    $orderDetails->quantity=$row['quantity'];
+                    $orderDetails->p_loss=$row['p_loss'];
+                    $orderDetails->price=$row['price'];
+                    $orderDetails->product_id=$row['product_id'];
+                    $orderDetails->size=$row['size'];
+                    $orderDetails->material_id=$row['material_id'];
+                     $orderDetails->save();
+                   
+
+                }
+               
             }
             DB::commit();
         }
