@@ -66,17 +66,24 @@ class OrderMasterController extends Controller
                 $orderMaster->employee_id=$inputOrderMaster->employee_id;
                 $orderMaster->date_of_order=$inputOrderMaster->order_date;
                 $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
-                 $orderMaster->save();
+                $orderMaster->save();
+
+
+                $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
+                $orderMaster->customer_name = $data[0]->person_name;
+        
+                $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
+                $orderMaster->agent_name = $data[0]->person_name;
     
 
             }
            
 
-        $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
-        $orderMaster->customer_name = $data[0]->person_name;
+        // $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
+        // $orderMaster->customer_name = $data[0]->person_name;
 
-        $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
-        $orderMaster->agent_name = $data[0]->person_name;
+        // $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
+        // $orderMaster->agent_name = $data[0]->person_name;
 
 
 
