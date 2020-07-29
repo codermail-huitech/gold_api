@@ -10,7 +10,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products=Product::select('products.id','product_name','products.model_number','products.product_category_id','products.price_code_id','price_codes.price_code_name','product_categories.category_name','rates.price','rates.p_loss')
+        $products=Product::select('products.id','product_name','products.model_number','products.product_category_id','products.price_code_id','price_codes.price_code_name','product_categories.category_name','rates.price','rates.p_loss','rates.customer_category_id')
             ->join('price_codes', 'price_codes.id', '=', 'products.price_code_id')
             ->join('product_categories', 'product_categories.id', '=', 'products.product_category_id')
             ->join('rates', 'products.price_code_id', '=', 'rates.price_code_id')
