@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Product;
+use App\Model\Rate;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -10,10 +11,10 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products=Product::select('products.id','product_name','products.model_number','products.product_category_id','products.price_code_id','price_codes.price_code_name','product_categories.category_name','rates.price','rates.p_loss','rates.customer_category_id')
+        $products=Product::select('products.id','product_name','products.model_number','products.product_category_id','products.price_code_id','price_codes.price_code_name','product_categories.category_name')
             ->join('price_codes', 'price_codes.id', '=', 'products.price_code_id')
             ->join('product_categories', 'product_categories.id', '=', 'products.product_category_id')
-            ->join('rates', 'products.price_code_id', '=', 'rates.price_code_id')
+//            ->join('rates', 'products.price_code_id', '=', 'rates.price_code_id')
             ->get();
         return response()->json(['success'=>1,'data'=>$products], 200,[],JSON_NUMERIC_CHECK);
     }
@@ -58,9 +59,16 @@ class ProductController extends Controller
 
     }
 
-    public function show(Product $product)
+    public function getProductData(Request $request)
     {
-        //
+       $result= Rate::select('rates.price','rates.p_loss')
+                ->join('products','rates.price_code_id','=','products.price_code_id')
+                ->where('rates.customer_category_id','=',$request['customer_category_id'])
+                ->where('products.model_number','=',$request['model_number'])
+                ->first();
+
+//        return $request;
+        return response()->json(['success'=>1,'data'=>$result], 200);
     }
 
     public function edit(Product $product)
