@@ -65,7 +65,7 @@ class ProductController extends Controller
                 ->join('products','rates.price_code_id','=','products.price_code_id')
                 ->where('rates.customer_category_id','=',$request['customer_category_id'])
                 ->where('products.model_number','=',$request['model_number'])
-                ->first();
+                ->get();
 
 //        return $request;
         return response()->json(['success'=>1,'data'=>$result], 200);
