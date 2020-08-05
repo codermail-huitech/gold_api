@@ -23,7 +23,7 @@ class JobTaskController extends Controller
 
     public function getSavedJobs()
     {
-        $data=JobMaster::select('job_masters.id','job_masters.job_number','job_masters.order_details_id','order_details.quantity','order_details.size','order_details.material_id')
+        $data=JobMaster::select('job_masters.id','job_masters.job_number','job_masters.order_details_id','job_masters.karigarh_id','order_details.quantity','order_details.size','order_details.material_id','order_masters.order_number')
               ->join('order_details','job_masters.order_details_id','order_details.id')
               ->join('order_masters','order_details.order_master_id','=','order_masters.id')
               ->where('order_details.job_status','=',1)
