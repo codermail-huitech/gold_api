@@ -22,6 +22,7 @@ class CreateMaterialsTable extends Migration
             $table->integer('silver')->nullable(false);
             $table->tinyInteger('is_main_production_material')->default(0);
             $table->tinyInteger('is_base_material')->default(0);
+            $table->bigInteger('main_material_id')->nullable(true);
             $table->tinyInteger('inforced')->default(1);
             $table->timestamps();
         });

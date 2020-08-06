@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 06, 2020 at 07:24 AM
+-- Generation Time: Aug 06, 2020 at 11:17 AM
 -- Server version: 8.0.20
 -- PHP Version: 7.4.8
 
@@ -128,7 +128,27 @@ CREATE TABLE `job_details` (
 INSERT INTO `job_details` (`id`, `job_master_id`, `employee_id`, `material_id`, `job_task_id`, `material_quantity`, `created_at`, `updated_at`) VALUES
 (68, 14, 1, 3, 1, 50, '2020-07-31 03:41:21', '2020-07-31 03:41:21'),
 (69, 15, 1, 3, 1, 80, '2020-07-31 03:43:05', '2020-07-31 03:43:05'),
-(70, 16, 1, 3, 1, 100, '2020-07-31 04:35:02', '2020-07-31 04:35:02');
+(70, 16, 1, 3, 1, 100, '2020-07-31 04:35:02', '2020-07-31 04:35:02'),
+(71, 15, 1, 9, 2, 200, '2020-08-06 04:06:05', '2020-08-06 04:06:05'),
+(72, 15, 1, 9, 2, 200, '2020-08-06 04:06:14', '2020-08-06 04:06:14'),
+(73, 15, 1, 9, 2, 50, '2020-08-06 04:07:28', '2020-08-06 04:07:28'),
+(74, 15, 1, 9, 2, -80, '2020-08-06 04:11:21', '2020-08-06 04:11:21'),
+(75, 15, 1, 9, 2, 80, '2020-08-06 04:11:28', '2020-08-06 04:11:28'),
+(76, 15, 1, 9, 2, -120, '2020-08-06 04:13:48', '2020-08-06 04:13:48'),
+(77, 15, 1, 9, 2, -60, '2020-08-06 04:14:23', '2020-08-06 04:14:23'),
+(78, 16, 1, 9, 2, -578, '2020-08-06 04:54:01', '2020-08-06 04:54:01'),
+(79, 16, 1, 9, 2, 578, '2020-08-06 04:54:10', '2020-08-06 04:54:10'),
+(80, 15, 1, 9, 2, -40, '2020-08-06 04:55:14', '2020-08-06 04:55:14'),
+(81, 15, 1, 9, 2, -60, '2020-08-06 04:55:38', '2020-08-06 04:55:38'),
+(82, 15, 1, 9, 2, -10, '2020-08-06 05:00:48', '2020-08-06 05:00:48'),
+(83, 16, 1, 3, 1, 300, '2020-08-06 05:30:33', '2020-08-06 05:30:33'),
+(84, 14, 1, 3, 1, 5000, '2020-08-06 05:35:07', '2020-08-06 05:35:07'),
+(85, 14, 1, 3, 2, -550, '2020-08-06 05:37:18', '2020-08-06 05:37:18'),
+(86, 14, 1, 3, 3, 10, '2020-08-06 05:43:43', '2020-08-06 05:43:43'),
+(87, 14, 1, 3, 4, -10, '2020-08-06 05:43:57', '2020-08-06 05:43:57'),
+(88, 14, 1, 3, 5, 20, '2020-08-06 05:44:14', '2020-08-06 05:44:14'),
+(89, 14, 1, 3, 6, -20, '2020-08-06 05:44:23', '2020-08-06 05:44:23'),
+(90, 14, 1, 3, 7, -720, '2020-08-06 05:44:41', '2020-08-06 05:44:41');
 
 -- --------------------------------------------------------
 
@@ -200,6 +220,7 @@ CREATE TABLE `materials` (
   `silver` int NOT NULL,
   `is_main_production_material` tinyint NOT NULL DEFAULT '0',
   `is_base_material` tinyint NOT NULL DEFAULT '0',
+  `main_material_id` bigint DEFAULT NULL,
   `inforced` tinyint NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -209,16 +230,19 @@ CREATE TABLE `materials` (
 -- Dumping data for table `materials`
 --
 
-INSERT INTO `materials` (`id`, `material_name`, `material_category_id`, `gold`, `silver`, `is_main_production_material`, `is_base_material`, `inforced`, `created_at`, `updated_at`) VALUES
-(1, 'Pure Gold', 1, 100, 0, 0, 0, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
-(2, 'Pure Silver', 2, 0, 100, 0, 0, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
-(3, '92 Ginnie', 1, 92, 0, 1, 1, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(4, 'Pan', 1, 40, 20, 1, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(5, '90 Ginnie', 1, 90, 0, 1, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(6, 'Dal', 6, 10, 70, 1, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(7, 'Nitric', 1, 88, 0, 0, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(8, 'Production_dust ', 1, 20, 0, 0, 0, 1, '2020-06-25 02:21:18', '2020-06-25 02:21:18'),
-(9, '92 Ginnie Return', 1, 92, 0, 1, 1, 1, '2020-08-30 18:30:00', '2020-08-30 18:30:00');
+INSERT INTO `materials` (`id`, `material_name`, `material_category_id`, `gold`, `silver`, `is_main_production_material`, `is_base_material`, `main_material_id`, `inforced`, `created_at`, `updated_at`) VALUES
+(1, 'Pure Gold', 1, 100, 0, 0, 0, NULL, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
+(2, 'Pure Silver', 2, 0, 100, 0, 0, NULL, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
+(3, '92 Ginnie', 1, 92, 0, 1, 1, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(4, 'Pan', 1, 40, 20, 1, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(5, '90 Ginnie', 1, 90, 0, 1, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(6, 'Dal', 6, 10, 70, 1, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(7, 'Nitric', 1, 88, 0, 0, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(8, 'Production_dust ', 1, 20, 0, 0, 0, NULL, 1, '2020-06-25 02:21:18', '2020-06-25 02:21:18'),
+(9, '92 Ginnie Return', 1, 92, 0, 1, 1, 3, 1, '2020-08-30 18:30:00', '2020-08-30 18:30:00'),
+(10, 'Dal Return', 6, 10, 70, 1, 0, 6, 1, '2020-08-30 18:30:00', '2020-08-30 18:30:00'),
+(11, 'Pan Return', 1, 40, 20, 0, 0, 4, 1, NULL, NULL),
+(12, 'Nitric Return', 1, 88, 0, 0, 0, 7, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4319,7 +4343,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `job_details`
 --
 ALTER TABLE `job_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `job_masters`
@@ -4337,7 +4361,7 @@ ALTER TABLE `job_tasks`
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `material_categories`
@@ -4429,7 +4453,7 @@ ALTER TABLE `job_masters`
 -- Constraints for table `materials`
 --
 ALTER TABLE `materials`
-  ADD CONSTRAINT `materials_material_category_id_foreign` FOREIGN KEY (`material_category_id`) REFERENCES `material_categories` (`id`);
+  ADD CONSTRAINT `materials_material_category_id_foreign` FOREIGN KEY (`material_category_id`) REFERENCES `material_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `order_details`
