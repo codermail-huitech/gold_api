@@ -113,6 +113,7 @@ class DatabaseSeeder extends Seeder
          Material::create(['material_name' => 'Dal','material_category_id'=>6,'gold'=>10,'silver'=>70,'is_main_production_material'=>1,'is_base_material'=>0]);
          Material::create(['material_name' => 'Nitric','material_category_id'=>1,'gold'=>88,'silver'=>0,'is_main_production_material'=>0,'is_base_material'=>0]);
          Material::create(['material_name' => 'Production_dust ','material_category_id'=>1,'gold'=>20,'silver'=>0,'is_main_production_material'=>0,'is_base_material'=>0]);
+         Material::create(['material_name' => '92 Ginnie Return ','material_category_id'=>1,'gold'=>92,'silver'=>0,'is_main_production_material'=>1,'is_base_material'=>1]);
 
         //rates  table data
         //base Rate
