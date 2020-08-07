@@ -44,7 +44,8 @@ class JobTaskController extends Controller
         $data=(object)($input['data']);
 
         $jobDetails=new JobDetail();
-        $jobDetails->job_master_id=JobMaster::find($data->id)->id;
+//        $jobDetails->job_master_id=JobMaster::find($data->id)->id;
+        $jobDetails->job_master_id= $data->id;
         $jobDetails->employee_id= $data->employee_id;
         $jobDetails->material_id=$data->material_id;
         $jobDetails->job_task_id=$data->job_Task_id;
