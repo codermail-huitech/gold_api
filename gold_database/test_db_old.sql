@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 11, 2020 at 11:39 AM
+-- Generation Time: Aug 06, 2020 at 11:17 AM
 -- Server version: 8.0.20
 -- PHP Version: 7.4.8
 
@@ -20,11 +20,14 @@ SET time_zone = "+00:00";
 --
 -- Database: `test_db`
 --
+CREATE DATABASE IF NOT EXISTS `test_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `test_db`;
 
 DELIMITER $$
 --
 -- Procedures
 --
+DROP PROCEDURE IF EXISTS `getUsers`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUsers` ()  BEGIN
                             SELECT * FROM users;
                         END$$
@@ -37,6 +40,7 @@ DELIMITER ;
 -- Table structure for table `customer_categories`
 --
 
+DROP TABLE IF EXISTS `customer_categories`;
 CREATE TABLE `customer_categories` (
   `id` bigint UNSIGNED NOT NULL,
   `customer_category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -62,6 +66,7 @@ INSERT INTO `customer_categories` (`id`, `customer_category_name`, `inforced`, `
 -- Table structure for table `custom_vouchers`
 --
 
+DROP TABLE IF EXISTS `custom_vouchers`;
 CREATE TABLE `custom_vouchers` (
   `id` bigint UNSIGNED NOT NULL,
   `voucher_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -88,6 +93,7 @@ INSERT INTO `custom_vouchers` (`id`, `voucher_name`, `last_counter`, `accounting
 -- Table structure for table `failed_jobs`
 --
 
+DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
   `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -103,6 +109,7 @@ CREATE TABLE `failed_jobs` (
 -- Table structure for table `job_details`
 --
 
+DROP TABLE IF EXISTS `job_details`;
 CREATE TABLE `job_details` (
   `id` bigint UNSIGNED NOT NULL,
   `job_master_id` bigint UNSIGNED NOT NULL,
@@ -141,78 +148,7 @@ INSERT INTO `job_details` (`id`, `job_master_id`, `employee_id`, `material_id`, 
 (87, 14, 1, 3, 4, -10, '2020-08-06 05:43:57', '2020-08-06 05:43:57'),
 (88, 14, 1, 3, 5, 20, '2020-08-06 05:44:14', '2020-08-06 05:44:14'),
 (89, 14, 1, 3, 6, -20, '2020-08-06 05:44:23', '2020-08-06 05:44:23'),
-(90, 14, 1, 3, 7, -720, '2020-08-06 05:44:41', '2020-08-06 05:44:41'),
-(91, 15, 1, 3, 1, 320, '2020-08-07 01:49:50', '2020-08-07 01:49:50'),
-(92, 15, 1, 3, 1, 10, '2020-08-07 01:52:13', '2020-08-07 01:52:13'),
-(93, 15, 1, 3, 2, -20, '2020-08-07 01:52:34', '2020-08-07 01:52:34'),
-(94, 15, 1, 3, 3, 30, '2020-08-07 01:52:57', '2020-08-07 01:52:57'),
-(95, 15, 1, 3, 4, -40, '2020-08-07 01:53:16', '2020-08-07 01:53:16'),
-(96, 15, 1, 3, 5, 50, '2020-08-07 01:53:29', '2020-08-07 01:53:29'),
-(97, 15, 1, 3, 6, -60, '2020-08-07 01:53:52', '2020-08-07 01:53:52'),
-(98, 15, 1, 3, 6, -70, '2020-08-07 01:54:05', '2020-08-07 01:54:05'),
-(99, 15, 1, 3, 7, -70, '2020-08-07 01:54:28', '2020-08-07 01:54:28'),
-(102, 14, 1, 9, 6, -50, '2020-08-07 04:53:08', '2020-08-07 04:53:08'),
-(103, 14, 1, 3, 1, 100, '2020-08-07 04:56:00', '2020-08-07 04:56:00'),
-(104, 14, 1, 9, 2, -200, '2020-08-07 04:56:34', '2020-08-07 04:56:34'),
-(105, 14, 1, 9, 4, -300, '2020-08-07 04:57:19', '2020-08-07 04:57:19'),
-(106, 14, 1, 3, 5, 300, '2020-08-07 04:57:23', '2020-08-07 04:57:23'),
-(107, 14, 1, 9, 7, -300, '2020-08-07 04:57:25', '2020-08-07 04:57:25'),
-(108, 14, 1, 3, 1, 500, '2020-08-07 04:59:11', '2020-08-07 04:59:11'),
-(109, 14, 1, 3, 3, 500, '2020-08-07 04:59:17', '2020-08-07 04:59:17'),
-(110, 14, 1, 3, 1, 50, '2020-08-07 05:05:12', '2020-08-07 05:05:12'),
-(111, 14, 1, 9, 2, -60, '2020-08-07 05:05:28', '2020-08-07 05:05:28'),
-(112, 14, 1, 3, 3, 20, '2020-08-07 05:09:32', '2020-08-07 05:09:32'),
-(113, 14, 1, 3, 3, 10, '2020-08-07 05:15:56', '2020-08-07 05:15:56'),
-(114, 14, 1, 3, 3, 20, '2020-08-07 05:16:12', '2020-08-07 05:16:12'),
-(115, 14, 1, 3, 1, 50, '2020-08-07 05:19:56', '2020-08-07 05:19:56'),
-(116, 14, 1, 9, 2, -56, '2020-08-07 05:20:06', '2020-08-07 05:20:06'),
-(117, 14, 1, 3, 3, 89, '2020-08-07 05:20:12', '2020-08-07 05:20:12'),
-(118, 14, 1, 9, 4, -20, '2020-08-07 05:20:18', '2020-08-07 05:20:18'),
-(119, 14, 1, 3, 5, 63, '2020-08-07 05:20:24', '2020-08-07 05:20:24'),
-(120, 14, 1, 9, 6, -14, '2020-08-07 05:20:30', '2020-08-07 05:20:30'),
-(121, 14, 1, 9, 7, -200, '2020-08-07 05:20:35', '2020-08-07 05:20:35'),
-(122, 15, 1, 3, 1, 5, '2020-08-08 02:09:43', '2020-08-08 02:09:43'),
-(123, 15, 1, 9, 2, -6, '2020-08-08 02:10:22', '2020-08-08 02:10:22'),
-(124, 15, 1, 3, 3, 7, '2020-08-08 02:10:44', '2020-08-08 02:10:44'),
-(125, 15, 1, 9, 4, -8, '2020-08-08 02:11:14', '2020-08-08 02:11:14'),
-(126, 15, 1, 3, 5, 9, '2020-08-08 02:11:36', '2020-08-08 02:11:36'),
-(127, 15, 1, 9, 6, -10, '2020-08-08 02:12:03', '2020-08-08 02:12:03'),
-(128, 15, 1, 9, 7, -11, '2020-08-08 02:12:32', '2020-08-08 02:12:32'),
-(129, 15, 1, 3, 5, 20, '2020-08-08 02:16:56', '2020-08-08 02:16:56'),
-(130, 15, 1, 3, 5, 450, '2020-08-08 02:20:52', '2020-08-08 02:20:52'),
-(131, 15, 1, 9, 7, -400, '2020-08-08 02:21:06', '2020-08-08 02:21:06'),
-(132, 15, 1, 9, 7, -420, '2020-08-08 02:21:48', '2020-08-08 02:21:48'),
-(133, 15, 1, 3, 3, 30, '2020-08-08 02:25:02', '2020-08-08 02:25:02'),
-(134, 15, 1, 9, 6, -120, '2020-08-08 02:25:16', '2020-08-08 02:25:16'),
-(135, 15, 1, 3, 5, 12, '2020-08-08 02:26:00', '2020-08-08 02:26:00'),
-(136, 15, 1, 9, 6, -22, '2020-08-08 02:26:17', '2020-08-08 02:26:17'),
-(137, 15, 1, 3, 1, 10, '2020-08-08 02:32:48', '2020-08-08 02:32:48'),
-(138, 15, 1, 9, 2, -20, '2020-08-08 02:33:55', '2020-08-08 02:33:55'),
-(139, 15, 1, 3, 3, 30, '2020-08-08 02:34:05', '2020-08-08 02:34:05'),
-(140, 15, 1, 9, 4, -40, '2020-08-08 02:34:20', '2020-08-08 02:34:20'),
-(141, 15, 1, 3, 5, 50, '2020-08-08 02:34:33', '2020-08-08 02:34:33'),
-(142, 15, 1, 9, 6, -60, '2020-08-08 02:34:45', '2020-08-08 02:34:45'),
-(143, 15, 1, 9, 7, -70, '2020-08-08 02:35:08', '2020-08-08 02:35:08'),
-(144, 16, 1, 3, 1, 20, '2020-08-08 03:57:34', '2020-08-08 03:57:34'),
-(145, 14, 1, 3, 1, 50, '2020-08-08 04:05:23', '2020-08-08 04:05:23'),
-(146, 15, 1, 3, 1, 12, '2020-08-08 04:09:00', '2020-08-08 04:09:00'),
-(147, 15, 1, 3, 1, 5, '2020-08-08 04:17:35', '2020-08-08 04:17:35'),
-(148, 15, 1, 3, 1, 4, '2020-08-08 04:24:35', '2020-08-08 04:24:35'),
-(149, 16, 1, 3, 1, 10, '2020-08-11 01:51:04', '2020-08-11 01:51:04'),
-(150, 16, 1, 9, 2, -10, '2020-08-11 01:51:18', '2020-08-11 01:51:18'),
-(151, 16, 1, 3, 3, 10, '2020-08-11 01:51:30', '2020-08-11 01:51:30'),
-(152, 16, 1, 9, 4, -10, '2020-08-11 01:51:39', '2020-08-11 01:51:39'),
-(153, 16, 1, 3, 5, 10, '2020-08-11 01:51:49', '2020-08-11 01:51:49'),
-(154, 16, 1, 9, 6, -10, '2020-08-11 01:51:59', '2020-08-11 01:51:59'),
-(155, 16, 1, 9, 7, -10, '2020-08-11 01:52:12', '2020-08-11 01:52:12'),
-(156, 16, 1, 9, 7, 0, '2020-08-11 02:01:37', '2020-08-11 02:01:37'),
-(157, 16, 1, 3, 1, 10, '2020-08-11 02:05:38', '2020-08-11 02:05:38'),
-(158, 14, 1, 3, 1, 20, '2020-08-11 04:56:32', '2020-08-11 04:56:32'),
-(159, 14, 9, 3, 3, 20, '2020-08-11 05:13:57', '2020-08-11 05:13:57'),
-(160, 14, 1, 3, 1, 10, '2020-08-11 06:02:01', '2020-08-11 06:02:01'),
-(161, 14, 1, 3, 1, 50, '2020-08-11 06:06:00', '2020-08-11 06:06:00'),
-(162, 14, 9, 3, 3, 20, '2020-08-11 06:06:22', '2020-08-11 06:06:22'),
-(163, 14, 9, 3, 3, 30, '2020-08-11 06:06:59', '2020-08-11 06:06:59');
+(90, 14, 1, 3, 7, -720, '2020-08-06 05:44:41', '2020-08-06 05:44:41');
 
 -- --------------------------------------------------------
 
@@ -220,6 +156,7 @@ INSERT INTO `job_details` (`id`, `job_master_id`, `employee_id`, `material_id`, 
 -- Table structure for table `job_masters`
 --
 
+DROP TABLE IF EXISTS `job_masters`;
 CREATE TABLE `job_masters` (
   `id` bigint UNSIGNED NOT NULL,
   `job_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -246,6 +183,7 @@ INSERT INTO `job_masters` (`id`, `job_number`, `date`, `karigarh_id`, `order_det
 -- Table structure for table `job_tasks`
 --
 
+DROP TABLE IF EXISTS `job_tasks`;
 CREATE TABLE `job_tasks` (
   `id` bigint UNSIGNED NOT NULL,
   `task_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -273,6 +211,7 @@ INSERT INTO `job_tasks` (`id`, `task_name`, `inforced`, `created_at`, `updated_a
 -- Table structure for table `materials`
 --
 
+DROP TABLE IF EXISTS `materials`;
 CREATE TABLE `materials` (
   `id` bigint UNSIGNED NOT NULL,
   `material_name` varchar(110) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -292,14 +231,14 @@ CREATE TABLE `materials` (
 --
 
 INSERT INTO `materials` (`id`, `material_name`, `material_category_id`, `gold`, `silver`, `is_main_production_material`, `is_base_material`, `main_material_id`, `inforced`, `created_at`, `updated_at`) VALUES
-(1, 'Pure Gold', 1, 100, 0, 0, 0, 0, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
-(2, 'Pure Silver', 2, 0, 100, 0, 0, 0, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
-(3, '92 Ginnie', 1, 92, 0, 1, 1, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(4, 'Pan', 1, 40, 20, 1, 0, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(5, '90 Ginnie', 1, 90, 0, 1, 0, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(6, 'Dal', 6, 10, 70, 1, 0, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(7, 'Nitric', 1, 88, 0, 0, 0, 0, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
-(8, 'Production_dust ', 1, 20, 0, 0, 0, 0, 1, '2020-06-25 02:21:18', '2020-06-25 02:21:18'),
+(1, 'Pure Gold', 1, 100, 0, 0, 0, NULL, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
+(2, 'Pure Silver', 2, 0, 100, 0, 0, NULL, 1, '2020-06-25 02:21:16', '2020-06-25 02:21:16'),
+(3, '92 Ginnie', 1, 92, 0, 1, 1, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(4, 'Pan', 1, 40, 20, 1, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(5, '90 Ginnie', 1, 90, 0, 1, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(6, 'Dal', 6, 10, 70, 1, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(7, 'Nitric', 1, 88, 0, 0, 0, NULL, 1, '2020-06-25 02:21:17', '2020-06-25 02:21:17'),
+(8, 'Production_dust ', 1, 20, 0, 0, 0, NULL, 1, '2020-06-25 02:21:18', '2020-06-25 02:21:18'),
 (9, '92 Ginnie Return', 1, 92, 0, 1, 1, 3, 1, '2020-08-30 18:30:00', '2020-08-30 18:30:00'),
 (10, 'Dal Return', 6, 10, 70, 1, 0, 6, 1, '2020-08-30 18:30:00', '2020-08-30 18:30:00'),
 (11, 'Pan Return', 1, 40, 20, 0, 0, 4, 1, NULL, NULL),
@@ -311,6 +250,7 @@ INSERT INTO `materials` (`id`, `material_name`, `material_category_id`, `gold`, 
 -- Table structure for table `material_categories`
 --
 
+DROP TABLE IF EXISTS `material_categories`;
 CREATE TABLE `material_categories` (
   `id` bigint UNSIGNED NOT NULL,
   `mc_name` varchar(110) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -337,6 +277,7 @@ INSERT INTO `material_categories` (`id`, `mc_name`, `inforced`, `created_at`, `u
 -- Table structure for table `migrations`
 --
 
+DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -373,6 +314,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `models`
 --
 
+DROP TABLE IF EXISTS `models`;
 CREATE TABLE `models` (
   `id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -385,6 +327,7 @@ CREATE TABLE `models` (
 -- Table structure for table `order_details`
 --
 
+DROP TABLE IF EXISTS `order_details`;
 CREATE TABLE `order_details` (
   `id` bigint UNSIGNED NOT NULL,
   `order_master_id` bigint UNSIGNED NOT NULL,
@@ -421,6 +364,7 @@ INSERT INTO `order_details` (`id`, `order_master_id`, `price`, `p_loss`, `approx
 -- Table structure for table `order_masters`
 --
 
+DROP TABLE IF EXISTS `order_masters`;
 CREATE TABLE `order_masters` (
   `id` bigint UNSIGNED NOT NULL,
   `order_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -452,6 +396,7 @@ INSERT INTO `order_masters` (`id`, `order_number`, `person_id`, `agent_id`, `emp
 -- Table structure for table `person_types`
 --
 
+DROP TABLE IF EXISTS `person_types`;
 CREATE TABLE `person_types` (
   `id` bigint UNSIGNED NOT NULL,
   `person_type_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -483,6 +428,7 @@ INSERT INTO `person_types` (`id`, `person_type_name`, `inforced`, `created_at`, 
 -- Table structure for table `price_codes`
 --
 
+DROP TABLE IF EXISTS `price_codes`;
 CREATE TABLE `price_codes` (
   `id` bigint UNSIGNED NOT NULL,
   `price_code_name` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -529,6 +475,7 @@ INSERT INTO `price_codes` (`id`, `price_code_name`, `inforced`, `created_at`, `u
 -- Table structure for table `products`
 --
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id` bigint UNSIGNED NOT NULL,
   `model_number` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -3534,6 +3481,7 @@ INSERT INTO `products` (`id`, `model_number`, `product_name`, `product_category_
 -- Table structure for table `product_categories`
 --
 
+DROP TABLE IF EXISTS `product_categories`;
 CREATE TABLE `product_categories` (
   `id` bigint UNSIGNED NOT NULL,
   `category_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -3566,6 +3514,7 @@ INSERT INTO `product_categories` (`id`, `category_name`, `nforced`, `created_at`
 -- Table structure for table `rates`
 --
 
+DROP TABLE IF EXISTS `rates`;
 CREATE TABLE `rates` (
   `id` bigint UNSIGNED NOT NULL,
   `price_code_id` bigint UNSIGNED NOT NULL,
@@ -3693,6 +3642,7 @@ INSERT INTO `rates` (`id`, `price_code_id`, `price`, `p_loss`, `customer_categor
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
   `person_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -4393,7 +4343,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `job_details`
 --
 ALTER TABLE `job_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `job_masters`
