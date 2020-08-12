@@ -46,6 +46,8 @@ Route::post('/saveReturn', 'JobTaskController@saveReturn');
 Route::post('/getJobTaskData', 'JobTaskController@getJobTaskData');
 Route::post('/getProductData', 'ProductController@getProductData');
 
+Route::post('/getTotal', 'JobTaskController@getTotal');
+
 
 
 // Route::get('/orderMaterials', 'MaterialController@getOrderMaterials');

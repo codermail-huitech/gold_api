@@ -8,7 +8,7 @@ use App\Model\OrderDetail;
 use App\Model\OrderMaster;
 use App\Model\JobMaster;
 use App\Model\JobDetail;
-
+use Illuminate\Support\Facades\DB;
 class JobTaskController extends Controller
 {
     /**
@@ -67,6 +67,22 @@ class JobTaskController extends Controller
 
 
         return response()->json(['success'=>1,'data'=> $goldReturnData], 200,[],JSON_NUMERIC_CHECK);
+    }
+
+    public function getTotal(Request $request){
+
+
+        $input=$request->json()->all();
+        $data=(object)($input['data']);
+
+        $total = JobDetail::select(DB::raw("sum(job_details.material_quantity) as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
+                ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
+                ->where('job_details.job_master_id','=',$data->id)
+                ->groupBy('job_tasks.id')
+                ->groupBy('job_details.job_master_id')
+                ->get();
+
+        return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

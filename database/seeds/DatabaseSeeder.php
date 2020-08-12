@@ -94,6 +94,7 @@ class DatabaseSeeder extends Seeder
         JobTask::create(['task_name'=>'Pan Submit']);
         JobTask::create(['task_name'=>'Pan Return']);
         JobTask::create(['task_name'=>'Nitric Return']);
+        JobTask::create(['task_name'=>'Bronze Submit']);
 
         //material_categories table data
         MaterialCategory::create(['mc_name' => 'Gold']);
