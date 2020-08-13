@@ -74,6 +74,7 @@ class JobTaskController extends Controller
 
         $input=$request->json()->all();
         $data=(object)($input['data']);
+//        return response()->json(['success'=>1,'data'=> $data], 200,[],JSON_NUMERIC_CHECK);
 
         $total = JobDetail::select(DB::raw("sum(job_details.material_quantity) as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
                 ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
