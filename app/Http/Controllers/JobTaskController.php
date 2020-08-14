@@ -60,7 +60,7 @@ class JobTaskController extends Controller
         $input=$request->json()->all();
         $data=(object)($input['data']);
 
-        $goldReturnData = JobDetail:: select()
+        $goldReturnData = JobDetail:: select('id','job_master_id','employee_id','material_id','job_task_id',DB::Raw("abs(material_quantity) as material_quantity"),'created_at')
                           ->where('job_task_id','=',$data->job_Task_id)
                           ->where('job_master_id','=',$data->id)
                           ->get();
