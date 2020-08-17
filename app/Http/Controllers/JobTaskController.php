@@ -60,13 +60,15 @@ class JobTaskController extends Controller
         $input=$request->json()->all();
         $data=(object)($input['data']);
 
-        $goldReturnData = JobDetail:: select('id','job_master_id','employee_id','material_id','job_task_id',DB::Raw("abs(material_quantity) as material_quantity"),'created_at')
-                          ->where('job_task_id','=',$data->job_Task_id)
-                          ->where('job_master_id','=',$data->id)
+        $result = JobDetail:: select('job_details.id','job_details.job_master_id','job_details.employee_id','job_details.material_id','job_details.job_task_id','users.person_name','job_tasks.task_name',DB::Raw("abs(material_quantity) as material_quantity"),'job_details.created_at')
+                          ->join('job_tasks','job_details.job_task_id','job_tasks.id')
+                          ->join('users','job_details.employee_id','users.id')
+                          ->where('job_details.job_task_id','=',$data->job_Task_id)
+                          ->where('job_details.job_master_id','=',$data->id)
                           ->get();
 
 
-        return response()->json(['success'=>1,'data'=> $goldReturnData], 200,[],JSON_NUMERIC_CHECK);
+        return response()->json(['success'=>1,'data'=> $result], 200,[],JSON_NUMERIC_CHECK);
     }
 
     public function getTotal(Request $request){
@@ -76,7 +78,7 @@ class JobTaskController extends Controller
         $data=(object)($input['data']);
 //        return response()->json(['success'=>1,'data'=> $data], 200,[],JSON_NUMERIC_CHECK);
 
-        $total = JobDetail::select(DB::raw("sum(job_details.material_quantity) as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
+        $total = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))  as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
                 ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
                 ->where('job_details.job_master_id','=',$data->id)
                 ->groupBy('job_tasks.id')
@@ -84,6 +86,24 @@ class JobTaskController extends Controller
                 ->get();
 
         return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
+    }
+
+    public function getAllTransactions(Request $request){
+
+
+        $input=$request->json()->all();
+        $data=(object)($input['data']);
+        return response()->json(['success'=>1,'data'=> $data], 200,[],JSON_NUMERIC_CHECK);
+//
+//        $total = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))  as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
+//            ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
+//            ->where('job_details.job_master_id','=',$data->id)
+//            ->groupBy('job_tasks.id')
+//            ->groupBy('job_details.job_master_id')
+//            ->get();
+//
+//        return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
+//        return $request;
     }
 
     /**
