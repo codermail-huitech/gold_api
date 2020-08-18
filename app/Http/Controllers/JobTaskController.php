@@ -109,14 +109,15 @@ class JobTaskController extends Controller
 //     }
 
     public function getAllTransactions($id){
-       
 
-        $result = JobDetail::select(DB::raw("abs(job_details.material_quantity)  as material_quantity"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id','job_details.created_at')
+
+        $result = JobDetail::select(DB::raw("abs(job_details.material_quantity)  as material_quantity"),DB::raw("TIME(job_details.created_at) as time"),DB::raw(" DATE_FORMAT(job_details.created_at, \"%M %d %Y\") as date"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id','job_details.created_at','users.person_name')
                    ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
+                   ->join('users','job_details.employee_id','users.id')
                    ->where('job_details.job_master_id','=',$id)
-                   ->orderBy('job_details.created_at','DESC') 
+                   ->orderBy('job_details.created_at')
                    ->get();
-        
+
         return response()->json(['success'=>1,'data'=> $result], 200,[],JSON_NUMERIC_CHECK);
 
     }
