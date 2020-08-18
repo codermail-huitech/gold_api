@@ -47,7 +47,8 @@ Route::post('/getJobTaskData', 'JobTaskController@getJobTaskData');
 Route::post('/getProductData', 'ProductController@getProductData');
 
 Route::post('/getTotal', 'JobTaskController@getTotal');
-Route::post('/ getAllTransactions', 'JobTaskController@getAllTransactions');
+// Route::get('/ getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
+Route::get('/getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
 
 
 

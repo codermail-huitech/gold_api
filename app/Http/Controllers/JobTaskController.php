@@ -88,22 +88,37 @@ class JobTaskController extends Controller
         return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
     }
 
-    public function getAllTransactions(Request $request){
+//     public function getAllTransactions(Request $request,$id){
+
+//            return $id;
 
 
-        $input=$request->json()->all();
-        $data=(object)($input['data']);
-        return response()->json(['success'=>1,'data'=> $data], 200,[],JSON_NUMERIC_CHECK);
-//
-//        $total = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))  as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
-//            ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
-//            ->where('job_details.job_master_id','=',$data->id)
-//            ->groupBy('job_tasks.id')
-//            ->groupBy('job_details.job_master_id')
-//            ->get();
-//
-//        return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
-//        return $request;
+// //         $input=$request->json()->all();
+// //         $data=(object)($input['data']);
+// //         return response()->json(['success'=>1,'data'=> $data], 200,[],JSON_NUMERIC_CHECK);
+// // //
+// //        $total = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))  as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
+// //            ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
+// //            ->where('job_details.job_master_id','=',$data->id)
+// //            ->groupBy('job_tasks.id')
+// //            ->groupBy('job_details.job_master_id')
+// //            ->get();
+// //
+// //        return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
+// //        return $request;
+//     }
+
+    public function getAllTransactions($id){
+       
+
+        $result = JobDetail::select(DB::raw("abs(job_details.material_quantity)  as material_quantity"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id','job_details.created_at')
+                   ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
+                   ->where('job_details.job_master_id','=',$id)
+                   ->orderBy('job_details.created_at','DESC') 
+                   ->get();
+        
+        return response()->json(['success'=>1,'data'=> $result], 200,[],JSON_NUMERIC_CHECK);
+
     }
 
     /**
