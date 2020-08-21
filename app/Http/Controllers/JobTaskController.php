@@ -60,7 +60,7 @@ class JobTaskController extends Controller
         $input=$request->json()->all();
         $data=(object)($input['data']);
 
-        $result = JobDetail:: select('job_details.id','job_details.job_master_id','job_details.employee_id','job_details.material_id','job_details.job_task_id','users.person_name','job_tasks.task_name',DB::Raw("abs(material_quantity) as material_quantity"),'job_details.created_at')
+        $result = JobDetail:: select('job_details.id','job_details.job_master_id','job_details.employee_id','job_details.material_id','job_details.job_task_id','users.person_name','job_tasks.task_name',DB::Raw("abs(material_quantity) as material_quantity"),DB::raw("TIME(job_details.created_at) as time"),DB::raw(" DATE_FORMAT(job_details.created_at, \"%M %d %Y\") as date"))
                           ->join('job_tasks','job_details.job_task_id','job_tasks.id')
                           ->join('users','job_details.employee_id','users.id')
                           ->where('job_details.job_task_id','=',$data->job_Task_id)
