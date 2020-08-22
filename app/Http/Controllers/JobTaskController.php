@@ -29,6 +29,7 @@ class JobTaskController extends Controller
               ->join('order_masters','order_details.order_master_id','=','order_masters.id')
               ->join('products','order_details.product_id','=','products.id')
               ->where('order_details.job_status','=',1)
+              ->where('job_masters.status_id','=',1)
 
               ->get();
 

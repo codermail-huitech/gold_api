@@ -42,6 +42,7 @@ Route::get('/karigarhs', 'CustomerController@getkarigarhs');
 Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
 
 Route::post('/jobs', 'JobMasterController@saveJob');
+Route::post('/finishJob', 'JobMasterController@updateGrossWeight');
 Route::post('/saveReturn', 'JobTaskController@saveReturn');
 Route::post('/getJobTaskData', 'JobTaskController@getJobTaskData');
 Route::post('/getProductData', 'ProductController@getProductData');

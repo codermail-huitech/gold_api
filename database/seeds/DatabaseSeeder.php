@@ -10,6 +10,7 @@ use App\Model\MaterialCategory;
 use App\Model\Rate;
 use App\Model\ProductCategory;
 use App\Model\Material;
+use App\Model\StatusType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +24,8 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
+        StatusType::create(['id'=>1, 'name'=>'Job started']);
+        StatusType::create(['id'=>100, 'name'=>'Job finished']);
 
         //customer_categories table data
         CustomerCategory::create(['customer_category_name'=>'Not Applicable']);

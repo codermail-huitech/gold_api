@@ -55,7 +55,8 @@ class JobMasterController extends Controller
                 $jobMaster->date=$inputJobMaster->date;
                 $jobMaster->karigarh_id=$inputJobMaster->karigarh_id;
                 $jobMaster->order_details_id=$inputJobMaster->order_details_id;
-                $jobMaster->gross_weight=$inputJobMaster->gross_weight;
+//                $jobMaster->gross_weight=$inputJobMaster->gross_weight;
+                $jobMaster->status_id=1;
                 $jobMaster->save();
 
                 $jobDetails=new JobDetail();
@@ -77,14 +78,22 @@ class JobMasterController extends Controller
         return response()->json(['success'=>1,'data'=> $jobDetails], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function updateGrossWeight(Request $request)
     {
-        //
+        $input=($request->json()->all());
+        $inputJobMaster=(object)($input['master']);
+        $jobMaster = new JobMaster();
+        $jobMaster = JobMaster::find($inputJobMaster->id);
+        $jobMaster->gross_weight = $inputJobMaster->gross_weight;
+        $jobMaster->update();
+        if($jobMaster){
+//            $jobMaster = new JobMaster();
+//            $jobMaster = JobMaster::find($inputJobMaster->id);
+            $jobMaster->status_id =100;
+            $jobMaster->update();
+        }
+        return response()->json(['success'=>1,'data'=> $jobMaster], 200);
     }
 
     /**

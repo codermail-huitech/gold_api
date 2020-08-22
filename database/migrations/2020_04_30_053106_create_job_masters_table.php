@@ -25,6 +25,9 @@ class CreateJobMastersTable extends Migration
             $table->bigInteger('order_details_id')->unsigned();
             $table ->foreign('order_details_id')->references('id')->on('order_details');
 
+            $table->bigInteger('status_id')->default(1)->unsigned();
+            $table ->foreign('status_id')->references('id')->on('status_types');
+
             $table ->double('gross_weight')->default(0);
             $table->timestamps();
         });
