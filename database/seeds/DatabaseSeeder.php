@@ -24,8 +24,9 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-        StatusType::create(['id'=>1, 'name'=>'Job started']);
-        StatusType::create(['id'=>100, 'name'=>'Job finished']);
+        StatusType::create(['id'=>1, 'name'=>'Started']);
+        StatusType::create(['id'=>40, 'name'=>'Not Started']);
+        StatusType::create(['id'=>100, 'name'=>'Finished']);
 
         //customer_categories table data
         CustomerCategory::create(['customer_category_name'=>'Not Applicable']);

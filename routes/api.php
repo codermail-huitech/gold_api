@@ -40,6 +40,7 @@ Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
 Route::get('/agents', 'AgentController@index');
 Route::get('/karigarhs', 'CustomerController@getkarigarhs');
 Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
+Route::get('/finishedJobs', 'JobTaskController@getFinishedJobs');
 
 Route::post('/jobs', 'JobMasterController@saveJob');
 Route::post('/finishJob', 'JobMasterController@updateGrossWeight');

@@ -55,11 +55,11 @@ class OrderMasterController extends Controller
             .$customVoucher->delimiter
             .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
             .$customVoucher->delimiter
-            .$customVoucher->accounting_year;  
+            .$customVoucher->accounting_year;
 
-            if($inputOrderMaster->id==null){  
-                
-              
+            if($inputOrderMaster->id==null){
+
+
                 $orderMaster->order_number=$voucherNumber;
                 $orderMaster->agent_id=$inputOrderMaster->agent_id;
                 $orderMaster->person_id=$inputOrderMaster->customer_id;
@@ -71,13 +71,13 @@ class OrderMasterController extends Controller
 
                 $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
                 $orderMaster->customer_name = $data[0]->person_name;
-        
+
                 $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
                 $orderMaster->agent_name = $data[0]->person_name;
-    
+
 
             }
-           
+
 
         // $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
         // $orderMaster->customer_name = $data[0]->person_name;
@@ -109,11 +109,12 @@ class OrderMasterController extends Controller
                     $orderDetails->product_id=$row['product_id'];
                     $orderDetails->size=$row['size'];
                     $orderDetails->material_id=$row['material_id'];
+                    $orderDetails->status_id=40;
                      $orderDetails->save();
-                   
+
 
                 }
-               
+
             }
             DB::commit();
         }

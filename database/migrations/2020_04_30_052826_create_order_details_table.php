@@ -31,7 +31,10 @@ class CreateOrderDetailsTable extends Migration
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
 
-            $table->integer('job_status')->nullable('false')->default(0);
+//            $table->integer('job_status')->nullable('false')->default(0);
+
+            $table->bigInteger('status_id')->unsigned();
+            $table ->foreign('status_id')->references('id')->on('status_types');
             $table->timestamps();
         });
     }

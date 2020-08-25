@@ -70,7 +70,7 @@ class JobMasterController extends Controller
                 if($jobDetails) {
                     $orderDetails= new OrderDetail();
                     $orderDetails=OrderDetail::find($inputJobMaster->order_details_id);
-                    $orderDetails->job_status=1;
+                    $orderDetails->status_id=1;
                     $orderDetails->update();
                 }
 
@@ -92,6 +92,11 @@ class JobMasterController extends Controller
 //            $jobMaster = JobMaster::find($inputJobMaster->id);
             $jobMaster->status_id =100;
             $jobMaster->update();
+
+            $orderDetail = new OrderDetail();
+            $orderDetail = OrderDetail::find($jobMaster->order_details_id);
+            $orderDetail->status_id = 100;
+            $orderDetail->update();
         }
         return response()->json(['success'=>1,'data'=> $jobMaster], 200);
     }
