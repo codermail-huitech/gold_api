@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Model\CustomVoucher;
+use App\Model\OrderDetail;
+use App\Model\OrderMaster;
 use App\User;
-use App\Model\PersonType;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 class CustomerController extends Controller
@@ -128,7 +130,7 @@ class CustomerController extends Controller
         if ($res) {
             return response()->json(['success'=>1,'message'=>'Deleted'], 200,[],JSON_NUMERIC_CHECK);
         } else {
-            return response()->json(['success'=>0,'data'=>'Not Deleted'], 200,[],JSON_NUMERIC_CHECK);
+            return response(o)->json(['success'=>0,'data'=>'Not Deleted'], 200,[],JSON_NUMERIC_CHECK);
         }
     }
     public function getkarigarhs()
@@ -138,4 +140,21 @@ class CustomerController extends Controller
         return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
 
     }
+    public function finishedJobsCustomers(){
+        $result = OrderMaster::select(DB::raw('order_masters.id as order_master_id'),DB::raw('order_details.id as order_detail_id'),'users.id','users.person_name')
+            ->join('users', 'order_masters.person_id', '=', 'users.id')
+            ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
+            ->where('order_details.status_id','=',100)
+            ->get();
+        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
+    }
+
+//    public function testFinished(){
+//        $result = OrderMaster::select(DB::raw('order_masters.id as order_master_id'),DB::raw('order_details.id as order_detail_id'),'users.id','users.person_name')
+//            ->join('users', 'order_masters.person_id', '=', 'users.id')
+//            ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
+//            ->where('order_details.status_id','=',100)
+//            ->get();
+//        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
+//    }
 }
