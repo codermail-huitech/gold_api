@@ -141,12 +141,22 @@ class CustomerController extends Controller
 
     }
     public function finishedJobsCustomers(){
-        $result = OrderMaster::select(DB::raw('order_masters.id as order_master_id'),DB::raw('order_details.id as order_detail_id'),'users.id','users.person_name')
+        $result = OrderMaster::select(DB::raw('order_masters.id as order_master_id'),'users.person_name')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
             ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
             ->where('order_details.status_id','=',100)
             ->get();
         return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
+    }
+
+    public function getDetails(Request $request){
+        $input=($request->json()->all());
+        $data = OrderDetail::select()
+            ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
+            ->where('order_details.status_id','=',100)
+            ->where('order_details.order_master_id','=',$input)
+            ->get();
+        return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
 
 //    public function testFinished(){
