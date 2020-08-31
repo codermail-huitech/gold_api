@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Model\CustomVoucher;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
+use App\Model\JobMaster;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 class CustomerController extends Controller
 {
     public function index()
@@ -151,13 +153,27 @@ class CustomerController extends Controller
 
     public function getDetails(Request $request){
         $input=($request->json()->all());
-        $data = OrderDetail::select()
-            ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
+        $data = OrderMaster::select('order_masters.order_number','order_details.id','users.person_name')
+            ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
+            ->join('users', 'order_masters.person_id', '=', 'users.id')
             ->where('order_details.status_id','=',100)
             ->where('order_details.order_master_id','=',$input)
             ->get();
         return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
+
+      public function getFinishedJobData(Request $request){
+            $input=($request->json()->all());
+            $data = JobMaster::select()
+                ->join('users', 'job_masters.karigarh_id', '=', 'users.id')
+                ->where('job_masters.status_id','=',100)
+                ->where('job_masters.order_details_id','=',$input)
+                ->get();
+            return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
+        }
+
+
+
 
 //    public function testFinished(){
 //        $result = OrderMaster::select(DB::raw('order_masters.id as order_master_id'),DB::raw('order_details.id as order_detail_id'),'users.id','users.person_name')

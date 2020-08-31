@@ -55,6 +55,7 @@ Route::get('/getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
 
 Route::get('/finishedJobsCustomers', 'CustomerController@finishedJobsCustomers');
 Route::post('/fetchingDetails', 'CustomerController@getDetails');
+Route::post('/getFinishedJobData', 'CustomerController@getFinishedJobData');
 //Route::get('/finishedJobsCustomers1', 'CustomerController@testFinished');
 
 
