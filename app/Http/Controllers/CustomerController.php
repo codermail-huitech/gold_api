@@ -143,33 +143,39 @@ class CustomerController extends Controller
 
     }
     public function finishedJobsCustomers(){
-        $result = OrderMaster::select(DB::raw('order_masters.id as order_master_id'),'users.person_name')
+        $result = OrderMaster::select('users.person_name','users.id')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
             ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
-            ->where('order_details.status_id','=',100)
+//            ->where('order_details.status_id','=',100)
+            ->distinct()
             ->get();
         return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
     }
 
     public function getDetails(Request $request){
         $input=($request->json()->all());
-        $data = OrderMaster::select('order_masters.order_number','order_details.id','users.person_name')
+        $data = OrderMaster::select(DB::raw(" distinct order_masters.order_number" ),'order_masters.id','users.person_name')
             ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
+            ->join('job_masters', 'job_masters.order_details_id', '=', 'order_details.id')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
-            ->where('order_details.status_id','=',100)
-            ->where('order_details.order_master_id','=',$input)
+//            ->where('order_details.status_id','=',100)
+            ->where('order_masters.person_id','=',$input)
             ->get();
         return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
 
       public function getFinishedJobData(Request $request){
-            $input=($request->json()->all());
-            $data = JobMaster::select()
-                ->join('users', 'job_masters.karigarh_id', '=', 'users.id')
-                ->where('job_masters.status_id','=',100)
-                ->where('job_masters.order_details_id','=',$input)
-                ->get();
-            return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
+//
+
+          $input=($request->json()->all());
+          $data = JobMaster::select('job_masters.job_number','users.person_name',DB::raw("if(order_details.status_id = 100,'COMPLETED',if(order_details.status_id = 40,'NOT STARTED','WORK IN PROGRESS')) as status"))
+              ->join('users', 'job_masters.karigarh_id', '=', 'users.id')
+              ->join('order_details', 'job_masters.order_details_id', '=', 'order_details.id')
+              ->join('order_masters',  'order_details.order_master_id', '=', 'order_masters.id')
+//              ->where('job_masters.status_id','=',100)
+              ->where('order_masters.id','=',$input)
+              ->get();
+          return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
         }
 
 
