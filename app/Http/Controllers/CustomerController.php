@@ -168,10 +168,11 @@ class CustomerController extends Controller
 //
 
           $input=($request->json()->all());
-          $data = JobMaster::select('job_masters.job_number','users.person_name',DB::raw("if(order_details.status_id = 100,'COMPLETED',if(order_details.status_id = 40,'NOT STARTED','WORK IN PROGRESS')) as status"))
-              ->join('users', 'job_masters.karigarh_id', '=', 'users.id')
+          $data = JobMaster::select(DB::raw('order_masters.id as order_master_id'),DB::raw('karigarh.person_name as karigarh_name'),'order_masters.date_of_order','job_masters.job_number','users.person_name','job_masters.id',DB::raw("if(order_details.status_id = 100,'COMPLETED',if(order_details.status_id = 40,'NOT STARTED','WORK IN PROGRESS')) as status"))
+              ->join('users as karigarh', 'job_masters.karigarh_id', '=', 'karigarh.id')
               ->join('order_details', 'job_masters.order_details_id', '=', 'order_details.id')
               ->join('order_masters',  'order_details.order_master_id', '=', 'order_masters.id')
+              ->join('users', 'order_masters.person_id', '=', 'users.id')
 //              ->where('job_masters.status_id','=',100)
               ->where('order_masters.id','=',$input)
               ->get();
