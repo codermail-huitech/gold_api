@@ -33,7 +33,7 @@ class CreateOrderDetailsTable extends Migration
 
 //            $table->integer('job_status')->nullable('false')->default(0);
 
-            $table->bigInteger('status_id')->unsigned();
+            $table->integer('status_id')->unsigned();
             $table ->foreign('status_id')->references('id')->on('status_types');
             $table->timestamps();
         });
