@@ -2,19 +2,73 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\BillDetail;
 use App\Model\BillMaster;
+use App\Model\CustomVoucher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BillMasterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function saveBillMaster(Request $request)
     {
-        //
+        $newData = ($request->json()->all());
+        $master=(object)($newData['master']);
+        $details=$newData['details'];
+
+//        return response()->json(['success'=>1, 'data'=>$details],200,[],JSON_NUMERIC_CHECK);
+        DB::beginTransaction();
+
+        $customVoucher=CustomVoucher::where('voucher_name',"bill")->Where('accounting_year',"2020")->first();
+
+        if($customVoucher) {
+            $customVoucher->last_counter = $customVoucher->last_counter + 1;
+            $customVoucher->save();
+        }else{
+            $customVoucher= new CustomVoucher();
+            $customVoucher->voucher_name="bill";
+//            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
+            $customVoucher->accounting_year="2020";
+            $customVoucher->last_counter=1;
+            $customVoucher->delimiter='/';
+            $customVoucher->prefix='BILL';
+            $customVoucher->save();
+        }
+        try {
+
+            $result = new BillMaster();
+            $result->bill_number = $customVoucher->prefix
+                . $customVoucher->delimiter
+                . str_pad($customVoucher->last_counter, 5, '0', STR_PAD_LEFT)
+                . $customVoucher->delimiter
+                . $customVoucher->accounting_year;
+            $result->bill_date = $master->bill_date;
+            $result->karigarh_id = $master->karigarh_id;
+            $result->customer_id = $master->customer_id;
+            $result->discount = $master->discount;
+            $result->save();
+
+            if ($result) {
+                foreach ($details as $newData) {
+                    $newResult = new BillDetail();
+                    $newResult->bill_master_id = $result->id;
+//                    $newResult->order_master_id = $newData->order_master_id;
+                    $newResult->order_master_id = $newData['order_master_id'];
+                    $newResult->job_master_id = $newData['id'];
+                    $newResult->save();
+                }
+
+            }
+            DB::commit();
+        }
+        catch (\Exception $e)
+        {
+            DB::rollBack();
+            return response()->json(['Success'=>1,'Exception'=>$e], 401);
+        }
+
+        return response()->json(['success'=>1, 'data'=>$result],200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

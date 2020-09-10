@@ -58,6 +58,10 @@ Route::post('/fetchingDetails', 'CustomerController@getDetails');
 Route::post('/getFinishedJobData', 'CustomerController@getFinishedJobData');
 
 Route::get('/getGoldquantity/{id}', 'CustomerController@getGoldquantity');
+
+
+
+Route::post('/saveBillMaster', 'BillMasterController@saveBillMaster');
 //Route::get('/finishedJobsCustomers1', 'CustomerController@testFinished');
 
 
