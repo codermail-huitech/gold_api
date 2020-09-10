@@ -14,7 +14,7 @@ class CreateStatusTypesTable extends Migration
     public function up()
     {
         Schema::create('status_types', function (Blueprint $table) {
-            $table->integer('id')->unsigned()->nullable(false)->primary();
+            $table->bigInteger('id')->unsigned()->nullable(false)->primary();
 //            $table->id();
             $table->string('name')->nullable(false);
             $table->timestamps();
