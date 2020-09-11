@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Model\BillDetail;
 use App\Model\BillMaster;
 use App\Model\CustomVoucher;
+use App\Model\JobMaster;
+use App\Model\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\DB;
 
 class BillMasterController extends Controller
@@ -43,9 +46,9 @@ class BillMasterController extends Controller
                 . str_pad($customVoucher->last_counter, 5, '0', STR_PAD_LEFT)
                 . $customVoucher->delimiter
                 . $customVoucher->accounting_year;
-            $result->bill_date = $master->bill_date;
-            $result->karigarh_id = $master->karigarh_id;
-            $result->customer_id = $master->customer_id;
+            $result->bill_date = $master->billDate;
+            $result->karigarh_id = $master->karigarhId;
+            $result->customer_id = $master->customerId;
             $result->discount = $master->discount;
             $result->save();
 
@@ -57,6 +60,18 @@ class BillMasterController extends Controller
                     $newResult->order_master_id = $newData['order_master_id'];
                     $newResult->job_master_id = $newData['id'];
                     $newResult->save();
+                    if($newResult){
+                        $jobMaster = new JobMaster();
+                        $jobMaster = JobMaster::find($newResult->job_master_id);
+                        $jobMaster->bill_created = 1;
+                        $jobMaster->update();
+                        if($jobMaster){
+                            $orderDetails = new OrderDetail();
+                            $orderDetails = OrderDetail::find($jobMaster->order_details_id);
+                            $orderDetails->bill_created = 1;
+                            $orderDetails->update();
+                        }
+                    }
                 }
 
             }

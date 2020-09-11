@@ -149,7 +149,8 @@ class CustomerController extends Controller
         $result = OrderMaster::select('users.person_name', 'users.id')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
             ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
-//            ->where('order_details.status_id','=',100)
+            ->where('order_details.bill_created','=',0)
+            ->where('order_details.status_id','=',100)
             ->distinct()
             ->get();
         return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
@@ -162,7 +163,7 @@ class CustomerController extends Controller
             ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
             ->join('job_masters', 'job_masters.order_details_id', '=', 'order_details.id')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
-//            ->where('order_details.status_id','=',100)
+            ->where('order_details.bill_created','=',0)
             ->where('order_masters.person_id', '=', $input)
             ->get();
         return response()->json(['success' => 1, 'data' => $data], 200, [], JSON_NUMERIC_CHECK);
@@ -179,7 +180,7 @@ class CustomerController extends Controller
             ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
-//              ->where('job_masters.status_id','=',100)
+            ->where('job_masters.bill_created','=',0)
             ->where('order_masters.id', '=', $input)
             ->get();
         return response()->json(['success' => 1, 'data' => $data], 200, [], JSON_NUMERIC_CHECK);
