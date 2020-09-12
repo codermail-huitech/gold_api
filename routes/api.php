@@ -62,6 +62,11 @@ Route::get('/getGoldquantity/{id}', 'CustomerController@getGoldquantity');
 
 
 Route::post('/saveBillMaster', 'BillMasterController@saveBillMaster');
+
+Route::get('/completedBillCustomers', 'CustomerController@completedBillCustomers');
+Route::post('/getCompletedBIllDetails', 'CustomerController@getCompletedBIllDetails');
+Route::post('/getFinishedBillData', 'CustomerController@getFinishedBillData');
+Route::post('/showCompletedBills', 'CustomerController@showCompletedBills');
 //Route::get('/finishedJobsCustomers1', 'CustomerController@testFinished');
 
 

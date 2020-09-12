@@ -49,6 +49,7 @@ class BillMasterController extends Controller
             $result->bill_date = $master->billDate;
             $result->karigarh_id = $master->karigarhId;
             $result->customer_id = $master->customerId;
+            $result->order_master_id = $master->order_master_id;
             $result->discount = $master->discount;
             $result->save();
 
@@ -57,7 +58,7 @@ class BillMasterController extends Controller
                     $newResult = new BillDetail();
                     $newResult->bill_master_id = $result->id;
 //                    $newResult->order_master_id = $newData->order_master_id;
-                    $newResult->order_master_id = $newData['order_master_id'];
+//                    $newResult->order_master_id = $newData['order_master_id'];
                     $newResult->job_master_id = $newData['id'];
                     $newResult->save();
                     if($newResult){
