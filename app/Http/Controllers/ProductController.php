@@ -61,12 +61,12 @@ class ProductController extends Controller
 
     public function getProductData(Request $request)
     {
-       $result= Rate::select('rates.price','rates.p_loss','price_codes.price_code_name','products.model_number')
+       $result= Rate::select('products.id','rates.price','rates.p_loss','price_codes.price_code_name','products.model_number')
                 ->join('products','rates.price_code_id','=','products.price_code_id')
                 ->join('price_codes','price_codes.id','=','rates.price_code_id')
                 ->where('rates.customer_category_id','=',$request['customer_category_id'])
                 ->where('products.model_number','=',$request['model_number'])
-                ->get();
+                ->first();
 
 
         return response()->json(['success'=>1,'data'=>$result], 200);
