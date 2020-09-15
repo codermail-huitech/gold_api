@@ -20,10 +20,22 @@ class BillMasterController extends Controller
         $master=(object)($newData['master']);
         $details=$newData['details'];
 
+//        return response()->json(['success'=>1, 'data'=>$master->order_master_id],200,[],JSON_NUMERIC_CHECK);
+
 //        return response()->json(['success'=>1, 'data'=>$details],200,[],JSON_NUMERIC_CHECK);
         DB::beginTransaction();
 
-        $customVoucher=CustomVoucher::where('voucher_name',"bill")->Where('accounting_year',"2020")->first();
+        $temp_date = explode("-",$master->billDate);
+        $accounting_year="";
+        if($temp_date[1]>3){
+            $x = $temp_date[0]%100;
+            $accounting_year = $x*100 + ($x+1);
+        }else{
+            $x = $temp_date[0]%100;
+            $accounting_year =($x-1)*100+$x;
+        }
+
+        $customVoucher=CustomVoucher::where('voucher_name',"bill")->Where('accounting_year',$accounting_year)->first();
 
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
@@ -32,7 +44,7 @@ class BillMasterController extends Controller
             $customVoucher= new CustomVoucher();
             $customVoucher->voucher_name="bill";
 //            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
-            $customVoucher->accounting_year="2020";
+            $customVoucher->accounting_year=$accounting_year;
             $customVoucher->last_counter=1;
             $customVoucher->delimiter='/';
             $customVoucher->prefix='BILL';
@@ -53,13 +65,14 @@ class BillMasterController extends Controller
             $result->discount = $master->discount;
             $result->save();
 
+
             if ($result) {
-                foreach ($details as $newData) {
+                foreach ($details as $newDetails) {
                     $newResult = new BillDetail();
                     $newResult->bill_master_id = $result->id;
-//                    $newResult->order_master_id = $newData->order_master_id;
+//                    $newResult->order_master_id = $master->order_master_id;
 //                    $newResult->order_master_id = $newData['order_master_id'];
-                    $newResult->job_master_id = $newData['id'];
+                    $newResult->job_master_id = $newDetails['id'];
                     $newResult->save();
                     if($newResult){
                         $jobMaster = new JobMaster();

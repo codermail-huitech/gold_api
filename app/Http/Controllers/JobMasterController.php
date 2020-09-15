@@ -19,7 +19,17 @@ class JobMasterController extends Controller
         $inputJobMaster=(object)($input['master']);
         $inputJobDetails=(object)($input['details']);
 
-        $customVoucher=CustomVoucher::where('voucher_name',"job")->Where('accounting_year',"2020")->first();
+        $temp_date = explode("-",$inputJobMaster->date);
+        $accounting_year="";
+        if($temp_date[1]>3){
+            $x = $temp_date[0]%100;
+            $accounting_year = $x*100 + ($x+1);
+        }else{
+            $x = $temp_date[0]%100;
+            $accounting_year =($x-1)*100+$x;
+        }
+
+        $customVoucher=CustomVoucher::where('voucher_name',"job")->Where('accounting_year',$accounting_year)->first();
 
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
@@ -28,7 +38,7 @@ class JobMasterController extends Controller
             $customVoucher= new CustomVoucher();
             $customVoucher->voucher_name="job";
 //            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
-            $customVoucher->accounting_year="2020";
+            $customVoucher->accounting_year=$accounting_year;
             $customVoucher->last_counter=1;
             $customVoucher->delimiter='/';
             $customVoucher->prefix='JOB';
