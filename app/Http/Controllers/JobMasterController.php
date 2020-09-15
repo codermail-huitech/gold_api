@@ -19,7 +19,17 @@ class JobMasterController extends Controller
         $inputJobMaster=(object)($input['master']);
         $inputJobDetails=(object)($input['details']);
 
-        $customVoucher=CustomVoucher::where('voucher_name',"job")->Where('accounting_year',"2020")->first();
+        $temp_date = explode("-",$inputJobMaster->date);
+        $accounting_year="";
+        if($temp_date[1]>3){
+            $x = $temp_date[0]%100;
+            $accounting_year = $x*100 + ($x+1);
+        }else{
+            $x = $temp_date[0]%100;
+            $accounting_year =($x-1)*100+$x;
+        }
+
+        $customVoucher=CustomVoucher::where('voucher_name',"job")->Where('accounting_year',$accounting_year)->first();
 
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
@@ -28,53 +38,53 @@ class JobMasterController extends Controller
             $customVoucher= new CustomVoucher();
             $customVoucher->voucher_name="job";
 //            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
-            $customVoucher->accounting_year="2020";
+            $customVoucher->accounting_year=$accounting_year;
             $customVoucher->last_counter=1;
-            $customVoucher->delimiter='/';
+            $customVoucher->delimiter='-';
             $customVoucher->prefix='JOB';
             $customVoucher->save();
         }
-            $data=JobMaster::select()->where('order_details_id',$inputJobMaster->order_details_id)->first();
+        $data=JobMaster::select()->where('order_details_id',$inputJobMaster->order_details_id)->first();
 
-            if($data){
-                $jobDetails=new JobDetail();
-                $jobDetails->job_master_id=$data->id;
-                $jobDetails->employee_id=$inputJobDetails->employee_id;
-                $jobDetails->material_id=$inputJobDetails->material_id;
-                $jobDetails->job_task_id=1;
-                $jobDetails->material_quantity=$inputJobDetails->material_quantity;
-                $jobDetails->save();
-            }else{
-                $jobMaster= new JobMaster();
-                $voucherNumber=$customVoucher->prefix
-                    .$customVoucher->delimiter
-                    .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
-                    .$customVoucher->delimiter
-                    .$customVoucher->accounting_year;
-                $jobMaster->job_number=$voucherNumber;
-                $jobMaster->date=$inputJobMaster->date;
-                $jobMaster->karigarh_id=$inputJobMaster->karigarh_id;
-                $jobMaster->order_details_id=$inputJobMaster->order_details_id;
+        if($data){
+            $jobDetails=new JobDetail();
+            $jobDetails->job_master_id=$data->id;
+            $jobDetails->employee_id=$inputJobDetails->employee_id;
+            $jobDetails->material_id=$inputJobDetails->material_id;
+            $jobDetails->job_task_id=1;
+            $jobDetails->material_quantity=$inputJobDetails->material_quantity;
+            $jobDetails->save();
+        }else{
+            $jobMaster= new JobMaster();
+            $voucherNumber=$customVoucher->prefix
+                .$customVoucher->delimiter
+                .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
+                .$customVoucher->delimiter
+                .$customVoucher->accounting_year;
+            $jobMaster->job_number=$voucherNumber;
+            $jobMaster->date=$inputJobMaster->date;
+            $jobMaster->karigarh_id=$inputJobMaster->karigarh_id;
+            $jobMaster->order_details_id=$inputJobMaster->order_details_id;
 //                $jobMaster->gross_weight=$inputJobMaster->gross_weight;
-                $jobMaster->status_id=1;
-                $jobMaster->save();
+            $jobMaster->status_id=1;
+            $jobMaster->save();
 
-                $jobDetails=new JobDetail();
-                $jobDetails->job_master_id=$jobMaster->id;
-                $jobDetails->employee_id=$inputJobDetails->employee_id;
-                $jobDetails->material_id=$inputJobDetails->material_id;
-                $jobDetails->job_task_id=1;
-                $jobDetails->material_quantity=$inputJobDetails->material_quantity;
-                $jobDetails->save();
+            $jobDetails=new JobDetail();
+            $jobDetails->job_master_id=$jobMaster->id;
+            $jobDetails->employee_id=$inputJobDetails->employee_id;
+            $jobDetails->material_id=$inputJobDetails->material_id;
+            $jobDetails->job_task_id=1;
+            $jobDetails->material_quantity=$inputJobDetails->material_quantity;
+            $jobDetails->save();
 
-                if($jobDetails) {
-                    $orderDetails= new OrderDetail();
-                    $orderDetails=OrderDetail::find($inputJobMaster->order_details_id);
-                    $orderDetails->status_id=1;
-                    $orderDetails->update();
-                }
-
+            if($jobDetails) {
+                $orderDetails= new OrderDetail();
+                $orderDetails=OrderDetail::find($inputJobMaster->order_details_id);
+                $orderDetails->status_id=1;
+                $orderDetails->update();
             }
+
+        }
         return response()->json(['success'=>1,'data'=> $jobDetails], 200);
     }
 

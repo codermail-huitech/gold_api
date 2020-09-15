@@ -19,8 +19,8 @@ class CreateBillDetailsTable extends Migration
             $table->bigInteger('bill_master_id')->unsigned();
             $table ->foreign('bill_master_id')->references('id')->on('bill_masters');
 
-            $table->bigInteger('order_master_id')->unsigned();
-            $table ->foreign('order_master_id')->references('id')->on('order_masters');
+//            $table->bigInteger('order_master_id')->unsigned();
+//            $table ->foreign('order_master_id')->references('id')->on('order_masters');
 
             $table->bigInteger('job_master_id')->unsigned();
             $table ->foreign('job_master_id')->references('id')->on('job_masters');
