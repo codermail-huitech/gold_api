@@ -22,10 +22,10 @@ class MaterialController extends Controller
     public function getOrderMaterials()
     {
         $result=Material::select()
-                ->where('is_order_material','=',1)
+                ->where('is_base_material','=',1)
                 ->get();
 
-        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
+        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);        
     }
 
     /**

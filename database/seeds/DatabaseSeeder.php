@@ -113,7 +113,7 @@ class DatabaseSeeder extends Seeder
          //materials  table data
          Material::create(['material_name' => 'Pure Gold','material_category_id'=>1,'gold'=>100,'silver'=>0,'is_main_production_material'=>0,'is_base_material'=>0,'main_material_id'=>0]);
          Material::create(['material_name' => 'Pure Silver','material_category_id'=>2,'gold'=>0,'silver'=>100,'is_main_production_material'=>0,'is_base_material'=>0,'main_material_id'=>0]);
-         Material::create(['material_name' => '92 Ginnie','material_category_id'=>1,'gold'=>92,'silver'=>0,'is_main_production_material'=>1,'is_base_material'=>1,'main_material_id'=>0]);
+         Material::create(['material_name' => '92 Ginnie','material_category_id'=>1,'gold'=>92,'silver'=>0,'is_main_production_material'=>1,'is_base_material'=>1,'main_material_id'=>0,'is_order_material'=>1]);
          Material::create(['material_name' => 'Pan','material_category_id'=>1,'gold'=>40,'silver'=>20,'is_main_production_material'=>1,'is_base_material'=>0,'main_material_id'=>0]);
          Material::create(['material_name' => '90 Ginnie','material_category_id'=>1,'gold'=>90,'silver'=>0,'is_main_production_material'=>1,'is_base_material'=>0,'main_material_id'=>0]);
          Material::create(['material_name' => 'Dal','material_category_id'=>6,'gold'=>10,'silver'=>70,'is_main_production_material'=>1,'is_base_material'=>0,'main_material_id'=>0]);

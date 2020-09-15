@@ -20,6 +20,8 @@ class CreateMaterialsTable extends Migration
             $table ->foreign('material_category_id')->references('id')->on('material_categories');
             $table->integer('gold')->nullable(false);
             $table->integer('silver')->nullable(false);
+
+            $table->tinyInteger('is_order_material')->default(0);
             $table->tinyInteger('is_main_production_material')->default(0);
             $table->tinyInteger('is_base_material')->default(0);
             $table->bigInteger('main_material_id')->nullable(true);
