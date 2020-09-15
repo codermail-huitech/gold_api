@@ -20,19 +20,44 @@ class OrderMasterController extends Controller
             ->get();
         return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
-
+    public function testSaveOrder(){
+        $orderDetails=new OrderDetail();
+        $orderDetails->order_master_id=16;
+        $orderDetails->price=5;
+        $orderDetails->p_loss=5;
+        $orderDetails->approx_gold=7;
+        $orderDetails->quantity=6;
+        $orderDetails->material_id=3;
+        $orderDetails->size='333';
+        $orderDetails->product_id=4;
+        $orderDetails->status_id=40;
+        $orderDetails->save();
+        return response()->json(['success'=>1,'data'=>$orderDetails], 200,[],JSON_NUMERIC_CHECK);
+    }
     public function saveOrder(Request $request){
 
         $input=($request->json()->all());
 
 //        return response()->json(['Success'=>1,'data'=>$input], 200);
 
-
+        $result = array();
         $inputOrderMaster=(object)($input['master']);
         $inputOrderDetails=($input['details']);
+        $result['master'] = $inputOrderMaster;
 
         DB::beginTransaction();
-        $customVoucher=CustomVoucher::where('voucher_name',"order")->Where('accounting_year',"2020")->first();
+        $temp_date = explode("-",$inputOrderMaster->order_date);
+        $accounting_year="";
+        if($temp_date[1]>3){
+            $x = $temp_date[0]%100;
+            $accounting_year = $x*100 + ($x+1);
+        }else{
+            $x = $temp_date[0]%100;
+            $accounting_year =($x-1)*100+$x;
+        }
+
+
+        $customVoucher=CustomVoucher::where('voucher_name',"order")->Where('accounting_year',$accounting_year)->first();
 
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
@@ -41,80 +66,53 @@ class OrderMasterController extends Controller
             $customVoucher= new CustomVoucher();
             $customVoucher->voucher_name="order";
 //            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
-            $customVoucher->accounting_year="2020";
+            $customVoucher->accounting_year=$accounting_year;
             $customVoucher->last_counter=1;
-            $customVoucher->delimiter='/';
+            $customVoucher->delimiter='-';
             $customVoucher->prefix='ORD';
             $customVoucher->save();
         }
+        $result['customVoucher'] = $customVoucher;
         try
         {
+            //Creating Voucher Number
+            $voucherNumber=$customVoucher->prefix
+                .$customVoucher->delimiter
+                .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
+                .$customVoucher->delimiter
+                .$customVoucher->accounting_year;
+
             //Saving Order Master
             $orderMaster= new OrderMaster();
-            $voucherNumber=$customVoucher->prefix
-            .$customVoucher->delimiter
-            .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
-            .$customVoucher->delimiter
-            .$customVoucher->accounting_year;
+            $orderMaster->order_number=$voucherNumber;
+            $orderMaster->agent_id=$inputOrderMaster->agent_id;
+            $orderMaster->person_id=$inputOrderMaster->customer_id;
+            $orderMaster->employee_id=$inputOrderMaster->employee_id;
+            $orderMaster->date_of_order=$inputOrderMaster->order_date;
+            $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
+            $orderMaster->save();
+            $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->first();
+            $orderMaster->customer_name = $data->person_name;
 
-            if($inputOrderMaster->id==null){
+            $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->first();
+            $orderMaster->agent_name = $data->person_name;
 
-
-                $orderMaster->order_number=$voucherNumber;
-                $orderMaster->agent_id=$inputOrderMaster->agent_id;
-                $orderMaster->person_id=$inputOrderMaster->customer_id;
-                $orderMaster->employee_id=$inputOrderMaster->employee_id;
-                $orderMaster->date_of_order=$inputOrderMaster->order_date;
-                $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
-                $orderMaster->save();
-
-
-                $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
-                $orderMaster->customer_name = $data[0]->person_name;
-
-                $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
-                $orderMaster->agent_name = $data[0]->person_name;
-
-
-            }
-
-
-        // $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->get();
-        // $orderMaster->customer_name = $data[0]->person_name;
-
-        // $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->get();
-        // $orderMaster->agent_name = $data[0]->person_name;
-
-
-
-
-
+            $result['orderMaster'] =$orderMaster;
             //Saving Order Details
             foreach ($inputOrderDetails as $row){
-                if($row['id']==null){
+                $result['orderMaster_id']=$orderMaster->id;
 
-                    $orderDetails=new OrderDetail();
-                    if($inputOrderMaster->id!=null){
-
-                        $orderDetails->order_master_id=$inputOrderMaster->id;
-
-                    }
-                    else{
-                        $orderDetails->order_master_id=$orderMaster->id;
-                    }
-                    $orderDetails->approx_gold=$row['approx_gold'];
-                    $orderDetails->quantity=$row['quantity'];
-                    $orderDetails->p_loss=$row['p_loss'];
-                    $orderDetails->price=$row['price'];
-                    $orderDetails->product_id=$row['product_id'];
-                    $orderDetails->size=$row['size'];
-                    $orderDetails->material_id=$row['material_id'];
-                    $orderDetails->status_id=40;
-                     $orderDetails->save();
-
-
-                }
-
+                $orderDetails=new OrderDetail();
+                $orderDetails->order_master_id=$orderMaster->id;
+                $orderDetails->price=$row['price'];
+                $orderDetails->p_loss=$row['p_loss'];
+                $orderDetails->approx_gold=$row['approx_gold'];
+                $orderDetails->quantity=$row['quantity'];
+                $orderDetails->material_id=$row['material_id'];
+                $orderDetails->size=$row['size'];
+                $orderDetails->product_id=$row['product_id'];
+                $orderDetails->status_id=40;
+                $orderDetails->save();
             }
             DB::commit();
         }
@@ -122,9 +120,8 @@ class OrderMasterController extends Controller
         catch (\Exception $e)
         {
             DB::rollBack();
-            return response()->json(['Success'=>1,'Exception'=>$e], 401);
+            return response()->json(['Success'=>0,'Exception'=>$e], 401);
         }
-        // return response()->json(['success'=>1,'data'=>$customVoucher], 200);
         return response()->json(['success'=>1,'data'=> $orderMaster], 200);
     }
 
