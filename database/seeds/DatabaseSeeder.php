@@ -30,11 +30,11 @@ class DatabaseSeeder extends Seeder
 
 
         //customer_categories table data
-        CustomerCategory::create(['customer_category_name'=>'Not Applicable']);
         CustomerCategory::create(['customer_category_name'=>'Base']);
         CustomerCategory::create(['customer_category_name'=>'Base-50']);
         CustomerCategory::create(['customer_category_name'=>'Base-100']);
         CustomerCategory::create(['customer_category_name'=>'Base-150']);
+        CustomerCategory::create(['customer_category_name'=>'Not Applicable']);
 
 
         //person_types table data

@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class PriceCodeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function getPriceCodes()
     {
         $data=PriceCode::select('id','price_code_name')->get();

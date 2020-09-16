@@ -52,6 +52,9 @@ Route::post('/getJobTaskData', 'JobTaskController@getJobTaskData');
 Route::post('/getProductData', 'ProductController@getProductData');
 
 Route::post('/getTotal', 'JobTaskController@getTotal');
+Route::post('/saveRate', 'RateController@newRate');
+Route::get('/getCustomerCategory', 'CustomerCategoryController@getCustomerCategory');
+Route::get('/getRates', 'RateController@getRates');
 // Route::get('/ getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
 Route::get('/getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
 

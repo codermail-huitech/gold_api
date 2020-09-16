@@ -7,14 +7,10 @@ use Illuminate\Http\Request;
 
 class CustomerCategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function getCustomerCategory()
     {
-        //
+        $data = CustomerCategory::select('id','customer_category_name')->get();
+        return response()->json(['success'=>1,'data'=>$data], 200);
     }
 
     /**
