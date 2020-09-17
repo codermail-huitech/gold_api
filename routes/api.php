@@ -65,6 +65,7 @@ Route::post('/getFinishedJobData', 'CustomerController@getFinishedJobData');
 
 Route::get('/getGoldquantity/{id}', 'CustomerController@getGoldquantity');
 Route::delete('/deleteRate/{id}', 'RateController@deleteRate');
+Route::put('/updateRate', 'RateController@updateRate');
 
 
 

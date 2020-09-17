@@ -48,15 +48,27 @@ class RateController extends Controller
         return response()->json(['success'=>1,'data'=>$rate], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\Rate  $rate
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Rate $rate)
+    public function updateRate(Request $request)
     {
-        //
+        $input=($request->json()->all());
+        $newData=(object)($input['rateData']);
+        $rate = new Rate();
+        $rate = Rate::find($newData->id);
+        $rate->price_code_id = $newData->price_code_id;
+        $rate->p_loss = $newData->p_loss;
+        $rate->price = $newData->price;
+        $rate->customer_category_id = $newData->customer_category_id;
+        $rate-> update();
+
+        $rate->customer_category_name = (CustomerCategory::select('customer_category_name')
+            ->where('id','=',$rate->customer_category_id)
+            ->get())[0] -> customer_category_name;
+
+        $rate->price_code_name = (PriceCode::select('price_code_name')
+            ->where('id','=',$rate->price_code_id)
+            ->get())[0] -> price_code_name;
+
+        return response()->json(['success'=>1,'data'=>$rate], 200);
     }
 
     /**
