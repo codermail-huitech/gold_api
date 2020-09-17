@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\CustomerCategory;
+use App\Model\PriceCode;
 use App\Model\Rate;
 use Illuminate\Http\Request;
 
@@ -9,7 +11,10 @@ class RateController extends Controller
 {
     public function getRates()
     {
-        $data = Rate::select('id','price_code_id','price','p_loss','customer_category_id')->get();
+        $data = Rate::select('rates.id','price_codes.price_code_name','customer_categories.customer_category_name','rates.price_code_id','rates.price','rates.p_loss','rates.customer_category_id')
+            ->join('price_codes', 'price_codes.id', '=', 'rates.price_code_id')
+            ->join('customer_categories', 'customer_categories.id', '=', 'rates.customer_category_id')
+            ->get();
         return response()->json(['success'=>1,'data'=>$data], 200);
     }
 
@@ -23,18 +28,24 @@ class RateController extends Controller
         $rate->price = $newData->price;
         $rate->customer_category_id = $newData->customer_category_id;
         $rate-> save();
+
+        $rate->customer_category_name = (CustomerCategory::select('customer_category_name')
+            ->where('id','=',$rate->customer_category_id)
+            ->get())[0] -> customer_category_name;
+
+        $rate->price_code_name = (PriceCode::select('price_code_name')
+            ->where('id','=',$rate->price_code_id)
+            ->get())[0] -> price_code_name;
+
         return response()->json(['success'=>1,'data'=>$rate], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function deleteRate($id)
     {
-        //
+        $rate = new Rate();
+        $rate = Rate::find($id);
+        $rate->delete();
+        return response()->json(['success'=>1,'data'=>$rate], 200);
     }
 
     /**
