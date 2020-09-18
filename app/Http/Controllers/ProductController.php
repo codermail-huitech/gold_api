@@ -61,6 +61,8 @@ class ProductController extends Controller
 
     public function getProductData(Request $request)
     {
+
+
        $result= Rate::select('products.id','rates.price','rates.p_loss','price_codes.price_code_name','products.model_number')
                 ->join('products','rates.price_code_id','=','products.price_code_id')
                 ->join('price_codes','price_codes.id','=','rates.price_code_id')
