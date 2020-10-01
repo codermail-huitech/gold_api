@@ -127,28 +127,60 @@ class JobMasterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function  getTotalGoldSendById($id)
     {
-        //
+        $totalGoldSend = JobDetail::select(DB::raw("sum(job_details.material_quantity) as total_gold_submit"))
+                                    ->where('job_details.job_master_id',$id)
+                                    ->where('job_details.job_task_id',1)
+                                    ->first();
+
+        return response()->json(['success'=>1,'data'=> $totalGoldSend], 200,[],JSON_NUMERIC_CHECK);
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\JobMaster  $jobMaster
-     * @return \Illuminate\Http\Response
-     */
-    public function show(JobMaster $jobMaster)
+    public function  getTotalGoldReturnById($id)
     {
-        //
+        $totalGoldReturn = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))as total_gold_return"))
+            ->where('job_details.job_master_id',$id)
+            ->where('job_details.job_task_id',2)
+            ->first();
+
+        return response()->json(['success'=>1,'data'=> $totalGoldReturn], 200,[],JSON_NUMERIC_CHECK);
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\JobMaster  $jobMaster
-     * @return \Illuminate\Http\Response
-     */
+    public function  getTotalPanSendById($id)
+    {
+        $totalPanSend = JobDetail::select(DB::raw("sum(job_details.material_quantity) as total_pan_submit"))
+            ->where('job_details.job_master_id',$id)
+            ->where('job_details.job_task_id',5)
+            ->first();
+
+        return response()->json(['success'=>1,'data'=> $totalPanSend], 200,[],JSON_NUMERIC_CHECK);
+
+    }
+    public function  getTotalPanReturnById($id)
+    {
+        $totalPanReturn = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))as total_pan_return"))
+            ->where('job_details.job_master_id',$id)
+            ->where('job_details.job_task_id',6)
+            ->first();
+
+        return response()->json(['success'=>1,'data'=> $totalPanReturn], 200,[],JSON_NUMERIC_CHECK);
+
+    }
+
+    public function  getTotalNitricReturnById($id)
+    {
+        $totalNitricReturn = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))as total_nitric_return"))
+            ->where('job_details.job_master_id',$id)
+            ->where('job_details.job_task_id',7)
+            ->first();
+
+        return response()->json(['success'=>1,'data'=> $totalNitricReturn], 200,[],JSON_NUMERIC_CHECK);
+
+    }
+
     public function edit(JobMaster $jobMaster)
     {
         //

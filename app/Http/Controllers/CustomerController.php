@@ -144,7 +144,7 @@ class CustomerController extends Controller
 
     }
 
-    public function finishedJobsCustomers()
+    public function getGoldquantity()
     {
         $result = OrderMaster::select('users.person_name', 'users.id')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
@@ -235,7 +235,7 @@ class CustomerController extends Controller
         return response()->json(['success' => 1, 'data' => $data], 200, [], JSON_NUMERIC_CHECK);
     }
 
-    public function getGoldquantity($id){
+    public function getGoldQuantityBill($id){
 
 //        $input = ($request->json()->all());
 
@@ -251,6 +251,18 @@ class CustomerController extends Controller
 
         return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
 
+    }
+
+    public function finishedJobsCustomers()
+    {
+        $result = OrderMaster::select('users.person_name', 'users.id')
+            ->join('users', 'order_masters.person_id', '=', 'users.id')
+            ->join('order_details', 'order_details.order_master_id', '=', 'order_masters.id')
+            ->where('order_details.bill_created','=',0)
+            ->where('order_details.status_id','=',100)
+            ->distinct()
+            ->get();
+        return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
     }
 
     public function completedBillCustomers()
