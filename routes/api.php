@@ -185,6 +185,10 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
     Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
 
+    //gold_receiveds
+    Route::get('/getCompletedBills','GoldReceivedController@getCompletedBills');
+    Route::post('/SaveReceivedGold','GoldReceivedController@SaveReceivedGold');
+
     // Route::get('/agents', 'AgentController@index');
 
     Route::get('test', function(){
