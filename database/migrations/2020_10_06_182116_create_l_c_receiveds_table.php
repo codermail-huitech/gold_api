@@ -13,7 +13,7 @@ class CreateLCReceivedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('l_c_receiveds', function (Blueprint $table) {
+        Schema::create('lc_receiveds', function (Blueprint $table) {
             $table->id();
 
             $table->date('received_date')->nullable(false);
@@ -24,11 +24,9 @@ class CreateLCReceivedsTable extends Migration
             $table->bigInteger('agent_id')->unsigned();
             $table ->foreign('agent_id')->references('id')->on('users');
 
-            $table->bigInteger('bill_master_id')->unsigned();
-            $table ->foreign('bill_master_id')->references('id')->on('bill_masters');
 
 
-            $table->double('LC_received')->default(0);
+            $table->double('lc_received')->default(0);
 
             $table->timestamps();
         });

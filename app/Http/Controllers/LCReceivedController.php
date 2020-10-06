@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Model\LCReceived;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LCReceivedController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function SaveReceivedGold()
     {
-        //
+        $result = LCReceived::select('lc_receiveds.id','lc_receiveds.customer_id','lc_receiveds.agent_id','lc_receiveds.gold_received','lc_receiveds.received_date',DB::raw('customers.person_name as customer_name ,agents.person_name as agent_name'))
+            ->join('users as customers','customers.id','lc_receiveds.customer_id')
+            ->join('users as agents','agents.id','lc_receiveds.agent_id')
+            ->get();
+        return response()->json(['success'=>1,'data'=>$result],200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

@@ -101,6 +101,8 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
 
 
+    //LC received
+    Route::get('/getLCReceived','LCReceivedController@SaveReceivedGold');
 
 
     // Route::get('/ getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
@@ -188,6 +190,9 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     //gold_receiveds
     Route::get('/getCompletedBills','GoldReceivedController@getCompletedBills');
     Route::post('/SaveReceivedGold','GoldReceivedController@SaveReceivedGold');
+
+    //LC received
+    Route::get('/getLCReceived','LCReceivedController@SaveReceivedGold');
 
     // Route::get('/agents', 'AgentController@index');
 
