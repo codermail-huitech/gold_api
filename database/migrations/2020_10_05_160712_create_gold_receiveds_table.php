@@ -24,6 +24,8 @@ class CreateGoldReceivedsTable extends Migration
             $table->bigInteger('agent_id')->unsigned();
             $table ->foreign('agent_id')->references('id')->on('users');
 
+            $table->bigInteger('bill_master_id')->unsigned();
+            $table ->foreign('bill_master_id')->references('id')->on('bill_masters');
 
             $table->double('gold_received')->default(0);
 

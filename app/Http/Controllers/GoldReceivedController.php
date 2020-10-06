@@ -16,7 +16,8 @@ class GoldReceivedController extends Controller
      */
     public function getCompletedBills()
     {
-        $result = BillMaster::select( 'bill_masters.bill_number','order_masters.agent_id',DB::raw('customers.person_name as customer_name , customers.id  as customer_id,agents.person_name as agent_name, agents.id as agent_id'))
+        $result = BillMaster::select( 'bill_masters.id','bill_masters.bill_number','order_masters.agent_id','gold_receiveds.gold_received',DB::raw('customers.person_name as customer_name , customers.id  as customer_id,agents.person_name as agent_name, agents.id as agent_id'))
+                  ->leftJoin('gold_receiveds','gold_receiveds.bill_master_id','bill_masters.id')
                   ->join('users as customers','customers.id','bill_masters.customer_id')
                   ->join('order_masters','order_masters.id','bill_masters.order_master_id')
                   ->join('users as agents','agents.id','order_masters.agent_id')
@@ -33,6 +34,7 @@ class GoldReceivedController extends Controller
         $goldReceived = new GoldReceived();
         $goldReceived->customer_id = $input['customer_id'];
         $goldReceived->agent_id = $input['agent_id'];
+        $goldReceived->bill_master_id = $input['bill_master_id'];
         $goldReceived->received_date = $input['received_date'];
         $goldReceived->gold_received = $input['gold_received'];
         $goldReceived->save();
