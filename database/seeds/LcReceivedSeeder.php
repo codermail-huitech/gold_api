@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class LCReceivedSeeder extends Seeder
+class LcReceivedSeeder extends Seeder
 {
     /**
      * Run the database seeds.

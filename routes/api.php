@@ -193,6 +193,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     //LC received
     Route::get('/getLCReceived','LCReceivedController@SaveReceivedGold');
+    Route::post('/SaveLCReceived','LCReceivedController@SaveLCReceived');
 
     // Route::get('/agents', 'AgentController@index');
 
