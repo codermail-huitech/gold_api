@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\BillDetail;
 use App\Model\CustomVoucher;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
@@ -59,6 +60,8 @@ class CustomerController extends Controller
         $customer->area = $request->input('area');
         $customer->city = $request->input('city');
         $customer->pin = $request->input('pin');
+        $customer->opening_balance_LC = $request->input('opening_balance_LC');
+        $customer->opening_balance_Gold = $request->input('opening_balance_Gold');
 
         $customer->save();
         return response()->json(['success' => 1, 'data' => $customer], 200);
@@ -200,16 +203,39 @@ class CustomerController extends Controller
     public function showCompletedBills(Request $request)
     {
         $input = ($request->json()->all());
-        $data = JobMaster::select('bill_masters.bill_number','bill_masters.bill_date',DB::raw('order_masters.id as order_master_id'), DB::raw('karigarh.person_name as karigarh_name'), DB::raw('users.id as customer_id'), DB::raw('karigarh.id as karigarh_id'), 'order_masters.order_number', 'order_masters.date_of_order', 'job_masters.gross_weight', 'products.model_number', 'order_details.size', 'order_details.quantity', 'order_details.price','order_masters.date_of_order', 'job_masters.job_number', 'users.person_name', 'users.address1', 'users.mobile1', 'users.state', 'users.po', 'users.area', 'users.city', 'users.pin', 'job_masters.id', DB::raw("if(order_details.status_id = 100,'COMPLETED',if(order_details.status_id = 40,'NOT STARTED','WORK IN PROGRESS')) as status"))
+//        $data = JobMaster::select('bill_masters.bill_number','bill_masters.bill_date',DB::raw('order_masters.id as order_master_id'), DB::raw('karigarh.person_name as karigarh_name'), DB::raw('users.id as customer_id'), DB::raw('karigarh.id as karigarh_id'), 'order_masters.order_number', 'order_masters.date_of_order', 'job_masters.gross_weight', 'products.model_number', 'order_details.size', 'order_details.quantity', 'order_details.price','order_masters.date_of_order', 'job_masters.job_number', 'users.person_name', 'users.address1', 'users.mobile1', 'users.state', 'users.po', 'users.area', 'users.city', 'users.pin', 'job_masters.id', DB::raw("if(order_details.status_id = 100,'COMPLETED',if(order_details.status_id = 40,'NOT STARTED','WORK IN PROGRESS')) as status"))
+//            ->join('users as karigarh', 'job_masters.karigarh_id', '=', 'karigarh.id')
+//            ->join('order_details', 'job_masters.order_details_id', '=', 'order_details.id')
+//            ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
+//            ->join('bill_masters', 'bill_masters.order_master_id', '=', 'order_masters.id')
+//            ->join('products', 'order_details.product_id', '=', 'products.id')
+//            ->join('users', 'order_masters.person_id', '=', 'users.id')
+////            ->join('bill_details', 'bill_details.bill_master_id', '=', 'bill_masters.id')
+//            ->where('job_masters.bill_created','=',1)
+//            ->where('bill_masters.id', '=', 1)
+////            ->where('bill_details.bill_master_id', '=', 1)
+//            ->get();
+
+
+
+//        $data = BillDetail::select('bill_masters.bill_number','bill_masters.bill_date',DB::raw('order_masters.id as order_master_id'), DB::raw('karigarh.person_name as karigarh_name'), DB::raw('users.id as customer_id'), DB::raw('karigarh.id as karigarh_id'), 'order_masters.order_number', 'order_masters.date_of_order', 'job_masters.gross_weight', 'products.model_number', 'order_details.size', 'order_details.quantity', 'order_details.price','order_masters.date_of_order', 'job_masters.job_number', 'users.person_name', 'users.address1', 'users.mobile1', 'users.state', 'users.po', 'users.area', 'users.city', 'users.pin', 'job_masters.id', DB::raw("if(order_details.status_id = 100,'COMPLETED',if(order_details.status_id = 40,'NOT STARTED','WORK IN PROGRESS')) as status"))
+        $data = BillDetail::select()
+            ->join('bill_masters', 'bill_masters.id', '=', 'bill_details.bill_master_id')
+            ->join('job_masters', 'job_masters.id', '=', 'bill_details.job_master_id')
             ->join('users as karigarh', 'job_masters.karigarh_id', '=', 'karigarh.id')
-            ->join('order_details', 'job_masters.order_details_id', '=', 'order_details.id')
-            ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
-            ->join('bill_masters', 'bill_masters.order_master_id', '=', 'order_masters.id')
+            ->join('order_details', 'order_details.id', '=', 'job_masters.order_details_id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->join('users', 'order_masters.person_id', '=', 'users.id')
-            ->where('job_masters.bill_created','=',1)
-            ->where('bill_masters.id', '=', $input)
+            ->join('order_masters', 'order_masters.id', '=', 'order_details.order_master_id')
+            ->join('users', 'users.id', '=', 'order_masters.person_id')
+
+            ->where('bill_masters.id', '=', 1)
+//            ->where('bill_details.bill_master_id', '=', 1)
             ->get();
+
+
+
+
+
         return response()->json(['success' => 1, 'data' => $data], 200, [], JSON_NUMERIC_CHECK);
     }
 
