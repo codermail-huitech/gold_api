@@ -228,7 +228,7 @@ class CustomerController extends Controller
             ->join('order_masters', 'order_masters.id', '=', 'order_details.order_master_id')
             ->join('users', 'users.id', '=', 'order_masters.person_id')
 
-            ->where('bill_masters.id', '=', 1)
+            ->where('bill_masters.id', '=', $input)
 //            ->where('bill_details.bill_master_id', '=', 1)
             ->get();
 

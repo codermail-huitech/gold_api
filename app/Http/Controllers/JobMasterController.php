@@ -44,17 +44,18 @@ class JobMasterController extends Controller
             $customVoucher->prefix='JOB';
             $customVoucher->save();
         }
-        $data=JobMaster::select()->where('order_details_id',$inputJobMaster->order_details_id)->first();
-
-        if($data){
-            $jobDetails=new JobDetail();
-            $jobDetails->job_master_id=$data->id;
-            $jobDetails->employee_id=$inputJobDetails->employee_id;
-            $jobDetails->material_id=$inputJobDetails->material_id;
-            $jobDetails->job_task_id=1;
-            $jobDetails->material_quantity=$inputJobDetails->material_quantity;
-            $jobDetails->save();
-        }else{
+//        $data=JobMaster::select()->where('order_details_id',$inputJobMaster->order_details_id)->first();
+//
+//        if($data){
+//            $jobDetails=new JobDetail();
+//            $jobDetails->job_master_id=$data->id;
+//            $jobDetails->employee_id=$inputJobDetails->employee_id;
+//            $jobDetails->material_id=$inputJobDetails->material_id;
+//            $jobDetails->job_task_id=1;
+//            $jobDetails->material_quantity=$inputJobDetails->material_quantity;
+//            $jobDetails->save();
+//            return response()->json(['success'=>1,'data'=> $jobDetails], 200);
+//        }else{
             $jobMaster= new JobMaster();
             $voucherNumber=$customVoucher->prefix
                 .$customVoucher->delimiter
@@ -93,9 +94,9 @@ class JobMasterController extends Controller
                     ->where('job_masters.id',$jobMaster->id)
                     ->first();
             }
-
-        }
-        return response()->json(['success'=>1,'data'=> $jobData], 200);
+            return response()->json(['success'=>1,'data'=> $jobData], 200);
+//        }
+//        return response()->json(['success'=>1,'data'=> $jobMaster], 200);
     }
 
 
