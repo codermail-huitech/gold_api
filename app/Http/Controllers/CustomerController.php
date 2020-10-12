@@ -30,7 +30,9 @@ class CustomerController extends Controller
             'city',
             'po',
             'area',
-            'pin')->where('person_type_id', '=', 10);
+            'pin',
+            'opening_balance_LC',
+            'opening_balance_Gold')->where('person_type_id', '=', 10);
 
         //to bind the parameters, the above statement does not bind the parameters so we need to bind them
         // using following statement

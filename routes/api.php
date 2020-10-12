@@ -104,6 +104,9 @@ Route::group(array('prefix' => 'dev'), function() {
     //LC received
     Route::get('/getLCReceived','LCReceivedController@SaveReceivedGold');
 
+    //Stock Controller
+    Route::get('/getStockRecord','StockController@index');
+
 
     // Route::get('/ getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
     //Route::get('/finishedJobsCustomers1', 'CustomerController@testFinished');
@@ -123,6 +126,9 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     //product_category
     Route::get('/productCategory', 'ProductCategoryController@getProductCategories');
+
+    //stock_controller
+    Route::get('/getStockRecord','StockController@index');
 
     //price_code
     Route::get('/priceCodes', 'PriceCodeController@getPriceCodes');
@@ -194,6 +200,10 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     //LC received
     Route::get('/getLCReceived','LCReceivedController@SaveReceivedGold');
     Route::post('/SaveLCReceived','LCReceivedController@SaveLCReceived');
+
+    //Stock Controller
+
+    Route::get('/getStockRecord','StockController@index');
 
     // Route::get('/agents', 'AgentController@index');
 
