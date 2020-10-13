@@ -18,7 +18,7 @@ class StockController extends Controller
      */
     public function index()
     {
-        $orderData = OrderDetail::select('order_details.id',DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',users.person_name) as order_name"),'order_details.order_master_id','order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name')
+        $orderData = OrderDetail::select(DB::raw("order_details.id as order_details_id"),DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',users.person_name) as order_name"),'order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name')
                      ->join('products','products.id','=','order_details.product_id')
                      ->join('order_masters','order_masters.id','=','order_details.order_master_id')
                      ->join('users','users.id','=','order_masters.person_id')
