@@ -16,10 +16,10 @@ class CreateStocksTable extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('order_details_id')->unsigned();
-            $table ->foreign('order_details_id')->references('id')->on('order_details');
+            $table->bigInteger('job_master_id')->unsigned();
+            $table ->foreign('job_master_id')->references('id')->on('job_masters');
 
-            $table->bigInteger('tag')->unsigned()->nullable(false);
+            $table->string('tag')->nullable(false);
             $table->double('gold')->nullable(false);
             $table->double('amount')->nullable(false);
             $table->bigInteger('quantity')->nullable(false);

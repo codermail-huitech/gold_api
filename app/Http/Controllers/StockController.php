@@ -31,7 +31,7 @@ class StockController extends Controller
     public function saveStock(Request $request)
     {
         $input = ($request->json()->all());
-        $newData = array();
+//        $newData = array();
         foreach ($input as $items){
 
             $customVoucher=CustomVoucher::where('voucher_name',$items['job_master_id'])->Where('accounting_year',2020)->first();
@@ -49,12 +49,31 @@ class StockController extends Controller
                 $customVoucher->prefix='STOCK';
                 $customVoucher->save();
             }
-            $data = $customVoucher->voucher_name.$customVoucher->delimiter.$customVoucher->last_counter;
-            array_push($newData,$data );
+
+//            $data = $customVoucher->voucher_name.$customVoucher->delimiter.$customVoucher->last_counter;
+
+
+
+                    $newStock = new Stock();
+                    $newStock->job_master_id = $items['job_master_id'];
+                    $newStock->tag =$customVoucher->voucher_name
+                        .$customVoucher->delimiter
+                        .$customVoucher->last_counter;
+                    $newStock->gold = $items['set_gold'];
+                    $newStock->amount = $items['set_amount'];
+                    $newStock->quantity = $items['set_quantity'];
+                    $newStock->save();
+
+//                array_push($newData,$data );
         }
+
 //        $data = $customVoucher->voucher_name.$customVoucher->delimiter.$customVoucher->last_counter;
 
-        return response()->json(['success' => 1, 'data' => $newData], 200, [], JSON_NUMERIC_CHECK);
+
+
+
+
+        return response()->json(['success' => 1, 'data' => $newStock], 200, [], JSON_NUMERIC_CHECK);
     }
 
     /**
