@@ -107,6 +107,7 @@ Route::group(array('prefix' => 'dev'), function() {
     //Stock Controller
     Route::get('/getStockRecord','StockController@index');
     Route::post('/createStock','StockController@saveStock');
+    Route::get('/getStockCustomer','StockController@getStockCustomer');
 
 
     // Route::get('/ getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
@@ -206,6 +207,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     Route::get('/getStockRecord','StockController@index');
     Route::post('/createStock','StockController@saveStock');
+    Route::get('/getStockCustomer','StockController@getStockCustomer');
 
     // Route::get('/agents', 'AgentController@index');
 
