@@ -64,6 +64,12 @@ class StockController extends Controller
                     $newStock->quantity = $items['set_quantity'];
                     $newStock->save();
 
+                    if($newStock){
+                        $jobMaster = JobMaster::find($newStock->job_master_id);
+                        $jobMaster->status_id = 102;
+                        $jobMaster->save();
+                    }
+
 //                array_push($newData,$data );
         }
 

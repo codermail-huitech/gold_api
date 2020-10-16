@@ -38,16 +38,10 @@ class OrderMasterController extends Controller
 
         $input=($request->json()->all());
 
-//        return response()->json(['Success'=>1,'data'=>$input], 200);
-
-        $result = array();
         $inputOrderMaster=(object)($input['master']);
         $inputOrderDetails=($input['details']);
-        $result['master'] = $inputOrderMaster;
 
-        DB::beginTransaction();
         $temp_date = explode("-",$inputOrderMaster->order_date);
-        $accounting_year="";
         if($temp_date[1]>3){
             $x = $temp_date[0]%100;
             $accounting_year = $x*100 + ($x+1);
@@ -57,22 +51,24 @@ class OrderMasterController extends Controller
         }
 
 
-        $customVoucher=CustomVoucher::where('voucher_name',"order")->Where('accounting_year',$accounting_year)->first();
+        $customVoucher=CustomVoucher::where('voucher_name','order')->Where('accounting_year',$accounting_year)->first();
 
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
             $customVoucher->save();
         }else{
             $customVoucher= new CustomVoucher();
-            $customVoucher->voucher_name="order";
-//            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
+            $customVoucher->voucher_name='order';
             $customVoucher->accounting_year=$accounting_year;
             $customVoucher->last_counter=1;
             $customVoucher->delimiter='-';
             $customVoucher->prefix='ORD';
             $customVoucher->save();
         }
-        $result['customVoucher'] = $customVoucher;
+
+
+
+//        $result['customVoucher'] = $customVoucher;
         try
         {
             //Creating Voucher Number
@@ -97,8 +93,8 @@ class OrderMasterController extends Controller
             $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->first();
             $orderMaster->agent_name = $data->person_name;
 
-            $result['orderMaster'] =$orderMaster;
-            //Saving Order Details
+//            $result['orderMaster'] =$orderMaster;
+//            Saving Order Details
             foreach ($inputOrderDetails as $row){
                 $result['orderMaster_id']=$orderMaster->id;
 
@@ -114,7 +110,7 @@ class OrderMasterController extends Controller
                 $orderDetails->status_id=40;
                 $orderDetails->save();
             }
-            DB::commit();
+//            DB::commit();
         }
 
         catch (\Exception $e)
@@ -123,6 +119,7 @@ class OrderMasterController extends Controller
             return response()->json(['Success'=>0,'Exception'=>$e], 401);
         }
         return response()->json(['success'=>1,'data'=> $orderMaster], 200);
+
     }
 
     public function updateOrder(Request $request)
