@@ -66,7 +66,7 @@ class CustomerController extends Controller
         $customer->opening_balance_Gold = $request->input('opening_balance_Gold');
 
         $customer->save();
-        return response()->json(['success' => 1, 'data' => $customer], 200);
+        return response()->json(['success' => 1, 'data' => $customer], 200,[],JSON_NUMERIC_CHECK);
     }
 
     public function updateCustomer($id, Request $request)

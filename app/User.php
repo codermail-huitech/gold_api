@@ -16,13 +16,16 @@ class User extends Authenticatable implements JWTSubject
         'mobile1',
         'mobile2',
         'customer_category_id',
+        'person_type_id',
         'address1',
         'address2',
         'state',
         'city',
         'po',
         'area',
-        'pin'];
+        'pin',
+        'opening_balance_LC',
+        'opening_balance_Gold'];
     protected $guarded = ['id'];
     protected $hidden = [
         'password', 'remember_token',
