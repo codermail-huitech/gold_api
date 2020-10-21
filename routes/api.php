@@ -109,6 +109,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::post('/createStock','StockController@saveStock');
     Route::get('/getStockCustomer','StockController@getStockCustomer');
     Route::get('/fetchingStockByJobMasterId/{id}','StockController@fetchingStockByJobMasterId');
+    Route::get('/getingStock','StockController@fetchingStocks');
 
 
     // Route::get('/ getAllTransactions/{id}', 'JobTaskController@getAllTransactions');

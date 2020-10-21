@@ -72,11 +72,7 @@ class StockController extends Controller
 //            return response()->json(['success' => 1, 'data' => $newStock], 200, [], JSON_NUMERIC_CHECK);
                 array_push($newData,$newStock );
         }
-
 //        $data = $customVoucher->voucher_name.$customVoucher->delimiter.$customVoucher->last_counter;
-
-
-
         return response()->json(['success' => 1, 'data' => $newData], 200, [], JSON_NUMERIC_CHECK);
     }
 
@@ -88,8 +84,8 @@ class StockController extends Controller
                          ->join('users','users.id','=','order_masters.person_id')
                          ->where('job_masters.status_id',100)
                          ->where('job_masters.bill_created',0)
-                         ->distinct()
-                         ->get();
+//                         ->distinct()
+                         ->first();
 
         return response()->json(['success'=>1,'data'=>$stockCustomer],200,[],JSON_NUMERIC_CHECK);
     }
@@ -98,7 +94,7 @@ class StockController extends Controller
     public function fetchingStockByJobMasterId($id)
     {
 //        return response()->json(['success'=>1,'data'=>$id],200,[],JSON_NUMERIC_CHECK);
-        $stockData = OrderDetail::select(DB::raw("order_details.id as order_details_id"),DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name','job_masters.status_id','job_masters.bill_created')
+        $stockData = OrderDetail::select(DB::raw("users.person_name as person_name"),DB::raw("order_details.id as order_details_id"),DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name','job_masters.status_id','job_masters.bill_created')
             ->join('products','products.id','=','order_details.product_id')
             ->join('order_masters','order_masters.id','=','order_details.order_master_id')
             ->join('users','users.id','=','order_masters.person_id')
@@ -110,15 +106,17 @@ class StockController extends Controller
         return response()->json(['success'=>1,'data'=>$stockData],200,[],JSON_NUMERIC_CHECK);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Model\Stock  $stock
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Stock $stock)
+    public function fetchingStocks()
     {
-        //
+        $data = Stock::select(DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'users.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'users.person_name')
+            ->join('job_masters','job_masters.id','=','stocks.job_master_id')
+            ->join('job_details','job_details.job_master_id','=','job_masters.id')
+            ->join('order_details','order_details.id','=','job_masters.order_details_id')
+            ->join('order_masters','order_masters.id','=','order_details.order_master_id')
+            ->join('users','users.id','=','order_masters.person_id')
+            ->join('products','products.id','=','order_details.product_id')
+            ->get();
+        return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }
 
     /**
