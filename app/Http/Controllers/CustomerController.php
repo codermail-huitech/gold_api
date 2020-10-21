@@ -190,12 +190,13 @@ class CustomerController extends Controller
     public function getFinishedJobData(Request $request)
     {
         $input = ($request->json()->all());
-        $data = JobMaster::select(DB::raw('order_masters.id as order_master_id'), DB::raw('karigarh.person_name as karigarh_name'), DB::raw('users.id as customer_id'), DB::raw('karigarh.id as karigarh_id'), 'order_masters.order_number', 'order_masters.date_of_order', 'job_masters.gross_weight', 'products.model_number', 'order_details.size', 'order_details.quantity', 'order_details.price','order_masters.date_of_order', 'job_masters.job_number', 'users.person_name', 'users.address1', 'users.mobile1', 'users.state', 'users.po', 'users.area', 'users.city', 'users.pin', 'job_masters.id', DB::raw("if(order_details.status_id = 100,'COMPLETED',if(order_details.status_id = 40,'NOT STARTED','WORK IN PROGRESS')) as status"))
+        $data = JobMaster::select(DB::raw('order_masters.id as order_master_id'), DB::raw('karigarh.person_name as karigarh_name'), DB::raw('users.id as customer_id'), DB::raw('karigarh.id as karigarh_id'), 'order_masters.order_number', 'order_masters.date_of_order', 'job_masters.gross_weight', 'products.model_number', 'order_details.size', 'order_details.quantity', 'order_details.price','order_masters.date_of_order', 'job_masters.job_number', 'users.person_name', 'users.address1', 'users.mobile1', 'users.state', 'users.po', 'users.area', 'users.city', 'users.pin', 'job_masters.id','job_masters.status_id', DB::raw("if(job_masters.status_id = 100,'COMPLETED',if(job_masters.status_id = 102,'STOCK CREATED','WORK IN PROGRESS')) as status"))
             ->join('users as karigarh', 'job_masters.karigarh_id', '=', 'karigarh.id')
             ->join('order_details', 'job_masters.order_details_id', '=', 'order_details.id')
             ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
             ->join('users', 'order_masters.person_id', '=', 'users.id')
+            ->where('job_masters.bill_created','=',0)
             ->where('job_masters.bill_created','=',0)
             ->where('order_masters.id', '=', $input)
             ->get();
