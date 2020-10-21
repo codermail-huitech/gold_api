@@ -56,7 +56,7 @@ class StockController extends Controller
 
                     $newStock = new Stock();
                     $newStock->job_master_id = $items['job_master_id'];
-                    $newStock->tag =$customVoucher->voucher_name
+                    $newStock->tag =$items['job_number']
                         .$customVoucher->delimiter
                         .$customVoucher->last_counter;
                     $newStock->gold = $items['set_gold'];
@@ -91,7 +91,7 @@ class StockController extends Controller
     }
 
     public function getRecordByJobMasterId($id){
-        $record = OrderDetail::select(DB::raw("order_details.id as order_details_id"),DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name','job_masters.status_id','job_masters.bill_created')
+        $record = OrderDetail::select(DB::raw("order_details.id as order_details_id"),'job_masters.job_number',DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name','job_masters.status_id','job_masters.bill_created')
             ->join('products','products.id','=','order_details.product_id')
             ->join('order_masters','order_masters.id','=','order_details.order_master_id')
             ->join('users','users.id','=','order_masters.person_id')
@@ -102,23 +102,18 @@ class StockController extends Controller
         return response()->json(['success'=>1,'data'=>$record],200,[],JSON_NUMERIC_CHECK);
     }
 
-    public function getStockList(){
-        $stockList = Stock::select()->get();
-        return response()->json(['success'=>1,'data'=>$stockList],200,[],JSON_NUMERIC_CHECK);
-
-   }
-
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\Stock  $stock
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Stock $stock)
+       public function getStockList()
     {
-        //
+        $data = Stock::select('users.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'products.model_number', 'stocks.tag')
+                ->join('job_masters','job_masters.id','=','stocks.job_master_id')
+                ->join('job_details','job_details.job_master_id','=','job_masters.id')
+                ->join('order_details','order_details.id','=','job_masters.order_details_id')
+                ->join('order_masters','order_masters.id','=','order_details.order_master_id')
+                ->join('users','users.id','=','order_masters.person_id')
+                ->join('products','products.id','=','order_details.product_id')
+                ->get();
+            return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
+
     }
 
     /**

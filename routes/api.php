@@ -111,6 +111,9 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/getRecordByJobMasterId/{id}','StockController@getRecordByJobMasterId');
     Route::get('/getStockList','StockController@getStockList');
 
+    //test_api
+    Route::get('/show','StockController@show');
+
 
 
     // Route::get('/ getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
