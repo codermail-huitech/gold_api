@@ -59,7 +59,7 @@ class JobMasterController extends Controller
             $jobMaster= new JobMaster();
             $voucherNumber=$customVoucher->prefix
                 .$customVoucher->delimiter
-                .str_pad($customVoucher->last_counter,6,'0',STR_PAD_LEFT)
+                .str_pad($customVoucher->last_counter,5,'0',STR_PAD_LEFT)
                 .$customVoucher->delimiter
                 .$customVoucher->accounting_year;
             $jobMaster->job_number=$voucherNumber;
