@@ -35,6 +35,7 @@ class StockController extends Controller
     public function saveStock(Request $request)
     {
         $input = ($request->json()->all());
+
         $newData = array();
         foreach ($input as $items){
 
@@ -62,6 +63,10 @@ class StockController extends Controller
                     $newStock->gold = $items['set_gold'];
                     $newStock->amount = $items['set_amount'];
                     $newStock->quantity = $items['set_quantity'];
+                    $newStock->size = $items['size'];
+//                    $newStock->size = "7-8-9";
+                    $newStock->material_id = $items['material_id'];
+                    $newStock->gross_weight = $items['set_gross_weight'];
                     $newStock->save();
 
                     if($newStock){
@@ -91,12 +96,15 @@ class StockController extends Controller
     }
 
     public function getRecordByJobMasterId($id){
-        $record = OrderDetail::select(DB::raw("order_details.id as order_details_id"),'job_masters.job_number',DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name','job_masters.status_id','job_masters.bill_created')
+        $record = OrderDetail::select(DB::raw("order_details.id as order_details_id"),'job_masters.job_number',DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'order_details.price','order_details.approx_gold','order_details.size','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name','job_masters.status_id','job_masters.bill_created','job_masters.gross_weight','job_details.material_id','job_details.job_task_id')
             ->join('products','products.id','=','order_details.product_id')
             ->join('order_masters','order_masters.id','=','order_details.order_master_id')
             ->join('users','users.id','=','order_masters.person_id')
             ->join('job_masters','job_masters.order_details_id','=','order_details.id')
+            ->join('job_details','job_details.job_master_id','=','job_masters.id')
             ->where('job_masters.id',$id)
+            ->where('job_details.job_task_id',1)
+            ->distinct()
             ->get();
 
         return response()->json(['success'=>1,'data'=>$record],200,[],JSON_NUMERIC_CHECK);
@@ -104,7 +112,7 @@ class StockController extends Controller
 
        public function getStockList()
     {
-        $data = Stock::select('users.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'products.model_number', 'stocks.tag')
+        $data = Stock::select('stocks.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
                 ->join('job_masters','job_masters.id','=','stocks.job_master_id')
                 ->join('job_details','job_details.job_master_id','=','job_masters.id')
                 ->join('order_details','order_details.id','=','job_masters.order_details_id')

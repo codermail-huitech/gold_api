@@ -20,7 +20,10 @@ class CreateStocksTable extends Migration
             $table ->foreign('job_master_id')->references('id')->on('job_masters');
 
             $table->string('tag')->nullable(false);
+            $table->string('size')->nullable(false);
+            $table->integer('material_id')->nullable(false);
             $table->double('gold')->nullable(false);
+            $table->double('gross_weight')->nullable(false);
             $table->double('amount')->nullable(false);
             $table->bigInteger('quantity')->nullable(false);
 
