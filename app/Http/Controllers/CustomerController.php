@@ -282,6 +282,25 @@ class CustomerController extends Controller
 
     }
 
+
+//    public function getStockGoldQuantity($id){
+//
+////        $input = ($request->json()->all());
+//
+//        $result=DB::query()->fromSub(function ($query) use($id){
+//            $query->from("job_details")
+//                ->select(DB::raw("SUM(if(material_quantity>0,material_quantity,0)) as positive_value, SUM(if(material_quantity<0,material_quantity,0)) as negative_value"))
+//                ->where("job_details.job_task_id",1)
+//                ->where("job_details.job_master_id",$id)
+//                ->orWhere("job_details.job_task_id",2)
+//                ->where("job_details.job_master_id",$id);
+//        },"table1")->select("table1.positive_value","table1.negative_value",DB::raw("abs(table1.positive_value + table1.negative_value) as total"))
+//            ->get();
+//
+//        return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
+//
+//    }
+
     public function finishedJobsCustomers()
     {
         $result = OrderMaster::select('users.person_name', 'users.id')
@@ -305,6 +324,16 @@ class CustomerController extends Controller
             ->distinct()
             ->get();
         return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
+    }
+
+    public function getTotalGoldQuantity($id){
+
+        $totalGold = DB::select('SELECT get_gold_quantity(?) AS data',[$id])[0];
+
+
+
+        return response()->json(['success'=>1,'data'=>$totalGold],200,[], JSON_NUMERIC_CHECK);
+
     }
 
 

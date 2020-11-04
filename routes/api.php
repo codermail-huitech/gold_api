@@ -95,6 +95,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::post('/getFinishedJobData', 'CustomerController@getFinishedJobData');
     Route::get('/getGoldquantity/{id}', 'CustomerController@getGoldQuantityBill');
     Route::get('/karigarhs', 'CustomerController@getkarigarhs');
+    Route::get('/getTotalGoldQuantity/{id}', 'CustomerController@getTotalGoldQuantity');
 
     //order_detail
     Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
@@ -196,6 +197,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/getFinishedJobData', 'CustomerController@getFinishedJobData');
     Route::get('/getGoldquantity/{id}', 'CustomerController@getGoldQuantityBill');
     Route::get('/karigarhs', 'CustomerController@getkarigarhs');
+    Route::get('/getTotalGoldQuantity/{id}', 'CustomerController@getTotalGoldQuantity');
 
     //order_detail
     Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
