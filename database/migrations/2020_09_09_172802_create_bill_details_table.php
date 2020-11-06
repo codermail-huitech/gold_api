@@ -22,8 +22,21 @@ class CreateBillDetailsTable extends Migration
 //            $table->bigInteger('order_master_id')->unsigned();
 //            $table ->foreign('order_master_id')->references('id')->on('order_masters');
 
-            $table->bigInteger('job_master_id')->unsigned();
-            $table ->foreign('job_master_id')->references('id')->on('job_masters');
+            $table->bigInteger('job_master_id')->unsigned()->nullable(true);
+//            $table ->foreign('job_master_id')->references('id')->on('job_masters');
+
+            $table->string('tag')->nullable(true);
+
+            $table->string('model_number')->nullable(false);
+            $table->string('size')->nullable(false);
+            $table->double('gross_weight')->nullable(false);
+            $table->integer('material_id')->nullable(false);
+            $table->double('ginnie')->nullable(false);
+            $table->double('pure_gold')->nullable(false);
+            $table->integer('quantity')->nullable(false);
+            $table->double('LC')->nullable(false);
+
+
 
             $table->timestamps();
         });

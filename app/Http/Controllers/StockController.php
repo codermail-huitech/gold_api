@@ -112,9 +112,9 @@ class StockController extends Controller
 
        public function getStockList()
     {
-        $data = Stock::select('stocks.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
+        $data = Stock::select('stocks.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
                 ->join('job_masters','job_masters.id','=','stocks.job_master_id')
-                ->join('job_details','job_details.job_master_id','=','job_masters.id')
+//                ->join('job_details','job_details.job_master_id','=','job_masters.id')
                 ->join('order_details','order_details.id','=','job_masters.order_details_id')
                 ->join('order_masters','order_masters.id','=','order_details.order_master_id')
                 ->join('users','users.id','=','order_masters.person_id')

@@ -62,6 +62,43 @@ class CreateAllProceduresAndFunctions extends Migration
 
 
 
+            DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_quantity;
+                CREATE FUNCTION test_db.`get_gold_quantity`(`param_job_master_id` INT) RETURNS double
+                    DETERMINISTIC
+                BEGIN
+                  DECLARE temp_gold_send double;
+                  DECLARE temp_gold_ret double;
+                  DECLARE temp_pan_send double;
+                  DECLARE temp_pan_ret double;
+                  DECLARE temp_nitric_ret double;
+                  DECLARE temp_ploss_info double;
+                  DECLARE temp_gold_quantity double;
+
+                  select ifNull(sum(material_quantity),0) into temp_gold_send   from job_details where job_master_id=param_job_master_id and job_task_id =1 ;
+
+                  select ifNull(sum(material_quantity),0) into temp_gold_ret   from job_details where job_master_id=param_job_master_id and job_task_id =2;
+
+                  select ifNull(sum(material_quantity),0) into temp_pan_send   from job_details where job_master_id=param_job_master_id and job_task_id =5;
+
+                  select ifNull(sum(material_quantity),0) into temp_pan_ret   from job_details where job_master_id=param_job_master_id and job_task_id =6;
+
+                  select ifNull(sum(material_quantity),0) into temp_nitric_ret   from job_details where job_master_id=param_job_master_id and job_task_id =7;
+
+                  select (order_details.p_loss*order_details.quantity ) into temp_ploss_info from job_masters
+                  inner join order_details ON order_details.id = job_masters.order_details_id
+                  where job_masters.id=param_job_master_id;
+
+                  select temp_gold_send + temp_gold_ret  + temp_pan_send + temp_pan_ret + temp_nitric_ret + temp_ploss_info into temp_gold_quantity ;
+
+                IF temp_gold_quantity IS NULL THEN
+                    RETURN 0;
+                END IF;
+                RETURN temp_gold_quantity;
+                END;'
+        );
+
+
+
 
     }
 

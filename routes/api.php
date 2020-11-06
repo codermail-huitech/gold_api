@@ -39,6 +39,11 @@ Route::group(array('prefix' => 'dev'), function() {
     //bill_master
     Route::post('/saveBillMaster', 'BillMasterController@saveBillMaster');
 
+    //testing for stock bill save
+    Route::post('/testBillSave', 'BillMasterController@testBillSave');
+
+
+
     //job_task
     Route::post('/getTotal', 'JobTaskController@getTotal');
     Route::get('/getAllTransactions/{id}', 'JobTaskController@getAllTransactions');
@@ -144,6 +149,9 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     //bill_master
     Route::post('/saveBillMaster', 'BillMasterController@saveBillMaster');
+
+    //testing for stock bill save
+    Route::post('/testBillSave', 'BillMasterController@testBillSave');
 
     //job_task
     Route::post('/getTotal', 'JobTaskController@getTotal');

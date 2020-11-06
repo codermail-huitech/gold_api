@@ -20,9 +20,8 @@ class BillMasterController extends Controller
         $master=(object)($newData['master']);
         $details=$newData['details'];
 
-//        return response()->json(['success'=>1, 'data'=>$master->order_master_id],200,[],JSON_NUMERIC_CHECK);
+//        return $details;
 
-//        return response()->json(['success'=>1, 'data'=>$details],200,[],JSON_NUMERIC_CHECK);
         DB::beginTransaction();
 
         $temp_date = explode("-",$master->billDate);
@@ -58,11 +57,13 @@ class BillMasterController extends Controller
                 . str_pad($customVoucher->last_counter, 5, '0', STR_PAD_LEFT)
                 . $customVoucher->delimiter
                 . $customVoucher->accounting_year;
+
             $result->bill_date = $master->billDate;
             $result->karigarh_id = $master->karigarhId;
             $result->customer_id = $master->customerId;
             $result->order_master_id = $master->order_master_id;
             $result->discount = $master->discount;
+
             $result->save();
 
 
@@ -70,9 +71,23 @@ class BillMasterController extends Controller
                 foreach ($details as $newDetails) {
                     $newResult = new BillDetail();
                     $newResult->bill_master_id = $result->id;
+
 //                    $newResult->order_master_id = $master->order_master_id;
 //                    $newResult->order_master_id = $newData['order_master_id'];
-                    $newResult->job_master_id = $newDetails['id'];
+                    if(array_key_exists("tag",$newDetails)){
+                        $newResult->tag = $newDetails['tag'];
+                    }
+
+                    $newResult->job_master_id =(string) $newDetails['id'];
+                    $newResult->model_number = $newDetails['model_number'];
+                    $newResult->size = $newDetails['size'];
+                    $newResult->gross_weight = $newDetails['gross_weight'];
+                    $newResult->material_id = $newDetails['material_id'];
+                    $newResult->ginnie = $newDetails['total'];
+                    $newResult->pure_gold = $newDetails['pure_gold'];
+
+                    $newResult->quantity = $newDetails['quantity'];
+                    $newResult->LC =$newDetails['cost'];
                     $newResult->save();
                     if($newResult){
                         $jobMaster = new JobMaster();
@@ -98,6 +113,41 @@ class BillMasterController extends Controller
         }
 
         return response()->json(['success'=>1, 'data'=>$result],200,[],JSON_NUMERIC_CHECK);
+    }
+
+
+    public function testBillSave(Request $request){
+
+        $newData = ($request->json()->all());
+        $details=$newData['details'];
+
+        foreach ($details as $newDetails) {
+            $newResult = new BillDetail();
+//                    $newResult->bill_master_id = $result->id;
+            $newResult->bill_master_id = 1;
+
+            if (array_key_exists("tag", $newDetails)) {
+                $newResult->tag = $newDetails['tag'];
+                $newResult->job_master_id = (string)$newDetails['job_master_id'];
+            }
+            else
+            {
+                $newResult->job_master_id = (string)$newDetails['id'];
+            }
+
+
+            $newResult->model_number = $newDetails['model_number'];
+            $newResult->size = $newDetails['size'];
+            $newResult->gross_weight = $newDetails['gross_weight'];
+            $newResult->material_id = $newDetails['material_id'];
+            $newResult->ginnie = $newDetails['total'];
+            $newResult->pure_gold = $newDetails['pure_gold'];
+
+            $newResult->quantity = $newDetails['quantity'];
+            $newResult->LC = $newDetails['cost'];
+            $newResult->save();
+        }
+        return response()->json(['success'=>1, 'result'=>$details],200,[],JSON_NUMERIC_CHECK);
     }
 
     /**
