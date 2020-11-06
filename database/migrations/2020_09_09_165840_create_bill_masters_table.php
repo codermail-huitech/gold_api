@@ -29,6 +29,9 @@ class CreateBillMastersTable extends Migration
             $table->bigInteger('customer_id')->unsigned();
             $table ->foreign('customer_id')->references('id')->on('users');
 
+            $table->bigInteger('agent_id')->unsigned();
+            $table ->foreign('agent_id')->references('id')->on('users');
+
             $table->double('discount')->default(0);
 
             $table->timestamps();

@@ -7,6 +7,7 @@ use App\Model\BillMaster;
 use App\Model\CustomVoucher;
 use App\Model\JobMaster;
 use App\Model\OrderDetail;
+use App\Model\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Queue\Jobs\Job;
 use Illuminate\Support\Facades\DB;
@@ -62,6 +63,7 @@ class BillMasterController extends Controller
             $result->karigarh_id = $master->karigarhId;
             $result->customer_id = $master->customerId;
             $result->order_master_id = $master->order_master_id;
+            $result->agent_id = $master->agent_id;
             $result->discount = $master->discount;
 
             $result->save();
@@ -77,19 +79,26 @@ class BillMasterController extends Controller
                     if(array_key_exists("tag",$newDetails)){
                         $newResult->tag = $newDetails['tag'];
                     }
+                    else{
+                        $newResult->job_master_id = $newDetails['job_master_id'];
+                    }
 
-                    $newResult->job_master_id =(string) $newDetails['id'];
                     $newResult->model_number = $newDetails['model_number'];
                     $newResult->size = $newDetails['size'];
                     $newResult->gross_weight = $newDetails['gross_weight'];
                     $newResult->material_id = $newDetails['material_id'];
                     $newResult->ginnie = $newDetails['total'];
                     $newResult->pure_gold = $newDetails['pure_gold'];
-
                     $newResult->quantity = $newDetails['quantity'];
                     $newResult->LC =$newDetails['cost'];
                     $newResult->save();
-                    if($newResult){
+                    if($newResult &&  array_key_exists("tag",$newDetails)){
+                       $stock = new Stock();
+                       $stock = Stock::find($newResult->id);
+                       $stock->in_stock = 0;
+                       $stock->update();
+                    }
+                    else if($newResult &&  !(array_key_exists("tag",$newDetails))) {
                         $jobMaster = new JobMaster();
                         $jobMaster = JobMaster::find($newResult->job_master_id);
                         $jobMaster->bill_created = 1;
@@ -128,11 +137,11 @@ class BillMasterController extends Controller
 
             if (array_key_exists("tag", $newDetails)) {
                 $newResult->tag = $newDetails['tag'];
-                $newResult->job_master_id = (string)$newDetails['job_master_id'];
+
             }
             else
             {
-                $newResult->job_master_id = (string)$newDetails['id'];
+                $newResult->job_master_id = (string)$newDetails['job_master_id'];
             }
 
 
