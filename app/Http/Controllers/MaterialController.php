@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function getMaterials()
     {
         $result=Material::select()

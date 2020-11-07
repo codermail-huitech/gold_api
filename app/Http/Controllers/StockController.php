@@ -13,11 +13,7 @@ Use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $orderData = OrderDetail::select(DB::raw("order_details.id as order_details_id"),DB::raw("job_masters.id as job_master_id"),DB::raw("concat(products.model_number,'-',products.product_name,'-',job_masters.job_number) as order_name"),'order_details.price','order_details.approx_gold','order_details.quantity','order_details.product_id','products.model_number','products.product_name','order_masters.person_id','order_masters.order_number','users.person_name','job_masters.status_id','job_masters.bill_created')
@@ -47,14 +43,12 @@ class StockController extends Controller
             }else{
                 $customVoucher= new CustomVoucher();
                 $customVoucher->voucher_name=$items['job_master_id'];
-    //            $customVoucher->accounting_year=$inputOrderMaster->accounting_year;
                 $customVoucher->accounting_year=2020;
                 $customVoucher->last_counter=1;
                 $customVoucher->delimiter='-';
                 $customVoucher->prefix='STOCK';
                 $customVoucher->save();
             }
-
                     $newStock = new Stock();
                     $newStock->job_master_id = $items['job_master_id'];
                     $newStock->tag =$items['job_number']
@@ -64,7 +58,6 @@ class StockController extends Controller
                     $newStock->amount = $items['set_amount'];
                     $newStock->quantity = $items['set_quantity'];
                     $newStock->size = $items['size'];
-//                    $newStock->size = "7-8-9";
                     $newStock->material_id = $items['material_id'];
                     $newStock->gross_weight = $items['set_gross_weight'];
                     $newStock->save();
@@ -74,10 +67,8 @@ class StockController extends Controller
                         $jobMaster->status_id = 102;
                         $jobMaster->save();
                     }
-//            return response()->json(['success' => 1, 'data' => $newStock], 200, [], JSON_NUMERIC_CHECK);
                 array_push($newData,$newStock );
         }
-//        $data = $customVoucher->voucher_name.$customVoucher->delimiter.$customVoucher->last_counter;
         return response()->json(['success' => 1, 'data' => $newData], 200, [], JSON_NUMERIC_CHECK);
     }
 
@@ -89,7 +80,6 @@ class StockController extends Controller
                          ->join('users','users.id','=','order_masters.person_id')
                          ->where('job_masters.status_id',100)
                          ->where('job_masters.bill_created',0)
-//                         ->distinct()
                          ->first();
 
         return response()->json(['success'=>1,'data'=>$stockCustomer],200,[],JSON_NUMERIC_CHECK);
@@ -110,7 +100,7 @@ class StockController extends Controller
         return response()->json(['success'=>1,'data'=>$record],200,[],JSON_NUMERIC_CHECK);
     }
 
-       public function getStockList()
+    public function getStockList()
     {
         $data = Stock::select('stocks.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
                 ->join('job_masters','job_masters.id','=','stocks.job_master_id')
@@ -120,8 +110,7 @@ class StockController extends Controller
                 ->join('users','users.id','=','order_masters.person_id')
                 ->join('products','products.id','=','order_details.product_id')
                 ->get();
-            return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
-
+        return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class LcReceivedController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function SaveReceivedGold()
     {
         $result = LCReceived::select('lc_receiveds.id','lc_receiveds.customer_id','lc_receiveds.agent_id','lc_receiveds.lc_received','lc_receiveds.received_date',DB::raw('customers.person_name as customer_name ,agents.person_name as agent_name'))
@@ -26,11 +21,6 @@ class LcReceivedController extends Controller
         return response()->json(['success'=>1,'data'=>$result],200,[],JSON_NUMERIC_CHECK);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function SaveLCReceived(Request $request)
     {
         $input = $request->json()->all();

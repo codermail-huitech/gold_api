@@ -44,18 +44,7 @@ class JobMasterController extends Controller
             $customVoucher->prefix='JOB';
             $customVoucher->save();
         }
-//        $data=JobMaster::select()->where('order_details_id',$inputJobMaster->order_details_id)->first();
-//
-//        if($data){
-//            $jobDetails=new JobDetail();
-//            $jobDetails->job_master_id=$data->id;
-//            $jobDetails->employee_id=$inputJobDetails->employee_id;
-//            $jobDetails->material_id=$inputJobDetails->material_id;
-//            $jobDetails->job_task_id=1;
-//            $jobDetails->material_quantity=$inputJobDetails->material_quantity;
-//            $jobDetails->save();
-//            return response()->json(['success'=>1,'data'=> $jobDetails], 200);
-//        }else{
+
             $jobMaster= new JobMaster();
             $voucherNumber=$customVoucher->prefix
                 .$customVoucher->delimiter
@@ -83,7 +72,6 @@ class JobMasterController extends Controller
                 $orderDetails=OrderDetail::find($inputJobMaster->order_details_id);
                 $orderDetails->status_id=1;
                 $orderDetails->update();
-
 
                 $jobData = JobMaster::select('users.person_name','job_masters.id','job_masters.status_id','job_masters.job_number','job_masters.order_details_id','job_masters.karigarh_id','job_masters.date','order_details.quantity','order_details.size','order_details.material_id','order_details.product_id','order_details.p_loss','products.model_number','order_masters.order_number','order_masters.date_of_delivery','materials.material_name')
                     ->join('order_details','job_masters.order_details_id','order_details.id')
@@ -122,12 +110,6 @@ class JobMasterController extends Controller
         return response()->json(['success'=>1,'data'=> $jobMaster], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function  getTotalGoldSendById($id)
     {
         $totalGoldSend = JobDetail::select(DB::raw("sum(job_details.material_quantity) as total_gold_submit"))
@@ -145,9 +127,7 @@ class JobMasterController extends Controller
             ->where('job_details.job_master_id',$id)
             ->where('job_details.job_task_id',2)
             ->first();
-
         return response()->json(['success'=>1,'data'=> $totalGoldReturn], 200,[],JSON_NUMERIC_CHECK);
-
     }
 
     public function  getTotalPanSendById($id)
@@ -166,9 +146,7 @@ class JobMasterController extends Controller
             ->where('job_details.job_master_id',$id)
             ->where('job_details.job_task_id',6)
             ->first();
-
         return response()->json(['success'=>1,'data'=> $totalPanReturn], 200,[],JSON_NUMERIC_CHECK);
-
     }
 
     public function  getTotalNitricReturnById($id)

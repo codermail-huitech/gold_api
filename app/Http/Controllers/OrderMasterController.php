@@ -20,6 +20,7 @@ class OrderMasterController extends Controller
             ->get();
         return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);
     }
+
     public function testSaveOrder(){
         $orderDetails=new OrderDetail();
         $orderDetails->order_master_id=16;
@@ -34,6 +35,7 @@ class OrderMasterController extends Controller
         $orderDetails->save();
         return response()->json(['success'=>1,'data'=>$orderDetails], 200,[],JSON_NUMERIC_CHECK);
     }
+
     public function saveOrder(Request $request){
 
         $input=($request->json()->all());
@@ -50,7 +52,6 @@ class OrderMasterController extends Controller
             $accounting_year =($x-1)*100+$x;
         }
 
-
         $customVoucher=CustomVoucher::where('voucher_name','order')->Where('accounting_year',$accounting_year)->first();
 
         if($customVoucher) {
@@ -66,9 +67,6 @@ class OrderMasterController extends Controller
             $customVoucher->save();
         }
 
-
-
-//        $result['customVoucher'] = $customVoucher;
         try
         {
             //Creating Voucher Number
@@ -93,7 +91,6 @@ class OrderMasterController extends Controller
             $data=User::select('person_name')->where('id',$inputOrderMaster->agent_id)->first();
             $orderMaster->agent_name = $data->person_name;
 
-//            $result['orderMaster'] =$orderMaster;
 //            Saving Order Details
             foreach ($inputOrderDetails as $row){
                 $result['orderMaster_id']=$orderMaster->id;
@@ -127,9 +124,7 @@ class OrderMasterController extends Controller
         $input=($request->json()->all());
         $inputOrderMaster=(object)($input['master']);
         $inputOrderDetails=(object)($input['details']);
-//        $inputOrderDetails = $inputOrderDetails->first->approx_gold();
 
-//        return response()->json(['success'=>1,'data2'=>$inputOrderDetails], 200);
         $orderMaster= new OrderMaster();
         $orderMaster=OrderMaster::find($inputOrderMaster->id);
         $orderMaster->agent_id=$inputOrderMaster->agent_id;

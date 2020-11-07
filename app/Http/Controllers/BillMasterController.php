@@ -20,11 +20,7 @@ class BillMasterController extends Controller
         $newData = ($request->json()->all());
         $master=(object)($newData['master']);
         $details=$newData['details'];
-
-//        return $details;
-
         DB::beginTransaction();
-
         $temp_date = explode("-",$master->billDate);
         $accounting_year="";
         if($temp_date[1]>3){
@@ -34,9 +30,7 @@ class BillMasterController extends Controller
             $x = $temp_date[0]%100;
             $accounting_year =($x-1)*100+$x;
         }
-
         $customVoucher=CustomVoucher::where('voucher_name',"bill")->Where('accounting_year',$accounting_year)->first();
-
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
             $customVoucher->save();
@@ -51,23 +45,19 @@ class BillMasterController extends Controller
             $customVoucher->save();
         }
         try {
-
             $result = new BillMaster();
             $result->bill_number = $customVoucher->prefix
                 . $customVoucher->delimiter
                 . str_pad($customVoucher->last_counter, 5, '0', STR_PAD_LEFT)
                 . $customVoucher->delimiter
                 . $customVoucher->accounting_year;
-
             $result->bill_date = $master->billDate;
             $result->karigarh_id = $master->karigarhId;
             $result->customer_id = $master->customerId;
             $result->order_master_id = $master->order_master_id;
             $result->agent_id = $master->agent_id;
             $result->discount = $master->discount;
-
             $result->save();
-
 
             if ($result) {
                 foreach ($details as $newDetails) {
@@ -80,7 +70,7 @@ class BillMasterController extends Controller
                         $newResult->tag = $newDetails['tag'];
                     }
                     else{
-                        $newResult->job_master_id = $newDetails['job_master_id'];
+                        $newResult->job_master_id = $newDetails['id'];
                     }
 
                     $newResult->model_number = $newDetails['model_number'];
@@ -141,7 +131,7 @@ class BillMasterController extends Controller
             }
             else
             {
-                $newResult->job_master_id = (string)$newDetails['job_master_id'];
+                $newResult->job_master_id = (string)$newDetails['id'];
             }
 
 

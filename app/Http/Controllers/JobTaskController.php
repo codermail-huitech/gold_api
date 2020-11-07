@@ -65,7 +65,6 @@ class JobTaskController extends Controller
         $data=(object)($input['data']);
 
         $jobDetails=new JobDetail();
-//        $jobDetails->job_master_id=JobMaster::find($data->id)->id;
         $jobDetails->job_master_id= $data->id;
         $jobDetails->employee_id= $data->employee_id;
         $jobDetails->material_id=$data->material_id;
@@ -94,10 +93,8 @@ class JobTaskController extends Controller
 
     public function getTotal(Request $request){
 
-
         $input=$request->json()->all();
         $data=(object)($input['data']);
-//        return response()->json(['success'=>1,'data'=> $data], 200,[],JSON_NUMERIC_CHECK);
 
         $total = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))  as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
                 ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
@@ -109,25 +106,6 @@ class JobTaskController extends Controller
         return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
     }
 
-//     public function getAllTransactions(Request $request,$id){
-
-//            return $id;
-
-
-// //         $input=$request->json()->all();
-// //         $data=(object)($input['data']);
-// //         return response()->json(['success'=>1,'data'=> $data], 200,[],JSON_NUMERIC_CHECK);
-// // //
-// //        $total = JobDetail::select(DB::raw("abs(sum(job_details.material_quantity))  as total"),'job_tasks.task_name', 'job_tasks.id', 'job_details.job_master_id')
-// //            ->join('job_tasks','job_details.job_task_id','=','job_tasks.id')
-// //            ->where('job_details.job_master_id','=',$data->id)
-// //            ->groupBy('job_tasks.id')
-// //            ->groupBy('job_details.job_master_id')
-// //            ->get();
-// //
-// //        return response()->json(['success'=>1,'data'=> $total], 200,[],JSON_NUMERIC_CHECK);
-// //        return $request;
-//     }
 
     public function getAllTransactions($id){
 

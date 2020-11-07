@@ -95,11 +95,7 @@ class CreateAllProceduresAndFunctions extends Migration
                 END IF;
                 RETURN temp_gold_quantity;
                 END;'
-        );
-
-
-
-
+            );
     }
 
     /**
