@@ -94,7 +94,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::delete('/customers/{id}', 'CustomerController@deleteCustomer');
     Route::get('/completedBillCustomers', 'CustomerController@completedBillCustomers');
     Route::post('/getCompletedBIllDetails', 'CustomerController@getCompletedBIllDetails');
-    Route::post('/getFinishedBillData', 'CustomerController@getFinishedBillData');
+    Route::post('/getFinishedBillData', 'BillMasterController@getFinishedBillData');
     Route::get('/showCompletedBills/{id}', 'CustomerController@showCompletedBills');
     Route::get('/finishedJobsCustomers', 'CustomerController@finishedJobsCustomers');
     Route::post('/fetchingDetails', 'CustomerController@getDetails');
@@ -202,7 +202,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::delete('/customers/{id}', 'CustomerController@deleteCustomer');
     Route::get('/completedBillCustomers', 'CustomerController@completedBillCustomers');
     Route::post('/getCompletedBIllDetails', 'CustomerController@getCompletedBIllDetails');
-    Route::post('/getFinishedBillData', 'CustomerController@getFinishedBillData');
+    Route::post('/getFinishedBillData', 'BillMasterController@getFinishedBillData');
     Route::get('/showCompletedBills/{id}', 'CustomerController@showCompletedBills');
     Route::get('/finishedJobsCustomers', 'CustomerController@finishedJobsCustomers');
     Route::post('/fetchingDetails', 'CustomerController@getDetails');
