@@ -60,7 +60,7 @@ class StockController extends Controller
                     $newStock->size = $items['size'];
                     $newStock->material_id = $items['material_id'];
                     $newStock->gross_weight = $items['set_gross_weight'];
-                    $newStock->agent_id = $items['agent_id'];
+                    $newStock->agent_id = 2;
                     $newStock->save();
 
                     if($newStock){

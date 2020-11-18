@@ -33,8 +33,8 @@ class AgentController extends Controller
         $agent->area = $request->input('area');
         $agent->city = $request->input('city');
         $agent->pin = $request->input('pin');
-        $agent->opening_balance_LC = $request->input('opening_balance_LC');
-        $agent->opening_balance_Gold = $request->input('opening_balance_Gold');
+        $agent->opening_balance_LC = 0;
+        $agent->opening_balance_Gold = 0;
         $agent->save();
         return response()->json(['success' => 1, 'data' => $agent], 200,[],JSON_NUMERIC_CHECK);
     }

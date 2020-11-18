@@ -20,11 +20,11 @@ class CreateBillMastersTable extends Migration
 
             $table->date('bill_date')->nullable(false);
 
-            $table->bigInteger('order_master_id')->unsigned();
-            $table ->foreign('order_master_id')->references('id')->on('order_masters');
+            $table->bigInteger('order_master_id')->unsigned()->nullable(true);
+//            $table ->foreign('order_master_id')->references('id')->on('order_masters');
 
-            $table->bigInteger('karigarh_id')->unsigned();
-            $table ->foreign('karigarh_id')->references('id')->on('users');
+//            $table->bigInteger('karigarh_id')->unsigned();
+//            $table ->foreign('karigarh_id')->references('id')->on('users');
 
             $table->bigInteger('customer_id')->unsigned();
             $table ->foreign('customer_id')->references('id')->on('users');

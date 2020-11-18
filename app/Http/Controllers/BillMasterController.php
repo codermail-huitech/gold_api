@@ -52,7 +52,7 @@ class BillMasterController extends Controller
                 . $customVoucher->delimiter
                 . $customVoucher->accounting_year;
             $result->bill_date = $master->billDate;
-            $result->karigarh_id = $master->karigarhId;
+//            $result->karigarh_id = $master->karigarhId;
             $result->customer_id = $master->customerId;
             $result->order_master_id = $master->order_master_id;
             $result->agent_id = $master->agent_id;
