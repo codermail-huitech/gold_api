@@ -103,7 +103,7 @@ class StockController extends Controller
 
     public function getStockList()
     {
-        $data = Stock::select('stocks.id','stocks.gold', 'stocks.amount', 'stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
+        $data = Stock::select('stocks.id','stocks.gold', 'stocks.agent_id' , 'stocks.amount', 'stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
                 ->join('job_masters','job_masters.id','=','stocks.job_master_id')
 //                ->join('job_details','job_details.job_master_id','=','job_masters.id')
                 ->join('order_details','order_details.id','=','job_masters.order_details_id')
@@ -114,16 +114,20 @@ class StockController extends Controller
         return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Stock  $stock
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Stock $stock)
+    public function updateStockByAgentId(Request $request)
     {
-        //
+        $input=($request->json()->all());
+        $stockList=($input['stockList']);
+        $agentId=($input['agentId']);
+
+        $newStock = new Stock();
+        foreach ($stockList as $stockData){
+            $newStock = Stock::find($stockData['id']);
+            $newStock->agent_id = $agentId;
+            $newStock->update();
+        }
+
+        return response()->json(['success'=>1,'data'=>$newStock], 200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

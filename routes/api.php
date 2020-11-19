@@ -230,6 +230,8 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('/getStockCustomer','StockController@getStockCustomer');
     Route::get('/getRecordByJobMasterId/{id}','StockController@getRecordByJobMasterId');
     Route::get('/getStockList','StockController@getStockList');
+    Route::post('/updateStockByAgentId','StockController@updateStockByAgentId');
+
 
 
     // Route::get('/agents', 'AgentController@index');
