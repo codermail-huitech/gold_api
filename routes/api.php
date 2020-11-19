@@ -231,6 +231,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('/getRecordByJobMasterId/{id}','StockController@getRecordByJobMasterId');
     Route::get('/getStockList','StockController@getStockList');
     Route::post('/updateStockByAgentId','StockController@updateStockByAgentId');
+    Route::post('/updateStockByDefaultAgentId','StockController@updateStockByDefaultAgentId');
 
 
 
