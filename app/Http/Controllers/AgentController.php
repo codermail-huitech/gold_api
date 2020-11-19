@@ -23,7 +23,7 @@ class AgentController extends Controller
         $agent->email = $request->input('email');
         $agent->password = "81dc9bdb52d04dc20036dbd8313ed055";
         $agent->person_type_id = 7;
-        $agent->customer_category_id = $request->input('customer_category_id');
+        $agent->customer_category_id = 5;
         $agent->mobile1 = $request->input('mobile1');
         $agent->mobile2 = $request->input('mobile2');
         $agent->address1 = $request->input('address1');
