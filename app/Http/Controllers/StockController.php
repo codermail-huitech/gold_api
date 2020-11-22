@@ -127,30 +127,13 @@ class StockController extends Controller
             $newStock->update();
         }
 
-//        $newStock = new Stock();
-//        if((($input['stockList'])[0] -> agent_id) == 2) {
-//            foreach ($stockList as $stockData) {
-//                $newStock = Stock::find($stockData['id']);
-//                $newStock->agent_id = $agentId;
-//                $newStock->update();
-//            }
-//        }else{
-//            $stockList=($input['stockList'])[0];
-//            $newStock = Stock::find($stockList->id);
-//            $newStock->agent_id = 2;
-//            $newStock->update();
-////            return response()->json(['success'=>1,'data'=>$stockList['id']], 200,[],JSON_NUMERIC_CHECK);
-//        }
-
         return response()->json(['success'=>1,'data'=>$newStock], 200,[],JSON_NUMERIC_CHECK);
     }
 
     public function updateStockByDefaultAgentId(Request $request)
     {
         $input=($request->json()->all());
-//        $stockList=($input['stockList']);
         $stockList=($input['stockList']);
-//        $agentId=($input['agentId']);
 
         $newStock = new Stock();
         foreach ($stockList as $singleList){
