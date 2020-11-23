@@ -110,6 +110,7 @@ class StockController extends Controller
                 ->join('order_masters','order_masters.id','=','order_details.order_master_id')
                 ->join('users','users.id','=','order_masters.person_id')
                 ->join('products','products.id','=','order_details.product_id')
+                ->where('stocks.in_stock',1)
                 ->get();
         return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }

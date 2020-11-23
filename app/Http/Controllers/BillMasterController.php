@@ -17,12 +17,17 @@ class BillMasterController extends Controller
 
     public function saveBillMaster(Request $request)
     {
+
         $newData = ($request->json()->all());
-        $master=(object)($newData['master']);
+//        $master=(object)($newData['master']);
+        $master=$newData['master'];
         $details=$newData['details'];
+
+
+
         DB::beginTransaction();
-        $temp_date = explode("-",$master->billDate);
-        $accounting_year="";
+        $temp_date = explode("-",$master['billDate']);
+        $accounting_year='';
         if($temp_date[1]>3){
             $x = $temp_date[0]%100;
             $accounting_year = $x*100 + ($x+1);
@@ -44,6 +49,8 @@ class BillMasterController extends Controller
             $customVoucher->prefix='BILL';
             $customVoucher->save();
         }
+
+
         try {
             $result = new BillMaster();
             $result->bill_number = $customVoucher->prefix
@@ -51,12 +58,16 @@ class BillMasterController extends Controller
                 . str_pad($customVoucher->last_counter, 5, '0', STR_PAD_LEFT)
                 . $customVoucher->delimiter
                 . $customVoucher->accounting_year;
-            $result->bill_date = $master->billDate;
-//            $result->karigarh_id = $master->karigarhId;
-            $result->customer_id = $master->customerId;
-            $result->order_master_id = $master->order_master_id;
-            $result->agent_id = $master->agent_id;
-            $result->discount = $master->discount;
+            $result->bill_date = $master['billDate'];
+            $result->customer_id = $master['customerId'];
+            if(array_key_exists('order_master_id',$master)){
+                $result->order_master_id = $master['order_master_id'];
+            }
+//            else{
+//                $result->order_master_id = 0;
+//            }
+            $result->agent_id = $master['agent_id'];
+            $result->discount = $master['discount'];
             $result->save();
 
             if ($result) {
@@ -82,13 +93,14 @@ class BillMasterController extends Controller
                     $newResult->quantity = $newDetails['quantity'];
                     $newResult->LC =$newDetails['cost'];
                     $newResult->save();
-                    if($newResult &&  array_key_exists("tag",$newDetails)){
+                    if($newResult && array_key_exists('tag',$newDetails)){
                        $stock = new Stock();
-                       $stock = Stock::find($newResult->id);
+                       $stock = Stock::find($newDetails['id']);
                        $stock->in_stock = 0;
                        $stock->update();
+//                        return response()->json(['stock'=>$stock],200,[],JSON_NUMERIC_CHECK);
                     }
-                    else if($newResult &&  !(array_key_exists("tag",$newDetails))) {
+                    else {
                         $jobMaster = new JobMaster();
                         $jobMaster = JobMaster::find($newResult->job_master_id);
                         $jobMaster->bill_created = 1;
@@ -111,7 +123,7 @@ class BillMasterController extends Controller
             return response()->json(['Success'=>1,'Exception'=>$e], 401);
         }
 
-        return response()->json(['success'=>1, 'data'=>$result],200,[],JSON_NUMERIC_CHECK);
+        return response()->json(['success'=>1, 'data'=> $result],200,[],JSON_NUMERIC_CHECK);
     }
 
 
