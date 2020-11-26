@@ -9,6 +9,7 @@ use App\Model\OrderDetail;
 use App\Model\Stock;
 use Illuminate\Http\Request;
 Use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Type\Hexadecimal;
 
 
 class StockController extends Controller
@@ -103,16 +104,44 @@ class StockController extends Controller
 
     public function getStockList()
     {
-        $data = Stock::select('stocks.id','stocks.gold', 'stocks.agent_id' , 'stocks.amount', 'stocks.in_stock','stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
-                ->join('job_masters','job_masters.id','=','stocks.job_master_id')
-//                ->join('job_details','job_details.job_master_id','=','job_masters.id')
-                ->join('order_details','order_details.id','=','job_masters.order_details_id')
-                ->join('order_masters','order_masters.id','=','order_details.order_master_id')
-                ->join('users','users.id','=','order_masters.person_id')
-                ->join('products','products.id','=','order_details.product_id')
-                ->where('stocks.in_stock',1)
-                ->get();
-        return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
+//        $data = Stock::select('stocks.id','stocks.gold', 'stocks.agent_id' , 'stocks.amount', 'stocks.in_stock','stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
+//                ->join('job_masters','job_masters.id','=','stocks.job_master_id')
+////                ->join('job_details','job_details.job_master_id','=','job_masters.id')
+//                ->join('order_details','order_details.id','=','job_masters.order_details_id')
+//                ->join('order_masters','order_masters.id','=','order_details.order_master_id')
+//                ->join('users','users.id','=','order_masters.person_id')
+//                ->join('products','products.id','=','order_details.product_id')
+//                ->where('stocks.in_stock',1)
+//                ->get();
+
+////        $data = Stock::select('stocks.id','stocks.gold', 'stocks.agent_id' , 'stocks.amount', 'stocks.in_stock','stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number', 'stocks.tag','stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
+//        $data = Stock::select('stocks.id','stocks.gold', 'stocks.agent_id' , 'stocks.amount', 'stocks.in_stock','stocks.quantity', 'stocks.gross_weight','stocks.material_id','products.model_number',
+//
+//
+//            DB::raw("select concat(SUBSTRING(tag, 5,5),'-' ,
+//                           SUBSTRING_INDEX(SUBSTRING_INDEX(tag,'-',-2), '-',1),'-',
+//                           SUBSTRING_INDEX(tag,'-',-1)) as tag")
+//
+//
+//            ,'stocks.job_master_id','order_details.size', DB::raw("users.id as person_id"))
+//            ->join('job_masters','job_masters.id','=','stocks.job_master_id')
+////                ->join('job_details','job_details.job_master_id','=','job_masters.id')
+//            ->join('order_details','order_details.id','=','job_masters.order_details_id')
+//            ->join('order_masters','order_masters.id','=','order_details.order_master_id')
+//            ->join('users','users.id','=','order_masters.person_id')
+//            ->join('products','products.id','=','order_details.product_id')
+//            ->where('stocks.in_stock',1)
+//            ->get();
+//        foreach ($data as $newData){
+//            $pieces = explode("-", $newData['tag']);
+//            $newData['tag'] = dechex($pieces[1]).'-'.dechex($pieces[2]).'-'.$pieces[3];
+//        }
+
+//        return $result;
+        $queryResult = DB::select('call getStockWithTag()');
+        $result = collect($queryResult);
+
+        return response()->json(['success'=>1,'data'=> $result],200,[],JSON_NUMERIC_CHECK);
     }
 
     public function updateStockByAgentId(Request $request)
