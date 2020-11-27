@@ -96,17 +96,37 @@ class CreateAllProceduresAndFunctions extends Migration
                 RETURN temp_gold_quantity;
                 END;'
             );
+//
+//            DB::unprepared('DROP PROCEDURE IF EXISTS test_db.getStockWithTag;
+//                    CREATE PROCEDURE test_db.`getStockWithTag`()
+//                    BEGIN
+//
+//
+//
+//                    select stocks.id,stocks.gold, stocks.agent_id , stocks.amount, stocks.in_stock,stocks.quantity, stocks.gross_weight,stocks.material_id,products.model_number,stocks.job_master_id,order_details.size,users.id as person_id,
+//                    concat( conv(SUBSTRING(tag, 5,5),10,16),'-' ,
+//                    conv(SUBSTRING_INDEX(SUBSTRING_INDEX(tag,'-',-2), '-',1),10,16),'-',
+//                    SUBSTRING_INDEX(tag,'-',-1)) as tag
+//                    from stocks
+//                    inner join job_masters ON job_masters.id = stocks.job_master_id
+//                    inner join order_details ON order_details.id = job_masters.order_details_id
+//                    inner join order_masters ON order_masters.id = order_details.order_master_id
+//                    inner join users ON users.id = order_masters.person_id
+//                    inner join products ON products.id = order_details.product_id;
+//
+//                    END;'
+//            );
 
-            DB::unprepared('DROP PROCEDURE IF EXISTS test_db.getStockWithTag;
+        DB::unprepared( 'DROP PROCEDURE IF EXISTS test_db.getStockWithTag;
                     CREATE PROCEDURE test_db.`getStockWithTag`()
                     BEGIN
 
 
 
                     select stocks.id,stocks.gold, stocks.agent_id , stocks.amount, stocks.in_stock,stocks.quantity, stocks.gross_weight,stocks.material_id,products.model_number,stocks.job_master_id,order_details.size,users.id as person_id,
-                    concat( conv(SUBSTRING(tag, 5,5),10,16),'-' ,
-                    conv(SUBSTRING_INDEX(SUBSTRING_INDEX(tag,'-',-2), '-',1),10,16),'-',
-                    SUBSTRING_INDEX(tag,'-',-1)) as tag
+                    concat( conv(SUBSTRING(tag, 5,5),10,16),\'-\' ,
+                    conv(SUBSTRING_INDEX(SUBSTRING_INDEX(tag,\'-\',-2), \'-\',1),10,16),\'-\',
+                    SUBSTRING_INDEX(tag,\'-\',-1)) as tag
                     from stocks
                     inner join job_masters ON job_masters.id = stocks.job_master_id
                     inner join order_details ON order_details.id = job_masters.order_details_id
@@ -115,7 +135,8 @@ class CreateAllProceduresAndFunctions extends Migration
                     inner join products ON products.id = order_details.product_id;
 
                     END;'
-            );
+
+        );
     }
 
     /**
