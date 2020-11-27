@@ -132,7 +132,8 @@ class CreateAllProceduresAndFunctions extends Migration
                     inner join order_details ON order_details.id = job_masters.order_details_id
                     inner join order_masters ON order_masters.id = order_details.order_master_id
                     inner join users ON users.id = order_masters.person_id
-                    inner join products ON products.id = order_details.product_id;
+                    inner join products ON products.id = order_details.product_id
+                    where stocks.in_stock=1;
 
                     END;'
 
