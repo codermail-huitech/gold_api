@@ -32,7 +32,8 @@ class CustomerController extends Controller
             'area',
             'pin',
             'opening_balance_LC',
-            'opening_balance_Gold')->where('person_type_id', '=', 10);
+            'opening_balance_Gold',
+            'mv')->where('person_type_id', '=', 10);
 
         //to bind the parameters, the above statement does not bind the parameters so we need to bind them
         // using following statement
@@ -61,6 +62,9 @@ class CustomerController extends Controller
         $customer->pin = $request->input('pin');
         $customer->opening_balance_LC = $request->input('opening_balance_LC');
         $customer->opening_balance_Gold = $request->input('opening_balance_Gold');
+//        if ($request->input('mv')) {
+        $customer->mv = $request->input('mv');
+//        }
         $customer->save();
         return response()->json(['success' => 1, 'data' => $customer], 200,[],JSON_NUMERIC_CHECK);
     }
@@ -120,6 +124,9 @@ class CustomerController extends Controller
 
         if ($request->input('pin')) {
             $customer->pin = $request->input('pin');
+        }
+        if ($request->input('mv')) {
+            $customer->mv = $request->input('mv');
         }
         $customer->save();
         return response()->json(['success' => 1, 'data' => $customer], 200, [], JSON_NUMERIC_CHECK);

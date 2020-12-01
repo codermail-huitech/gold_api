@@ -11,6 +11,7 @@ use App\Model\Rate;
 use App\Model\ProductCategory;
 use App\Model\Material;
 use App\Model\StatusType;
+use App\Model\BillAdjustment;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,6 +31,8 @@ class DatabaseSeeder extends Seeder
 //        StatusType::create(['id'=>101, 'name'=>'Bill Created']);
         StatusType::create(['id'=>102, 'name'=>'Stock Created']);
 
+        BillAdjustment::create(['name'=>'pan', 'value'=>40]);
+        BillAdjustment::create(['name'=>'nitric', 'value'=>96]);
 
         //customer_categories table data
         CustomerCategory::create(['customer_category_name'=>'Base']);

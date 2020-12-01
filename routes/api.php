@@ -133,6 +133,9 @@ Route::group(array('prefix' => 'dev'), function() {
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('logout', 'AuthController@logout');
 
+    //bill_adjustment
+    Route::get('/getBillAdjustment', 'BillAdjustmentController@getBillAdjustment');
+
     //agent
     Route::get('/agents', 'AgentController@index');
     Route::post('/agents', 'AgentController@saveAgent');
