@@ -133,6 +133,12 @@ Route::group(array('prefix' => 'dev'), function() {
 Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('logout', 'AuthController@logout');
 
+    //cash_payment
+    Route::post('/saveCashPayment', 'PaymentCashController@saveCashPayment');
+
+    //gold_payment
+    Route::post('/saveGoldPayment', 'PaymentGoldController@saveGoldPayment');
+
     //bill_adjustment
     Route::get('/getBillAdjustment', 'BillAdjustmentController@getBillAdjustment');
 
