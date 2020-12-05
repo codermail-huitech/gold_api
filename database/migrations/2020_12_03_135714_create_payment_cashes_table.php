@@ -24,6 +24,9 @@ class CreatePaymentCashesTable extends Migration
             $table->bigInteger('agent_id')->unsigned();
             $table ->foreign('agent_id')->references('id')->on('users');
 
+            //1 for cash 2 for cheque
+            $table->integer('payment_mode')->nullable(false);
+
             $table->integer('cash_received')->nullable(false);
 
             $table->timestamps();
