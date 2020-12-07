@@ -181,6 +181,18 @@ class CreateAllProceduresAndFunctions extends Migration
                     END;'
 
         );
+
+        DB::unprepared( 'DROP PROCEDURE IF EXISTS test_db.getBillByMasterId;
+                    CREATE PROCEDURE test_db.`getBillByMasterId`(IN `temp_bill_master_id` INT)
+                    BEGIN
+
+                        select (table1.temp_LC - ((table1.discount / 100) * table1.temp_LC)) as total_LC, temp_gold from(select sum(bill_details.LC) as temp_LC , sum(bill_details.pure_gold) as temp_gold, bill_masters.discount from bill_masters
+                        inner join bill_details on bill_details.bill_master_id = bill_masters.id
+                        where bill_masters.id = temp_bill_master_id) as table1;
+
+                    END;'
+
+        );
     }
 
     /**

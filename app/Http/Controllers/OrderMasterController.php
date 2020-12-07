@@ -104,6 +104,7 @@ class OrderMasterController extends Controller
                 $orderDetails->material_id=$row['material_id'];
                 $orderDetails->size=$row['size'];
                 $orderDetails->product_id=$row['product_id'];
+                $orderDetails->discount=$row['discount'];
                 $orderDetails->status_id=40;
                 $orderDetails->save();
             }

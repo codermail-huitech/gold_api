@@ -32,6 +32,7 @@ class PaymentGoldController extends Controller
         $result->transaction_id = $customVoucher->prefix.$customVoucher->last_counter;
         $result->agent_id = $input->agent_id;
         $result->gold_received = $input->gold_received;
+        $result->received_date = $input->received_date;
         $result->save();
         return response()->json(['success'=>1,'data'=>$input],200,[],JSON_NUMERIC_CHECK);
     }

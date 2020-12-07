@@ -22,6 +22,7 @@ class CreateOrderDetailsTable extends Migration
             $table->double('p_loss');
             $table->double('approx_gold');
             $table->integer('quantity');
+            $table->double('discount')->nullable(false);
 
             $table->bigInteger('material_id')->unsigned();
             $table ->foreign('material_id')->references('id')->on('materials');

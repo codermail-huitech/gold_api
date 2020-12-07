@@ -28,6 +28,7 @@ class CreatePaymentCashesTable extends Migration
             $table->integer('payment_mode')->nullable(false);
 
             $table->integer('cash_received')->nullable(false);
+            $table->date('received_date')->nullable(false);
 
             $table->timestamps();
         });

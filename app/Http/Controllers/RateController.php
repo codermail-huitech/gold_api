@@ -11,7 +11,7 @@ class RateController extends Controller
 {
     public function getRates()
     {
-        $data = Rate::select('rates.id','price_codes.price_code_name','customer_categories.customer_category_name','rates.price_code_id','rates.price','rates.p_loss','rates.customer_category_id')
+        $data = Rate::select('rates.id','price_codes.price_code_name','customer_categories.customer_category_name','rates.price_code_id','rates.price','rates.discount','rates.p_loss','rates.customer_category_id')
             ->join('price_codes', 'price_codes.id', '=', 'rates.price_code_id')
             ->join('customer_categories', 'customer_categories.id', '=', 'rates.customer_category_id')
             ->get();

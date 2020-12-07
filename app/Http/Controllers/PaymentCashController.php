@@ -33,6 +33,7 @@ class PaymentCashController extends Controller
         $result->agent_id = $input->agent_id;
         $result->payment_mode = $input->payment_mode;
         $result->cash_received = $input->cash_received;
+        $result->received_date = $input->received_date;
         $result->save();
         return response()->json(['success'=>1,'data'=>$input],200,[],JSON_NUMERIC_CHECK);
     }

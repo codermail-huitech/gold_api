@@ -164,7 +164,7 @@ class BillMasterController extends Controller
     public function getFinishedBillData(Request $request)
     {
         $input = ($request->json()->all());
-        $data = JobMaster::select('bill_masters.bill_number','bill_masters.id')
+        $data = JobMaster::select('bill_masters.bill_number','bill_masters.id','bill_masters.discount')
             ->join('users as karigarh', 'job_masters.karigarh_id', '=', 'karigarh.id')
             ->join('order_details', 'job_masters.order_details_id', '=', 'order_details.id')
             ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')

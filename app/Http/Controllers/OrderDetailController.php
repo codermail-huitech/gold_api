@@ -13,6 +13,7 @@ class OrderDetailController extends Controller
         $data=OrderDetail::select('order_details.status_id','order_details.material_id','order_details.id','order_details.order_master_id','order_details.price','order_details.size','order_details.approx_gold','order_details.p_loss','order_details.quantity','products.model_number',DB::raw("price_codes.price_code_name as price_code"),DB::raw("products.id as product_id"),DB::raw("order_details.quantity * order_details.price as  amount"))
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->join('price_codes', 'price_codes.id', '=', 'products.price_code_id')
+//            ->join('rates', 'rates.price_code_id', '=', 'price_codes.id')
             ->where('order_master_id',$request->input('orderMasterId'))
             ->get();
         return response()->json(['success'=>1,'data'=>$data], 200,[],JSON_NUMERIC_CHECK);

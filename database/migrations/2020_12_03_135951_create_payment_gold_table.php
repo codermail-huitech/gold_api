@@ -26,6 +26,8 @@ class CreatePaymentGoldTable extends Migration
 
             $table->integer('gold_received')->nullable(false);
 
+            $table->date('received_date')->nullable(false);
+
             $table->timestamps();
         });
     }
