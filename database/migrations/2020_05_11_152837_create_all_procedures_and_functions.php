@@ -267,6 +267,113 @@ class CreateAllProceduresAndFunctions extends Migration
                 RETURN temp_total_LC;
             END;'
         );
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_billed_gold_by_bill_master_id;
+        CREATE FUNCTION test_db.`get_billed_gold_by_bill_master_id`(`param_bill_master_id` INT) RETURNS double
+        DETERMINISTIC
+        BEGIN
+
+                  DECLARE temp_billed_gold double;
+
+                  select sum(bill_details.pure_gold) into temp_billed_gold from bill_details where bill_details.bill_master_id = param_bill_master_id;
+
+                  IF temp_billed_gold IS NULL THEN
+                      RETURN 0;
+                  END IF;
+                  RETURN temp_billed_gold;
+               END;'
+        );
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_billed_LC_by_bill_master_id;
+CREATE FUNCTION test_db.`get_billed_LC_by_bill_master_id`(`param_bill_master_id` INT) RETURNS double
+    DETERMINISTIC
+BEGIN
+                  DECLARE temp_total_LC double;
+                  DECLARE temp_discount double;
+                  DECLARE temp_billed_LC double;
+
+                  select sum(bill_details.quantity*bill_details.rate) into temp_total_LC from bill_details where bill_details.bill_master_id = param_bill_master_id;
+
+                  select bill_masters.discount into temp_discount FROM bill_masters where id = param_bill_master_id ;
+
+                  select temp_total_LC - temp_discount into temp_billed_LC;
+
+                  IF temp_billed_LC IS NULL THEN
+                      RETURN 0;
+                  END IF;
+                  RETURN temp_billed_LC;
+               END;'
+        );
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_opening_balance_gold_by_customer_id;
+CREATE FUNCTION test_db.`get_opening_balance_gold_by_customer_id`(`param_customer_id` INT) RETURNS double
+    DETERMINISTIC
+BEGIN
+
+                  DECLARE temp_opening_balance_gold double;
+
+                  select users.opening_balance_Gold into temp_opening_balance_gold  from users where id = param_customer_id;
+
+                  IF temp_opening_balance_gold IS NULL THEN
+                      RETURN 0;
+                  END IF;
+                  RETURN temp_opening_balance_gold;
+               END;
+');
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_opening_balance_LC_by_customer_id;
+CREATE FUNCTION test_db.`get_opening_balance_LC_by_customer_id`(`param_customer_id` INT) RETURNS double
+    DETERMINISTIC
+BEGIN
+
+                  DECLARE temp_opening_balance_LC double;
+
+                  select users.opening_balance_LC into temp_opening_balance_LC  from users where id = param_customer_id;
+
+                  IF temp_opening_balance_LC IS NULL THEN
+                      RETURN 0;
+                  END IF;
+                  RETURN temp_opening_balance_LC;
+               END;
+');
+
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_total_gold_payment_by_customer_id;
+CREATE FUNCTION test_db.`get_total_gold_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
+    DETERMINISTIC
+BEGIN
+
+                  DECLARE temp_total_gold_payment double;
+
+                  select sum(payment_gold.gold_received) into temp_total_gold_payment  from payment_gold where payment_gold.person_id = param_customer_id;
+
+                  IF temp_total_gold_payment IS NULL THEN
+                      RETURN 0;
+                  END IF;
+                  RETURN temp_total_gold_payment;
+               END;'
+        );
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_total_LC_payment_by_customer_id;
+CREATE FUNCTION test_db.`get_total_LC_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
+    DETERMINISTIC
+BEGIN
+
+                  DECLARE temp_total_LC_payment double;
+
+                  select sum(payment_cashes.cash_received) into temp_total_LC_payment  from payment_cashes where payment_cashes.person_id = param_customer_id;
+
+                  IF temp_total_LC_payment IS NULL THEN
+                      RETURN 0;
+                  END IF;
+                  RETURN temp_total_LC_payment;
+               END;'
+        );
+
+
+
+
+
     }
 
     /**

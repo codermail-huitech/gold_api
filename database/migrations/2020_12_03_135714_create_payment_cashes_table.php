@@ -27,7 +27,7 @@ class CreatePaymentCashesTable extends Migration
             //1 for cash 2 for cheque
             $table->integer('payment_mode')->nullable(false);
 
-            $table->integer('cash_received')->nullable(false);
+            $table->double('cash_received')->nullable(false);
             $table->date('received_date')->nullable(false);
 
             $table->timestamps();

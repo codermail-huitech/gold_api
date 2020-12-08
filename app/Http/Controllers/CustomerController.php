@@ -199,7 +199,7 @@ class CustomerController extends Controller
                 $join->on('rates.price_code_id', '=', 'products.price_code_id');
                 $join->on('rates.customer_category_id','=', 'users.customer_category_id');
             })
-            ->where('job_masters.bill_created','=',0)
+//            ->where('job_masters.bill_created','=',0)
             ->where('job_masters.bill_created','=',0)
             ->where('order_masters.id', '=', $input)
             ->get();

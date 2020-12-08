@@ -24,7 +24,7 @@ class CreatePaymentGoldTable extends Migration
             $table->bigInteger('agent_id')->unsigned();
             $table ->foreign('agent_id')->references('id')->on('users');
 
-            $table->integer('gold_received')->nullable(false);
+            $table->double('gold_received')->nullable(false);
 
             $table->date('received_date')->nullable(false);
 
