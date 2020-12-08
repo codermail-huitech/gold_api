@@ -89,6 +89,7 @@ class BillMasterController extends Controller
                     $newResult->gross_weight = $newDetails['gross_weight'];
                     $newResult->material_id = $newDetails['material_id'];
                     $newResult->ginnie = $newDetails['total'];
+                    $newResult->rate = $newDetails['price'];
                     $newResult->pure_gold = $newDetails['pure_gold'];
                     $newResult->quantity = $newDetails['quantity'];
                     $newResult->LC =$newDetails['cost'];
@@ -152,6 +153,7 @@ class BillMasterController extends Controller
             $newResult->gross_weight = $newDetails['gross_weight'];
             $newResult->material_id = $newDetails['material_id'];
             $newResult->ginnie = $newDetails['total'];
+            $newResult->rate = $newDetails['rate'];
             $newResult->pure_gold = $newDetails['pure_gold'];
 
             $newResult->quantity = $newDetails['quantity'];
