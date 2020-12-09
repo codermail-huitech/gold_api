@@ -35,7 +35,8 @@ class CreateBillDetailsTable extends Migration
             $table->double('rate')->nullable(false);
             $table->double('pure_gold')->nullable(false);
             $table->integer('quantity')->nullable(false);
-            $table->double('LC')->nullable(false);
+//            $table->double('LC')->nullable(false);
+            $table->double('mv')->nullable(false);
 
 
 

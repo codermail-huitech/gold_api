@@ -92,7 +92,8 @@ class BillMasterController extends Controller
                     $newResult->rate = $newDetails['price'];
                     $newResult->pure_gold = $newDetails['pure_gold'];
                     $newResult->quantity = $newDetails['quantity'];
-                    $newResult->LC =$newDetails['cost'];
+//                    $newResult->LC = $newDetails['cost'];
+                    $newResult->mv = $newDetails['mv'];
                     $newResult->save();
                     if($newResult && array_key_exists('tag',$newDetails)){
                        $stock = new Stock();

@@ -195,23 +195,18 @@ class CreateAllProceduresAndFunctions extends Migration
         );
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_LC_due_by_customer_id;
-              CREATE FUNCTION test_db.`get_LC_due_by_customer_id`(`param_customer_id` INT) RETURNS double
-              DETERMINISTIC
-              BEGIN
+            CREATE FUNCTION test_db.`get_LC_due_by_customer_id`(`param_customer_id` INT) RETURNS double
+                DETERMINISTIC
+            BEGIN
                   DECLARE temp_total_billed_LC double;
-                  DECLARE temp_bill_master_id int;
                   DECLARE temp_opening_balance_LC double;
-                  DECLARE temp_total_payment int;
+                  DECLARE temp_total_payment double;
                   DECLARE temp_total_LC_due double;
+                     select get_opening_balance_LC_by_customer_id(param_customer_id) into temp_opening_balance_LC;
 
-                     /*select bill_masters.id  into temp_bill_master_id  from bill_masters where bill_masters.customer_id = param_customer_id;*/
-                     select opening_balance_LC into temp_opening_balance_LC from users where users.id = param_customer_id ;
+                     select sum(get_billed_LC_by_bill_master_id(id)) into temp_total_billed_LC from bill_masters where bill_masters.customer_id = param_customer_id;
 
-                     select sum(bill_details.LC - ((bill_masters.discount/100)*bill_details.LC)) into temp_total_billed_LC  from bill_masters
-                     inner join bill_details on bill_details.bill_master_id = bill_masters.id
-                     where bill_masters.customer_id = param_customer_id;
-
-                     select ifNull(sum(payment_cashes.cash_received),0) into temp_total_payment from payment_cashes where payment_cashes.person_id = param_customer_id;
+                     select get_total_LC_payment_by_customer_id(param_customer_id) into temp_total_payment;
 
                      select  temp_opening_balance_LC + temp_total_billed_LC - temp_total_payment into temp_total_LC_due;
 
@@ -219,27 +214,23 @@ class CreateAllProceduresAndFunctions extends Migration
                       RETURN 0;
                   END IF;
                   RETURN temp_total_LC_due;
-               END;
-         ');
+               END;');
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_due_by_customer_id;
-           CREATE FUNCTION test_db.`get_gold_due_by_customer_id`(`param_customer_id` INT) RETURNS double
-           DETERMINISTIC
-           BEGIN
+                CREATE FUNCTION test_db.`get_gold_due_by_customer_id`(`param_customer_id` INT) RETURNS double
+                    DETERMINISTIC
+                BEGIN
                   DECLARE temp_total_billed_gold double;
-                  DECLARE temp_bill_master_id int;
                   DECLARE temp_opening_balance_Gold double;
-                  DECLARE temp_total_gold_received int;
+                  DECLARE temp_total_gold_received double;
                   DECLARE temp_total_gold_due double;
 
-                     /*select bill_masters.id  into temp_bill_master_id  from bill_masters where bill_masters.customer_id = param_customer_id;*/
-                     select opening_balance_Gold into temp_opening_balance_Gold from users where users.id = param_customer_id ;
 
-                     select sum(bill_details.pure_gold) into temp_total_billed_gold  from bill_masters
-                     inner join bill_details on bill_details.bill_master_id = bill_masters.id
-                     where bill_masters.customer_id = param_customer_id;
+                     select get_opening_balance_gold_by_customer_id(param_customer_id) into temp_opening_balance_Gold;
 
-                     select ifNull(sum(payment_gold.gold_received),0) into temp_total_gold_received from payment_gold where payment_gold.person_id = param_customer_id;
+                     select sum(get_billed_gold_by_bill_master_id(id)) into temp_total_billed_gold from bill_masters where customer_id = param_customer_id;
+
+                     select get_total_gold_payment_by_customer_id(param_customer_id) into temp_total_gold_received;
 
                      select  temp_opening_balance_Gold + temp_total_billed_gold - temp_total_gold_received into temp_total_gold_due;
 
