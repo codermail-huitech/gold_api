@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\CustomerToAgent;
 use App\Model\CustomVoucher;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
 use App\User;
+//use Dotenv\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\OrderDetailController;
 
 class OrderMasterController extends Controller
@@ -85,6 +88,7 @@ class OrderMasterController extends Controller
             $orderMaster->date_of_order=$inputOrderMaster->order_date;
             $orderMaster->date_of_delivery=$inputOrderMaster->delivery_date;
             $orderMaster->save();
+
             $data=User::select('person_name')->where('id',$inputOrderMaster->customer_id)->first();
             $orderMaster->customer_name = $data->person_name;
 
@@ -108,6 +112,17 @@ class OrderMasterController extends Controller
                 $orderDetails->status_id=40;
                 $orderDetails->save();
             }
+
+            if($orderMaster){
+                $data = CustomerToAgent::select()->where('customer_id',$orderMaster->person_id)->where('agent_id',$orderMaster->agent_id)->first();
+                if(!$data) {
+                    $CustomerToAgent = new CustomerToAgent();
+                    $CustomerToAgent->customer_id = $orderMaster->person_id;
+                    $CustomerToAgent->agent_id = $orderMaster->agent_id;
+                    $CustomerToAgent->save();
+                }
+            }
+
 //            DB::commit();
         }
 
