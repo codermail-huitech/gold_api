@@ -117,6 +117,11 @@ class AgentController extends Controller
                 ->GroupBy('customer_to_agents.agent_id')
                 ->get();
 
+//        $data = CustomerToAgent::select(DB::raw('sum(get_billed_LC_by_bill_master_id(customer_to_agents.id)) as LCdueByAgent'),DB::raw('sum(get_billed_gold_by_bill_master_id(customer_to_agents.id))'), 'agent_id', 'users.person_name')
+//            ->join('users','customer_to_agents.id','=','users.id')
+//            ->GroupBy('agent_id','person_name')
+//            ->get();
+
         return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
 
     }

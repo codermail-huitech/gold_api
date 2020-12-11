@@ -12,7 +12,16 @@ class PaymentCashController extends Controller
     {
         $input = (object)($request->json()->all());
 
-        $customVoucher=CustomVoucher::where('voucher_name','cashReceived')->Where('accounting_year',2021)->first();
+        $temp_date = explode("-",$input->received_date);
+        if($temp_date[1]>3){
+            $x = $temp_date[0]%100;
+            $accounting_year = $x*100 + ($x+1);
+        }else{
+            $x = $temp_date[0]%100;
+            $accounting_year =($x-1)*100+$x;
+        }
+
+        $customVoucher=CustomVoucher::where('voucher_name','cashReceived')->Where('accounting_year',$accounting_year)->first();
 
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
@@ -20,7 +29,7 @@ class PaymentCashController extends Controller
         }else{
             $customVoucher= new CustomVoucher();
             $customVoucher->voucher_name='cashReceived';
-            $customVoucher->accounting_year=2021;
+            $customVoucher->accounting_year=$accounting_year;
             $customVoucher->last_counter=1;
             $customVoucher->delimiter='-';
             $customVoucher->prefix='CR';
