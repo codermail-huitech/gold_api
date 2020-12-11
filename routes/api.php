@@ -27,6 +27,7 @@ Route::group(array('prefix' => 'dev'), function() {
     //agent
     Route::get('/agents', 'AgentController@index');
     Route::post('/agents', 'AgentController@saveAgent');
+    Route::get('/getDueByAgent','AgentController@getDueByAgent');
 
     //customer_category
     Route::get('/getCustomerCategory', 'CustomerCategoryController@getCustomerCategory');
@@ -147,6 +148,8 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/agents', 'AgentController@saveAgent');
     Route::delete('/agents/{id}', 'AgentController@deleteAgent');
     Route::patch('/agents/{id}', 'AgentController@updateAgent');
+    Route::get('/getDueByAgent','AgentController@getDueByAgent');
+    Route::get('/getCustomerUnderAgent/{id}','AgentController@getCustomerUnderAgent');
 
     //customer_category
     Route::get('/getCustomerCategory', 'CustomerCategoryController@getCustomerCategory');

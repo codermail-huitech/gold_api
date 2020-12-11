@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\CustomerToAgent;
 use App\User;
+use DemeterChain\C;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -102,5 +104,29 @@ class AgentController extends Controller
         $data = User::find($id);
         $data->delete();
         return response()->json(['success' => 1, 'data' => $data], 200,[],JSON_NUMERIC_CHECK);
+    }
+
+    public function getDueByAgent(){
+
+        $data = CustomerToAgent::select('customer_to_agents.agent_id','users.person_name',DB::raw("sum(get_LC_due_by_customer_id(customer_to_agents.customer_id)) as LCdueByAgent, sum(get_gold_due_by_customer_id(customer_to_agents.customer_id))  as goldDueByAgent"))
+            -> leftJoin('bill_masters', function ($join) {
+                    $join->on('customer_to_agents.customer_id', '=', 'bill_masters.customer_id');
+                        $join->on('customer_to_agents.agent_id', '=', 'bill_masters.agent_id');
+                    })
+            ->join('users','users.id','=','customer_to_agents.agent_id')
+                ->GroupBy('customer_to_agents.agent_id')
+                ->get();
+
+        return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
+
+    }
+
+    public function getCustomerUnderAgent($id){
+        $data = CustomerToAgent::select('users.id','users.person_name')
+                ->join('users','customer_to_agents.customer_id','=','users.id')
+                ->where('customer_to_agents.agent_id',$id)
+                ->get();
+
+        return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }
 }
