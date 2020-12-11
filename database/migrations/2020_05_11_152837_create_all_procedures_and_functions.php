@@ -60,6 +60,105 @@ class CreateAllProceduresAndFunctions extends Migration
                               END;'
                             );
 
+            DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_LC_due_by_customer_id_and_by_agent_id_for_agent;
+                    CREATE FUNCTION test_db.`get_LC_due_by_customer_id_and_by_agent_id_for_agent`(`param_customer_id` INT, `param_agent_id` INT) RETURNS double
+                        DETERMINISTIC
+                    BEGIN
+                      DECLARE temp_total_billed_LC double;
+                      DECLARE temp_opening_balance_LC double;
+                      DECLARE temp_total_payment double;
+                      DECLARE temp_total_LC_due double;
+                         select get_opening_balance_LC_by_customer_id(param_customer_id) into temp_opening_balance_LC;
+
+                         select sum(get_billed_LC_by_bill_master_id(id)) into temp_total_billed_LC from bill_masters
+                         where bill_masters.agent_id = param_agent_id;
+
+                         select get_total_LC_payment_by_customer_id(param_customer_id) into temp_total_payment;
+
+                         select  temp_opening_balance_LC + temp_total_billed_LC - temp_total_payment into temp_total_LC_due;
+
+                      IF temp_total_LC_due IS NULL THEN
+                          RETURN 0;
+                      END IF;
+                      RETURN temp_total_LC_due;
+                   END;
+            ');
+
+            DB::Unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_due_by_customer_id_by_agent_id_for_agent;
+                    CREATE FUNCTION test_db.`get_gold_due_by_customer_id_by_agent_id_for_agent`(`param_customer_id` INT,`param_agent_id` INT) RETURNS double
+                        DETERMINISTIC
+                    BEGIN
+                                      DECLARE temp_total_billed_gold double;
+                                      DECLARE temp_opening_balance_Gold double;
+                                      DECLARE temp_total_gold_received double;
+                                      DECLARE temp_total_gold_due double;
+
+
+                                         select get_opening_balance_gold_by_customer_id(param_customer_id) into temp_opening_balance_Gold;
+
+                                         select sum(get_billed_gold_by_bill_master_id(id)) into temp_total_billed_gold from bill_masters
+                                         where agent_id = param_agent_id;
+
+                                         select get_total_gold_payment_by_customer_id(param_customer_id) into temp_total_gold_received;
+
+                                         select  temp_opening_balance_Gold + temp_total_billed_gold - temp_total_gold_received into temp_total_gold_due;
+
+                                      IF temp_total_gold_due IS NULL THEN
+                                          RETURN 0;
+                                      END IF;
+                                      RETURN temp_total_gold_due;
+                                END;
+                    ');
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_due_by_customer_id_by_agent_id_for_customer;
+            CREATE FUNCTION test_db.`get_gold_due_by_customer_id_by_agent_id_for_customer`(`param_customer_id` INT, `param_agent_id` INT) RETURNS double
+                DETERMINISTIC
+            BEGIN
+                              DECLARE temp_total_billed_gold double;
+                              DECLARE temp_opening_balance_Gold double;
+                              DECLARE temp_total_gold_received double;
+                              DECLARE temp_total_gold_due double;
+
+
+                                 select get_opening_balance_gold_by_customer_id(param_customer_id) into temp_opening_balance_Gold;
+
+                                 select sum(get_billed_gold_by_bill_master_id(id)) into temp_total_billed_gold from bill_masters
+                                 where bill_masters.agent_id = param_agent_id and bill_masters.customer_id = param_customer_id ;
+
+                                 select get_total_gold_payment_by_customer_id(param_customer_id) into temp_total_gold_received;
+
+                                 select  temp_opening_balance_Gold + temp_total_billed_gold - temp_total_gold_received into temp_total_gold_due;
+
+                              IF temp_total_gold_due IS NULL THEN
+                                  RETURN 0;
+                              END IF;
+                              RETURN temp_total_gold_due;
+                        END;
+            ');
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_LC_due_by_customer_id_and_by_agent_id_for_customer;
+            CREATE FUNCTION test_db.`get_LC_due_by_customer_id_and_by_agent_id_for_customer`(`param_customer_id` INT, `param_agent_id` INT) RETURNS double
+                DETERMINISTIC
+            BEGIN
+                                  DECLARE temp_total_billed_LC double;
+                                  DECLARE temp_opening_balance_LC double;
+                                  DECLARE temp_total_payment double;
+                                  DECLARE temp_total_LC_due double;
+                                     select get_opening_balance_LC_by_customer_id(param_customer_id) into temp_opening_balance_LC;
+
+                                     select sum(get_billed_LC_by_bill_master_id(id)) into temp_total_billed_LC from bill_masters
+                                     where bill_masters.agent_id = param_agent_id and bill_masters.customer_id = param_customer_id ;
+
+                                     select get_total_LC_payment_by_customer_id(param_customer_id) into temp_total_payment;
+
+                                     select  temp_opening_balance_LC + temp_total_billed_LC - temp_total_payment into temp_total_LC_due;
+
+                                  IF temp_total_LC_due IS NULL THEN
+                                      RETURN 0;
+                                  END IF;
+                                  RETURN temp_total_LC_due;
+                               END;
+            ');
 
         //OLD FUNCTION
 //            DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_quantity;
