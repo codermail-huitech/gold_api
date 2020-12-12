@@ -15,7 +15,7 @@ class CreateCustomerToAgentsTable extends Migration
     {
         Schema::create('customer_to_agents', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('customer_id')->unsigned();
+            $table->bigInteger('customer_id')->unsigned()->unique();
             $table ->foreign('customer_id')->references('id')->on('users');
 
             $table->bigInteger('agent_id')->unsigned();
