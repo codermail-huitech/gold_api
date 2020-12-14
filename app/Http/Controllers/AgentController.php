@@ -117,10 +117,17 @@ class AgentController extends Controller
 //                ->GroupBy('customer_to_agents.agent_id')
 //                ->get();
 
-        $data = CustomerToAgent::select(DB::raw('sum(get_LC_due_by_customer_id_and_by_agent_id_for_customer(customer_id, agent_id)) as LCdueByAgent'),DB::raw('sum(get_gold_due_by_customer_id_by_agent_id_for_customer(customer_id, agent_id)) as goldDueByAgent'),'users.person_name','customer_to_agents.agent_id')
-                    ->join('users','users.id','=','customer_to_agents.agent_id')
-                    ->groupBy('customer_to_agents.agent_id')
-                    ->get();
+//        $data = CustomerToAgent::select(DB::raw('sum(get_LC_due_by_customer_id_and_by_agent_id_for_customer(customer_id, agent_id)) as LCdueByAgent'),DB::raw('sum(get_gold_due_by_customer_id_by_agent_id_for_customer(customer_id, agent_id)) as goldDueByAgent'),'users.person_name','customer_to_agents.agent_id')
+//                    ->join('users','users.id','=','customer_to_agents.agent_id')
+//                    ->groupBy('customer_to_agents.agent_id')
+//                    ->get();
+
+
+        $data = CustomerToAgent::select(DB::raw('sum(get_LC_due_by_customer_id(customer_id)) as LCdueByAgent'),DB::raw('sum(get_gold_due_by_customer_id(customer_id)) as goldDueByAgent'),'users.person_name','customer_to_agents.agent_id')
+            ->join('users','users.id','=','customer_to_agents.agent_id')
+            ->groupBy('customer_to_agents.agent_id')
+            ->get();
+
 
 //        $data = CustomerToAgent::select(DB::raw('sum(get_billed_LC_by_bill_master_id(customer_to_agents.id)) as LCdueByAgent'),DB::raw('sum(get_billed_gold_by_bill_master_id(customer_to_agents.id))'), 'agent_id', 'users.person_name')
 //            ->join('users','customer_to_agents.id','=','users.id')
@@ -137,10 +144,15 @@ class AgentController extends Controller
 //                ->where('customer_to_agents.agent_id',$id)
 //                ->get();
 
-        $data = CustomerToAgent::select(DB::raw('get_LC_due_by_customer_id_and_by_agent_id_for_customer(customer_id, agent_id) as LC_Due'), DB::raw('get_gold_due_by_customer_id_by_agent_id_for_customer(customer_id, agent_id) as gold_due'),'users.person_name')
-                ->join('users','customer_to_agents.customer_id','=','users.id')
-                ->where('customer_to_agents.agent_id',$id)
-                ->get();
+//        $data = CustomerToAgent::select(DB::raw('get_LC_due_by_customer_id_and_by_agent_id_for_customer(customer_id, agent_id) as LC_Due'), DB::raw('get_gold_due_by_customer_id_by_agent_id_for_customer(customer_id, agent_id) as gold_due'),'users.person_name')
+//                ->join('users','customer_to_agents.customer_id','=','users.id')
+//                ->where('customer_to_agents.agent_id',$id)
+//                ->get();
+
+        $data = CustomerToAgent::select(DB::raw('get_LC_due_by_customer_id(customer_id) as LC_Due'), DB::raw('get_gold_due_by_customer_id(customer_id) as gold_due'),'users.person_name')
+            ->join('users','customer_to_agents.customer_id','=','users.id')
+            ->where('customer_to_agents.agent_id',$id)
+            ->get();
 
         return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }
