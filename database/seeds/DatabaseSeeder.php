@@ -12,6 +12,7 @@ use App\Model\ProductCategory;
 use App\Model\Material;
 use App\Model\StatusType;
 use App\Model\BillAdjustment;
+use App\Model\TransactionType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -264,6 +265,10 @@ class DatabaseSeeder extends Seeder
         ProductCategory::create(['category_name'=>'Mima Churi']);
         ProductCategory::create(['category_name'=>'Holo Churi']);
         ProductCategory::create(['category_name'=>'Holo']);
+
+        TransactionType::create(['transaction_type'=>'IN']);
+        TransactionType::create(['transaction_type'=>'OUT']);
+        TransactionType::create(['transaction_type'=>'Transferred']);
 
 
         //use following command for products in separate seeding products are not seeding here

@@ -137,6 +137,9 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     //cash_payment
     Route::post('/saveCashPayment', 'PaymentCashController@saveCashPayment');
 
+    //owner_transaction_type
+    Route::get('/getTransactionType', 'TransactionTypeController@getTransactionType');
+
     //gold_payment
     Route::post('/saveGoldPayment', 'PaymentGoldController@saveGoldPayment');
 
