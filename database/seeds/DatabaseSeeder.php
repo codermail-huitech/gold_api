@@ -68,6 +68,12 @@ class DatabaseSeeder extends Seeder
         User::create(['person_name'=>'Sudip Roy','mobile1'=>'9836444451','mobile2'=>'','email'=>'bangle39600@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>7]);
         User::create(['person_name'=>'Bijon Dey','mobile1'=>'9836444451','mobile2'=>'','email'=>'bangle39611@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>7]);
 
+        User::create(['person_name'=>'Rik Roy','mobile1'=>'9836444451','mobile2'=>'','email'=>'bangle39600@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>2]);
+        User::create(['person_name'=>'Abijit Basak','mobile1'=>'9836444451','mobile2'=>'','email'=>'bangle39612000@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>3]);
+        User::create(['person_name'=>'Sudipto Roy','mobile1'=>'9836444451','mobile2'=>'','email'=>'bangle39600005@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>4]);
+        User::create(['person_name'=>'Bijit Dey','mobile1'=>'9836444451','mobile2'=>'','email'=>'bangle3961100@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>5]);
+        User::create(['person_name'=>'Prodip Ghosh','mobile1'=>'9836444785','mobile2'=>'','email'=>'bangle3710@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>6]);
+
         User::create(['person_name'=>'Pushpendu Roy','mobile1'=>'9836444426','mobile2'=>'','email'=>'bangle376@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>8,'customer_category_id'=>4]);
         User::create(['person_name'=>'Pushpendu Ghosh','mobile1'=>'9836444785','mobile2'=>'','email'=>'bangle371@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>10,'customer_category_id'=>2]);
 
@@ -266,9 +272,10 @@ class DatabaseSeeder extends Seeder
         ProductCategory::create(['category_name'=>'Holo Churi']);
         ProductCategory::create(['category_name'=>'Holo']);
 
-        TransactionType::create(['transaction_type'=>'IN']);
-        TransactionType::create(['transaction_type'=>'OUT']);
+        TransactionType::create(['transaction_type'=>'Inward']);
+        TransactionType::create(['transaction_type'=>'Outward']);
         TransactionType::create(['transaction_type'=>'Transferred']);
+        TransactionType::create(['transaction_type'=>'Withdrawal']);
 
 
         //use following command for products in separate seeding products are not seeding here

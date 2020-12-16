@@ -128,6 +128,12 @@ Route::group(array('prefix' => 'dev'), function() {
     //Route::get('/finishedJobsCustomers1', 'CustomerController@testFinished');
     // Route::get('/orderMaterials', 'MaterialController@getOrderMaterials');
 
+    //Transaction Controller
+
+    Route::post('/saveTransaction','TransactionInfoController@saveTransaction');
+    Route::get('/getEmployees','TransactionInfoController@getEmployees');
+
+
 }); //dev area ended
 
 //secured links here
@@ -248,7 +254,10 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/updateStockByAgentId','StockController@updateStockByAgentId');
     Route::post('/updateStockByDefaultAgentId','StockController@updateStockByDefaultAgentId');
 
+    //Transaction Controller
 
+    Route::post('/saveTransaction','TransactionInfoController@saveTransaction');
+    Route::get('/getEmployees','TransactionInfoController@getEmployees');
 
     // Route::get('/agents', 'AgentController@index');
 
