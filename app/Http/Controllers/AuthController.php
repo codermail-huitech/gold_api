@@ -41,7 +41,7 @@ class AuthController extends Controller
         // Get the token
         $token = auth()->login($user);
         $tokenObject = $this->respondWithToken($token);
-        $tempUser = array('id'=>$user->id,'person_name'=>$user->person_name,'person_type_id'=>$user->person_type_id,'mv'=>$user->mv);
+        $tempUser = array('id'=>$user->id,'person_name'=>$user->person_name,'person_type_id'=>$user->person_type_id);
 
         return response()->json(['token'=>$tokenObject,'user'=>$tempUser], 200);
 
