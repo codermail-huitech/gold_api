@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionInfosTable extends Migration
+class CreateMaterialTransactionMastersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,20 @@ class CreateTransactionInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_infos', function (Blueprint $table) {
+        Schema::create('material_transaction_masters', function (Blueprint $table) {
             $table->id();
+
             $table->bigInteger('transaction_type_id')->unsigned();
             $table ->foreign('transaction_type_id')->references('id')->on('transaction_types');
 
-            $table->bigInteger('employee_id')->unsigned()->nullable(true);
+            $table->bigInteger('material_id')->unsigned();
+            $table ->foreign('material_id')->references('id')->on('materials');
 
-            $table->bigInteger('person_id')->unsigned();
-            $table ->foreign('person_id')->references('id')->on('users');
+            $table->string('transaction_comment')->nullable(true);
 
-            $table->double('amount')->nullable(false);
+
             $table->date('transaction_date')->nullable(false);
+
 
             $table->timestamps();
         });
@@ -37,6 +39,6 @@ class CreateTransactionInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_infos');
+        Schema::dropIfExists('material_transaction_masters');
     }
 }

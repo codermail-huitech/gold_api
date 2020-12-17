@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\CustomerToAgent;
+use App\Model\TransactionType;
 use App\User;
 use DemeterChain\C;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class AgentController extends Controller
     {
         $agents = PersonType::find(7)->people;
         return response()->json(['success'=>1,'data'=>$agents], 200,[],JSON_NUMERIC_CHECK);
+
     }
 
     public function saveAgent(Request $request){

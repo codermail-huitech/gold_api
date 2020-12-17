@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Material;
+use App\Model\MaterialTransactionDetail;
 use Illuminate\Http\Request;
 
-class MaterialController extends Controller
+class MaterialTransactionDetailController extends Controller
 {
-    public function getMaterials()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $result=Material::select()
-                ->get();
-        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
-    }
-
-    public function getOrderMaterials()
-    {
-        $result=Material::select()
-                ->where('is_order_material','=',1)
-                ->get();
-
-        return response()->json(['success'=>1,'data'=>$result], 200,[],JSON_NUMERIC_CHECK);
+        //
     }
 
     /**
@@ -47,10 +41,10 @@ class MaterialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\Material  $material
+     * @param  \App\Model\MaterialTransactionDetail  $materialTransactionDetail
      * @return \Illuminate\Http\Response
      */
-    public function show(Material $material)
+    public function show(MaterialTransactionDetail $materialTransactionDetail)
     {
         //
     }
@@ -58,10 +52,10 @@ class MaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Material  $material
+     * @param  \App\Model\MaterialTransactionDetail  $materialTransactionDetail
      * @return \Illuminate\Http\Response
      */
-    public function edit(Material $material)
+    public function edit(MaterialTransactionDetail $materialTransactionDetail)
     {
         //
     }
@@ -70,10 +64,10 @@ class MaterialController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Material  $material
+     * @param  \App\Model\MaterialTransactionDetail  $materialTransactionDetail
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Material $material)
+    public function update(Request $request, MaterialTransactionDetail $materialTransactionDetail)
     {
         //
     }
@@ -81,10 +75,10 @@ class MaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Material  $material
+     * @param  \App\Model\MaterialTransactionDetail  $materialTransactionDetail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Material $material)
+    public function destroy(MaterialTransactionDetail $materialTransactionDetail)
     {
         //
     }

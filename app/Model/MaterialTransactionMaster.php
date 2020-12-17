@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TransactionInfo extends Model
+class MaterialTransactionMaster extends Model
 {
     //
 }

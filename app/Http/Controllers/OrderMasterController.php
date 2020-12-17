@@ -57,6 +57,7 @@ class OrderMasterController extends Controller
 
         $customVoucher=CustomVoucher::where('voucher_name','order')->Where('accounting_year',$accounting_year)->first();
 
+        DB::beginTransaction();
         if($customVoucher) {
             $customVoucher->last_counter = $customVoucher->last_counter + 1;
             $customVoucher->save();
@@ -69,7 +70,6 @@ class OrderMasterController extends Controller
             $customVoucher->prefix='ORD';
             $customVoucher->save();
         }
-
         try
         {
             //Creating Voucher Number

@@ -104,6 +104,8 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/karigarhs', 'CustomerController@getkarigarhs');
     Route::get('/getTotalGoldQuantity/{id}', 'CustomerController@getTotalGoldQuantity');
 
+
+
     //order_detail
     Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
     Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
@@ -232,6 +234,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('/karigarhs', 'CustomerController@getkarigarhs');
     Route::get('/getTotalGoldQuantity/{id}', 'CustomerController@getTotalGoldQuantity');
 
+
     //order_detail
     Route::post('/orderDetails', 'OrderDetailController@fetchingDetails');
     Route::delete('/ordersDetailsDelete/{id}', 'OrderDetailController@deleteOrder');
@@ -254,10 +257,10 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::post('/updateStockByAgentId','StockController@updateStockByAgentId');
     Route::post('/updateStockByDefaultAgentId','StockController@updateStockByDefaultAgentId');
 
-    //Transaction Controller
+    //Material TransactionMaster Controller
 
-    Route::post('/saveTransaction','TransactionInfoController@saveTransaction');
-    Route::get('/getEmployees','TransactionInfoController@getEmployees');
+    Route::post('/saveTransaction','MaterialTransactionMasterController@saveTransaction');
+    Route::get('/getEmployees','MaterialTransactionMasterController@getEmployees');
 
     // Route::get('/agents', 'AgentController@index');
 
