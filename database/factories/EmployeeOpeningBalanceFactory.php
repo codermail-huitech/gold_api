@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model\LcReceived;
+use App\Model\EmployeeOpeningBalance;
 use Faker\Generator as Faker;
 
-$factory->define(LcReceived::class, function (Faker $faker) {
+$factory->define(EmployeeOpeningBalance::class, function (Faker $faker) {
     return [
         //
     ];

@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GoldReceived extends Model
+class EmployeeOpeningBalance extends Model
 {
     //
 }

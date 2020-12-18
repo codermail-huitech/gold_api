@@ -1,0 +1,40 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateEmployeeOpeningBalancesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('employee_opening_balances', function (Blueprint $table) {
+            $table->id();
+
+            $table->bigInteger('employee_id')->unsigned();
+            $table ->foreign('employee_id')->references('id')->on('users');
+
+            $table->bigInteger('material_id')->unsigned();
+            $table ->foreign('material_id')->references('id')->on('materials');
+
+            $table->double('quantity')->nullable(true);
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('employee_opening_balances');
+    }
+}

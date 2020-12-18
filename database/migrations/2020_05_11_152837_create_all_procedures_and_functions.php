@@ -414,6 +414,40 @@ BEGIN
                END;'
         );
 
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_employee_balance;
+CREATE FUNCTION test_db.`get_employee_balance`(`param_employee_id` INT , `param_material_id` INT  ) RETURNS double
+    DETERMINISTIC
+BEGIN
+                  DECLARE temp_total_instock double;
+                  DECLARE temp_total_outstock double;
+                  DECLARE temp_total_balance double;
+
+
+                  select ifnull(sum(material_transaction_details.quantity),0)into temp_total_instock from material_transaction_masters
+                  inner join material_transaction_details
+                  on material_transaction_details.transaction_masters_id = material_transaction_masters.id
+                  where material_transaction_details.employee_id = param_employee_id
+                  and material_transaction_masters.material_id = param_material_id
+                  and material_transaction_details.transaction_value = 1;
+
+                  select ifnull(sum(material_transaction_details.quantity),0)into temp_total_outstock from material_transaction_masters
+                  inner join material_transaction_details
+                  on material_transaction_details.transaction_masters_id = material_transaction_masters.id
+                  where material_transaction_details.employee_id = param_employee_id
+                  and material_transaction_masters.material_id = param_material_id
+                  and material_transaction_details.transaction_value = -1;
+
+
+                  select temp_total_instock - temp_total_outstock  into temp_total_balance;
+
+
+                IF temp_total_balance IS NULL THEN
+                    RETURN 0;
+                END IF;
+                RETURN temp_total_balance;
+            END;'
+        );
+
 
 
 

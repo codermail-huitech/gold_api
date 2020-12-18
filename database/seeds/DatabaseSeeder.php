@@ -13,6 +13,7 @@ use App\Model\Material;
 use App\Model\StatusType;
 use App\Model\BillAdjustment;
 use App\Model\TransactionType;
+use App\Model\EmployeeOpeningBalance;
 
 class DatabaseSeeder extends Seeder
 {
@@ -276,6 +277,14 @@ class DatabaseSeeder extends Seeder
         TransactionType::create(['transaction_type'=>'Outward']);
         TransactionType::create(['transaction_type'=>'Transferred']);
         TransactionType::create(['transaction_type'=>'Withdrawal']);
+
+        //employee_opening_balances table data
+
+        EmployeeOpeningBalance:: create(['employee_id'=>3,'material_id'=>4,'quantity'=>'3.1']);
+        EmployeeOpeningBalance:: create(['employee_id'=>4,'material_id'=>5,'quantity'=>'2.1']);
+        EmployeeOpeningBalance:: create(['employee_id'=>5,'material_id'=>6,'quantity'=>'4.1']);
+        EmployeeOpeningBalance:: create(['employee_id'=>3,'material_id'=>4,'quantity'=>'6.1']);
+        EmployeeOpeningBalance:: create(['employee_id'=>7,'material_id'=>7,'quantity'=>'10.1']);
 
 
         //use following command for products in separate seeding products are not seeding here
