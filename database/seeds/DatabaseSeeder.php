@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
         User::create(['person_name'=>'Bijit Dey','mobile1'=>'9836444451','mobile2'=>'','email'=>'bangle3961100@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>5]);
         User::create(['person_name'=>'Prodip Ghosh','mobile1'=>'9836444785','mobile2'=>'','email'=>'bangle3710@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>6]);
 
-        User::create(['person_name'=>'Pushpendu Roy','mobile1'=>'9836444426','mobile2'=>'','email'=>'bangle376@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>8,'customer_category_id'=>4]);
+        User::create(['person_name'=>'Pushpendu Roy','mobile1'=>'9836444426','mobile2'=>'','email'=>'bangle376@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>8]);
         User::create(['person_name'=>'Pushpendu Ghosh','mobile1'=>'9836444785','mobile2'=>'','email'=>'bangle371@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>10,'customer_category_id'=>2]);
 
         User::create(['person_name'=>'Joy Ghosh','mobile1'=>'9836444972','mobile2'=>'','email'=>'bangle322@gmail.com','password'=>"81dc9bdb52d04dc20036dbd8313ed055",'person_type_id'=>11,'customer_category_id'=>3]);

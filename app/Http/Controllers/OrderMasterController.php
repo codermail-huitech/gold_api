@@ -123,7 +123,7 @@ class OrderMasterController extends Controller
 //                }
             }
 
-//            DB::commit();
+            DB::commit();
         }
 
         catch (\Exception $e)

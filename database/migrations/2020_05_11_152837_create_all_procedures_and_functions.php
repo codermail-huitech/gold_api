@@ -329,98 +329,149 @@ class CreateAllProceduresAndFunctions extends Migration
         );
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_billed_LC_by_bill_master_id;
-CREATE FUNCTION test_db.`get_billed_LC_by_bill_master_id`(`param_bill_master_id` INT) RETURNS double
-    DETERMINISTIC
-BEGIN
-                  DECLARE temp_total_LC double;
-                  DECLARE temp_discount double;
-                  DECLARE temp_billed_LC double;
+                CREATE FUNCTION test_db.`get_billed_LC_by_bill_master_id`(`param_bill_master_id` INT) RETURNS double
+                    DETERMINISTIC
+                BEGIN
+                                      DECLARE temp_total_LC double;
+                      DECLARE temp_discount double;
+                      DECLARE temp_billed_LC double;
 
-                  select sum(bill_details.quantity*bill_details.rate) into temp_total_LC from bill_details where bill_details.bill_master_id = param_bill_master_id;
+                      select sum(bill_details.quantity*bill_details.rate) into temp_total_LC from bill_details where bill_details.bill_master_id = param_bill_master_id;
 
-                  select bill_masters.discount into temp_discount FROM bill_masters where id = param_bill_master_id ;
+                      select bill_masters.discount into temp_discount FROM bill_masters where id = param_bill_master_id ;
 
-                  select temp_total_LC - temp_discount into temp_billed_LC;
+                      select temp_total_LC - temp_discount into temp_billed_LC;
 
-                  IF temp_billed_LC IS NULL THEN
-                      RETURN 0;
-                  END IF;
-                  RETURN temp_billed_LC;
-               END;'
+                      IF temp_billed_LC IS NULL THEN
+                          RETURN 0;
+                      END IF;
+                      RETURN temp_billed_LC;
+                 END;'
         );
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_opening_balance_gold_by_customer_id;
-CREATE FUNCTION test_db.`get_opening_balance_gold_by_customer_id`(`param_customer_id` INT) RETURNS double
-    DETERMINISTIC
-BEGIN
+                CREATE FUNCTION test_db.`get_opening_balance_gold_by_customer_id`(`param_customer_id` INT) RETURNS double
+                    DETERMINISTIC
+                BEGIN
 
-                  DECLARE temp_opening_balance_gold double;
+                       DECLARE temp_opening_balance_gold double;
 
-                  select users.opening_balance_Gold into temp_opening_balance_gold  from users where id = param_customer_id;
+                       select users.opening_balance_Gold into temp_opening_balance_gold  from users where id = param_customer_id;
 
-                  IF temp_opening_balance_gold IS NULL THEN
-                      RETURN 0;
-                  END IF;
-                  RETURN temp_opening_balance_gold;
-               END;
-');
+                       IF temp_opening_balance_gold IS NULL THEN
+                       RETURN 0;
+                       END IF;
+                       RETURN temp_opening_balance_gold;
+                 END;'
+        );
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_opening_balance_LC_by_customer_id;
-CREATE FUNCTION test_db.`get_opening_balance_LC_by_customer_id`(`param_customer_id` INT) RETURNS double
-    DETERMINISTIC
-BEGIN
+                CREATE FUNCTION test_db.`get_opening_balance_LC_by_customer_id`(`param_customer_id` INT) RETURNS double
+                    DETERMINISTIC
+                BEGIN
 
-                  DECLARE temp_opening_balance_LC double;
+                      DECLARE temp_opening_balance_LC double;
 
-                  select users.opening_balance_LC into temp_opening_balance_LC  from users where id = param_customer_id;
+                      select users.opening_balance_LC into temp_opening_balance_LC  from users where id = param_customer_id;
 
-                  IF temp_opening_balance_LC IS NULL THEN
-                      RETURN 0;
-                  END IF;
-                  RETURN temp_opening_balance_LC;
-               END;
-');
+                      IF temp_opening_balance_LC IS NULL THEN
+                          RETURN 0;
+                      END IF;
+                      RETURN temp_opening_balance_LC;
+                 END;'
+        );
 
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_total_gold_payment_by_customer_id;
-CREATE FUNCTION test_db.`get_total_gold_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
-    DETERMINISTIC
-BEGIN
+                CREATE FUNCTION test_db.`get_total_gold_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
+                    DETERMINISTIC
+                BEGIN
 
-                  DECLARE temp_total_gold_payment double;
+                      DECLARE temp_total_gold_payment double;
 
-                  select sum(payment_gold.gold_received) into temp_total_gold_payment  from payment_gold where payment_gold.person_id = param_customer_id;
+                      select sum(payment_gold.gold_received) into temp_total_gold_payment  from payment_gold where payment_gold.person_id = param_customer_id;
 
-                  IF temp_total_gold_payment IS NULL THEN
-                      RETURN 0;
-                  END IF;
-                  RETURN temp_total_gold_payment;
-               END;'
+                      IF temp_total_gold_payment IS NULL THEN
+                          RETURN 0;
+                      END IF;
+                      RETURN temp_total_gold_payment;
+                END;'
         );
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_total_LC_payment_by_customer_id;
-CREATE FUNCTION test_db.`get_total_LC_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
-    DETERMINISTIC
-BEGIN
+                CREATE FUNCTION test_db.`get_total_LC_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
+                    DETERMINISTIC
+                BEGIN
 
-                  DECLARE temp_total_LC_payment double;
+                      DECLARE temp_total_LC_payment double;
 
-                  select sum(payment_cashes.cash_received) into temp_total_LC_payment  from payment_cashes where payment_cashes.person_id = param_customer_id;
+                      select sum(payment_cashes.cash_received) into temp_total_LC_payment  from payment_cashes where payment_cashes.person_id = param_customer_id;
 
-                  IF temp_total_LC_payment IS NULL THEN
-                      RETURN 0;
-                  END IF;
-                  RETURN temp_total_LC_payment;
-               END;'
+                      IF temp_total_LC_payment IS NULL THEN
+                          RETURN 0;
+                      END IF;
+                      RETURN temp_total_LC_payment;
+                END;'
         );
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_employee_balance;
-CREATE FUNCTION test_db.`get_employee_balance`(`param_employee_id` INT , `param_material_id` INT  ) RETURNS double
-    DETERMINISTIC
-BEGIN
+                CREATE FUNCTION test_db.`get_employee_balance`(`param_employee_id` INT , `param_material_id` INT  ) RETURNS double
+                    DETERMINISTIC
+                BEGIN
+                      DECLARE temp_total_instock double;
+                      DECLARE temp_total_outstock double;
+                      DECLARE temp_total_balance double;
+
+
+                      select ifnull(sum(material_transaction_details.quantity),0)into temp_total_instock from material_transaction_masters
+                      inner join material_transaction_details
+                      on material_transaction_details.transaction_masters_id = material_transaction_masters.id
+                      where material_transaction_details.employee_id = param_employee_id
+                      and material_transaction_masters.material_id = param_material_id
+                      and material_transaction_details.transaction_value = 1;
+
+                      select ifnull(sum(material_transaction_details.quantity),0)into temp_total_outstock from material_transaction_masters
+                      inner join material_transaction_details
+                      on material_transaction_details.transaction_masters_id = material_transaction_masters.id
+                      where material_transaction_details.employee_id = param_employee_id
+                      and material_transaction_masters.material_id = param_material_id
+                      and material_transaction_details.transaction_value = -1;
+
+
+                      select temp_total_instock - temp_total_outstock  into temp_total_balance;
+
+
+                    IF temp_total_balance IS NULL THEN
+                        RETURN 0;
+                    END IF;
+                    RETURN temp_total_balance;
+                END;'
+        );
+
+        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_employee_balance;
+            CREATE FUNCTION test_db.`get_employee_balance`(`param_employee_id` INT , `param_material_id` INT  ) RETURNS double
+                DETERMINISTIC
+            BEGIN
+                  DECLARE temp_opening_balance double;
                   DECLARE temp_total_instock double;
                   DECLARE temp_total_outstock double;
+
+                  DECLARE temp_total_gold_submit double;
+                  DECLARE temp_total_dal_submit double;
+                  DECLARE temp_total_pan_submit double;
+                  DECLARE temp_total_bronze_submit double;
+
+                  DECLARE temp_total_gold_return double;
+                  DECLARE temp_total_dal_return double;
+                  DECLARE temp_total_pan_return double;
+                  DECLARE temp_total_nitric_return double;
+
                   DECLARE temp_total_balance double;
+
+                  /*Opening balance*/
+                  select ifnull(sum(quantity),0) into temp_opening_balance from employee_opening_balances
+                  where employee_opening_balances.employee_id = param_employee_id
+                  and employee_opening_balances.material_id = param_material_id;
 
 
                   select ifnull(sum(material_transaction_details.quantity),0)into temp_total_instock from material_transaction_masters
@@ -437,16 +488,54 @@ BEGIN
                   and material_transaction_masters.material_id = param_material_id
                   and material_transaction_details.transaction_value = -1;
 
+                  /*Gold submit*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_gold_submit from job_details
+                  where material_id = param_material_id and employee_id = param_employee_id and job_task_id = 1;
 
-                  select temp_total_instock - temp_total_outstock  into temp_total_balance;
+                  /*dal submit*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_dal_submit from job_details
+                  where material_id = param_material_id and employee_id = param_employee_id and job_task_id = 3;
+
+                  /*pan submit*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_pan_submit from job_details
+                  where material_id = param_material_id and employee_id = param_employee_id and job_task_id = 5;
+
+                  /*bronze submit*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_bronze_submit from job_details
+                  where material_id = param_material_id and employee_id = param_employee_id and job_task_id = 8;
+
+                  /*gold return*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_gold_return from job_details
+                  inner join materials ON materials.id = job_details.material_id
+                  where employee_id = param_employee_id and job_task_id = 2 and materials.main_material_id = param_material_id;
+
+                  /*dal return*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_dal_return from job_details
+                  inner join materials ON materials.id = job_details.material_id
+                  where employee_id = param_employee_id and job_task_id = 4 and materials.main_material_id = param_material_id;
+
+                  /*pan return*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_pan_return from job_details
+                  inner join materials ON materials.id = job_details.material_id
+                  where employee_id = param_employee_id and job_task_id = 6 and materials.main_material_id = param_material_id;
+
+                  /*nitric return*/
+                  select abs(ifnull(sum(material_quantity),0)) into temp_total_nitric_return from job_details
+                  inner join materials ON materials.id = job_details.material_id
+                  where employee_id = param_employee_id and job_task_id = 7 and materials.main_material_id = param_material_id;
+
+
+                  select ((temp_total_instock + temp_opening_balance) - temp_total_outstock)+
+                  (temp_total_gold_return - temp_total_gold_submit) + (temp_total_dal_return - temp_total_dal_submit)+
+                  (temp_total_pan_return - temp_total_pan_submit) + temp_total_nitric_return into temp_total_balance;
 
 
                 IF temp_total_balance IS NULL THEN
                     RETURN 0;
                 END IF;
                 RETURN temp_total_balance;
-            END;'
-        );
+            END;
+        ');
 
 
 
