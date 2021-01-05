@@ -15,6 +15,8 @@ class ProductController extends Controller
             ->join('price_codes', 'price_codes.id', '=', 'products.price_code_id')
             ->join('product_categories', 'product_categories.id', '=', 'products.product_category_id')
             ->get();
+
+
         return response()->json(['success'=>1,'data'=>$products], 200,[],JSON_NUMERIC_CHECK);
     }
 

@@ -104,6 +104,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/getGoldquantity/{id}', 'CustomerController@getGoldQuantityBill');
     Route::get('/karigarhs', 'CustomerController@getkarigarhs');
     Route::get('/getTotalGoldQuantity/{id}', 'CustomerController@getTotalGoldQuantity');
+    Route::get('/getEmployeeMaterial', 'CustomerController@getEmployeeMaterial');
 
 
 

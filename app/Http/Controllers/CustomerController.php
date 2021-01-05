@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\BillDetail;
 use App\Model\CustomVoucher;
+use App\Model\Material;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
 use App\Model\JobMaster;
@@ -11,6 +12,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\Types\Array_;
 
 class CustomerController extends Controller
 {
@@ -319,4 +321,27 @@ class CustomerController extends Controller
 //            ->get();
 //        return response()->json(['success' => 1, 'data' => $data], 200, [], JSON_NUMERIC_CHECK);
 //    }
+
+  public function getEmployeeMaterial(){
+
+        $test1 =  User::select('id')
+                 ->where('person_type_id','!=',9)
+                 ->where('person_type_id','!=',10)
+                 ->get();
+
+
+        $test2 = Material::select('id')
+                 ->where('main_material_id',0)
+                 ->get();
+
+        $result=DB::select('get_employee_balance(?,?)',$test2,$test1);
+
+
+
+
+
+
+        return response()->json(['success' => 100, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
+
+  }
 }
