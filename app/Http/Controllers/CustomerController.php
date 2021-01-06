@@ -344,4 +344,18 @@ class CustomerController extends Controller
         return response()->json(['success' => 100, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
 
   }
+  public function testGetEmployeeMaterial(){
+
+        $result = DB::table('users')
+                ->select('users.id','users.person_name','materials.material_name','users.person_type_id',DB::raw("get_employee_balance(users.id, materials.id) as employee_balance"))
+                ->crossJoin('materials')
+                ->where('users.person_type_id','<>',9)
+                ->where('users.person_type_id','<>',10)
+                ->where('materials.main_material_id',0)
+                ->get();
+
+
+
+        return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
+  }
 }
