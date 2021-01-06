@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Array_;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class CustomerController extends Controller
 {
@@ -324,24 +325,28 @@ class CustomerController extends Controller
 
   public function getEmployeeMaterial(){
 
-        $test1 =  User::select('id')
+        $test1 =  User::select('id','person_name')
                  ->where('person_type_id','!=',9)
                  ->where('person_type_id','!=',10)
                  ->get();
 
 
-        $test2 = Material::select('id')
+        $test2 = Material::select('id','material_name')
                  ->where('main_material_id',0)
                  ->get();
 
-        $result=DB::select('get_employee_balance(?,?)',$test2,$test1);
+        $newArray = [];
+        for($i=0; $i<count($test1); $i++){
+            for($j=0; $j<count($test2); $j++){
+                $result=DB::select('SELECT get_employee_balance(?,?) as employee_balance,? as material_name, ? as person_name',array($i,$test2[$j]->id,$test2[$j]->material_name,$test1[$i]->person_name))[0];
+                array_push($newArray,$result);
+            }
+        }
+
+//        $result=DB::select('SELECT get_employee_balance(?,?)',array(1,1));
 
 
-
-
-
-
-        return response()->json(['success' => 100, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
+        return response()->json(['success' => 2, 'data' => $newArray], 200, [], JSON_NUMERIC_CHECK);
 
   }
   public function testGetEmployeeMaterial(){
