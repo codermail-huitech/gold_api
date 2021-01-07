@@ -383,11 +383,13 @@ class CustomerController extends Controller
         for ($i = 0; $i < count($test1); $i++) {
             $stockArray = [];
             for ($j = 0; $j < count($test2); $j++) {
-                $result = DB::select('SELECT get_employee_balance(?,?) as employee_balance,? as material_name, ? as person_name', array($i, $test2[$j]->id, $test2[$j]->material_name, $test1[$i]->person_name))[0];
+//                $result = DB::select('SELECT get_employee_balance(?,?) as employee_balance,? as material_name, ? as person_name',  array($i, $test2[$j]->id, $test2[$j]->material_name, $test1[$i]->person_name))[0];
+                $result = DB::select('SELECT get_employee_balance(?,?) as employee_balance,? as material_name, ? as person_name',  array($test1[$i]->id, $test2[$j]->id, $test2[$j]->material_name, $test1[$i]->person_name))[0];
                 array_push($stockArray, $result);
 
             }
-            $employeeStock =  array("person_name"=> $test1[$i]->person_name,
+
+            $employeeStock =  (object) array("person_name"=> $test1[$i]->person_name,
                                     "Pure_gold"=> $stockArray[0]->employee_balance,
                                     "Pure_silver"=>$stockArray[1]->employee_balance,
                                     "ginnie_92"=>$stockArray[2]->employee_balance,

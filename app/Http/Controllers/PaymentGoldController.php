@@ -40,6 +40,7 @@ class PaymentGoldController extends Controller
         $result->person_id = $input->person_id;
         $result->transaction_id = $customVoucher->prefix.$customVoucher->last_counter;
         $result->agent_id = $input->agent_id;
+        $result->user_id = $input->user_id;
         $result->gold_received = $input->gold_received;
         $result->received_date = $input->received_date;
         $result->save();
