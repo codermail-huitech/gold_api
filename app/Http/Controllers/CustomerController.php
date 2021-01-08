@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\BillDetail;
 use App\Model\CustomVoucher;
 use App\Model\Material;
+use App\Model\MaterialTransactionDetail;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
 use App\Model\JobMaster;
@@ -416,5 +417,20 @@ class CustomerController extends Controller
         }
 
         return response()->json(['success' => 500, 'data' => $employeeArray], 200, [], JSON_NUMERIC_CHECK);
+    }
+
+    public function employeeTransactionTest($id){
+
+        $data1 = MaterialTransactionDetail::select('transaction_masters_id')
+                 ->where('employee_id',$id)
+                 ->get();
+
+        $result= [];
+        for($i=0;$i<count($data1);$i++){
+            $queryResult = DB::select('call employeeTransaction(?,?)', [$id,$data1[$i]->transaction_masters_id])[0];
+            array_push($result,$queryResult);
+        }
+
+        return response()->json(['success' => 200, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
     }
 }

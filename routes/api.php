@@ -107,6 +107,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/getEmployeeMaterial', 'CustomerController@getEmployeeMaterial');
     Route::get('/testGetEmployeeMaterial', 'CustomerController@testGetEmployeeMaterial');
     Route::get('/MyTest', 'CustomerController@MyTest');
+    Route::get('/employeeTransactionTest/{id}', 'CustomerController@employeeTransactionTest');
 
 
 

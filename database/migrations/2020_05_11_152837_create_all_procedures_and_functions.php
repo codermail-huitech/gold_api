@@ -602,6 +602,25 @@ class CreateAllProceduresAndFunctions extends Migration
 //            END;
 //        ');
 
+        DB::unprepared('DROP PROCEDURE IF EXISTS test_db.employeeTransaction;
+            CREATE PROCEDURE test_db.`employeeTransaction`(IN `param_employee_id` INT, IN `param_transaction_masters_id`  INT)
+            BEGIN
+
+                                   select transaction_types.transaction_type, x.employee_id as user1 ,y.employee_id as user2 ,user1.person_name as user1_person_name,user2.person_name  as user2_person_name,x.transaction_value as user1_val,  y.transaction_value as user2_val ,x.transaction_masters_id, materials.material_name,x.quantity, x.created_at
+                                   FROM material_transaction_details x join material_transaction_details y
+                                   on x.employee_id <> y.employee_id
+                                   inner join material_transaction_masters ON material_transaction_masters.id = x.transaction_masters_id
+                                   inner join users as user1 on  user1.id = x.employee_id
+                                   inner join users as user2 on  user2.id = y.employee_id
+                                   inner join transaction_types ON transaction_types.id = material_transaction_masters.transaction_type_id
+                                   inner join materials ON materials.id = material_transaction_masters.material_id
+                                   where x.employee_id = param_employee_id
+                                   and x.transaction_masters_id = param_transaction_masters_id
+                                   and y.transaction_masters_id = param_transaction_masters_id ;
+
+            END;'
+        );
+
 
 
 
