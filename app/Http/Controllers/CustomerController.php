@@ -9,6 +9,8 @@ use App\Model\MaterialTransactionDetail;
 use App\Model\OrderDetail;
 use App\Model\OrderMaster;
 use App\Model\JobMaster;
+use App\Model\PaymentCash;
+use App\Model\PaymentGold;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -432,5 +434,65 @@ class CustomerController extends Controller
         }
 
         return response()->json(['success' => 200, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
+    }
+
+    public function CustomerTransactionTest($id){
+
+        $testLC = [];
+        $testGold = [];
+        $result= [];
+        $data1 = (array) DB::table('users')
+                 ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.created_at')
+                 ->where('id',$id)
+                 ->get()[0];
+
+        array_push($testLC,$data1);
+
+
+//        array_push($testGold,$data1);
+
+        $data2 =   BillDetail::select('bill_masters.id',DB::raw("sum(bill_details.quantity * bill_details.rate) as cash_received"),DB::raw("if(sum(bill_details.quantity * bill_details.rate),'--',0) as gold_received"),'bill_masters.created_at')
+                  ->join('bill_masters','bill_masters.id','=','bill_details.bill_master_id')
+                  ->where('bill_masters.customer_id',$id)
+                  ->groupBy('bill_masters.id')
+                  ->get();
+        for($i=0;$i<count($data2);$i++) {
+
+            array_push($testLC,$data2[$i]);
+//            array_push($testGold,$data1);
+
+        }
+        $data3 =  PaymentCash::select('payment_cashes.cash_received','payment_cashes.created_at' ,DB::raw("if(cash_received,'--',0) as gold_received"))
+                 ->where('person_id',$id)
+                 ->get();
+
+        $data4 =  PaymentGold::select('payment_gold.gold_received','payment_gold.created_at',DB::raw("if(gold_received,'--',0) as cash_received"))
+            ->where('person_id',$id)
+            ->get();
+
+        for($i=0;$i<count($data3);$i++) {
+
+            array_push($testLC,$data3[$i]);
+//            array_push($testGold,$data1);
+
+        }
+
+        for($i=0;$i<count($data4);$i++) {
+
+            array_push($testLC,$data4[$i]);
+
+        }
+//        array_push($result,$testGold,$testLC);
+
+        $date = array();
+        foreach ($testLC as $key => $row)
+        {
+            $date[$key] = $row['created_at'];
+        }
+        array_multisort($date, SORT_ASC, $testLC, SORT_NUMERIC);
+
+
+        return response()->json(['success' =>1, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
+
     }
 }

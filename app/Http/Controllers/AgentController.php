@@ -151,7 +151,7 @@ class AgentController extends Controller
 //                ->where('customer_to_agents.agent_id',$id)
 //                ->get();
 
-        $data = CustomerToAgent::select(DB::raw('get_LC_due_by_customer_id(customer_id) as LC_Due'), DB::raw('get_gold_due_by_customer_id(customer_id) as gold_due'),'users.person_name')
+        $data = CustomerToAgent::select(DB::raw('get_LC_due_by_customer_id(customer_id) as LC_Due'), DB::raw('get_gold_due_by_customer_id(customer_id) as gold_due'),'users.person_name','users.id')
             ->join('users','customer_to_agents.customer_id','=','users.id')
             ->where('customer_to_agents.agent_id',$id)
             ->get();
