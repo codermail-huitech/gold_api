@@ -436,33 +436,91 @@ class CustomerController extends Controller
         return response()->json(['success' => 200, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
     }
 
+//    public function CustomerTransactionTest($id){
+//
+//        $testLC = [];
+//
+//        $data1 = (array) DB::table('users')
+//                 ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
+//                 ->where('id',$id)
+//                 ->get()[0];
+//
+//        array_push($testLC,$data1);
+//
+//        $data2 =   BillDetail::select('bill_masters.id','bill_masters.created_at',DB::raw("sum(bill_details.quantity * bill_details.rate) as cash_received"),DB::raw("sum(bill_details.pure_gold) as  gold_received"),DB::raw("if(sum(bill_details.quantity * bill_details.rate),'Billed','--') as statement"))
+//                  ->join('bill_masters','bill_masters.id','=','bill_details.bill_master_id')
+//                  ->where('bill_masters.customer_id',$id)
+//                  ->groupBy('bill_masters.id')
+//                  ->get();
+//        for($i=0;$i<count($data2);$i++) {
+//
+//            array_push($testLC,$data2[$i]);
+//        }
+//        $data3 =  PaymentCash::select('payment_cashes.cash_received','payment_cashes.created_at' ,DB::raw("if(payment_cashes.cash_received,'--',0) as gold_received"),DB::raw("if(payment_cashes.cash_received,'Received','--') as statement"))
+//                  ->where('person_id',$id)
+//                  ->get();
+//
+//        $data4 =  PaymentGold::select('payment_gold.gold_received','payment_gold.created_at',DB::raw("if(payment_gold.gold_received,'--',0) as cash_received"),DB::raw("if(payment_gold.gold_received,'Received','--') as statement"))
+//                  ->where('person_id',$id)
+//                  ->get();
+//
+//        for($i=0;$i<count($data3);$i++) {
+//
+//            array_push($testLC,$data3[$i]);
+//        }
+//
+//        for($i=0;$i<count($data4);$i++) {
+//
+//            array_push($testLC,$data4[$i]);
+//
+//        }
+//        $date = array();
+//        foreach ($testLC as $key => $row)
+//        {
+//            $date[$key] = $row['created_at'];
+//        }
+//        array_multisort($date, SORT_ASC, $testLC, SORT_NUMERIC);
+//
+//
+//        return response()->json(['success' =>100, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
+//
+//    }
+
+
     public function CustomerTransactionTest($id){
 
         $testLC = [];
+        $LC_balance=0 ;
+        $gold_balance=0 ;
 
         $data1 = (array) DB::table('users')
-                 ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
-                 ->where('id',$id)
-                 ->get()[0];
+            ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.opening_balance_LC as LC_balance','users.opening_balance_Gold as gold_balance','users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
+            ->where('id',$id)
+            ->get()[0];
+
+//        $data1 = (array) DB::table('users')
+//            ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
+//            ->where('id',$id)
+//            ->first();
 
         array_push($testLC,$data1);
 
-        $data2 =   BillDetail::select('bill_masters.id','bill_masters.created_at',DB::raw("sum(bill_details.quantity * bill_details.rate) as cash_received"),DB::raw("if(sum(bill_details.quantity * bill_details.rate),'--',0) as gold_received"),DB::raw("if(sum(bill_details.quantity * bill_details.rate),'Billed','--') as statement"))
-                  ->join('bill_masters','bill_masters.id','=','bill_details.bill_master_id')
-                  ->where('bill_masters.customer_id',$id)
-                  ->groupBy('bill_masters.id')
-                  ->get();
+        $data2 =   BillDetail::select('bill_masters.id','bill_masters.created_at',DB::raw("sum(bill_details.quantity * bill_details.rate) as cash_received"),DB::raw("sum(bill_details.pure_gold) as  gold_received"),DB::raw("if(sum(bill_details.quantity * bill_details.rate),'Billed','--') as statement"))
+            ->join('bill_masters','bill_masters.id','=','bill_details.bill_master_id')
+            ->where('bill_masters.customer_id',$id)
+            ->groupBy('bill_masters.id')
+            ->get();
         for($i=0;$i<count($data2);$i++) {
 
             array_push($testLC,$data2[$i]);
         }
         $data3 =  PaymentCash::select('payment_cashes.cash_received','payment_cashes.created_at' ,DB::raw("if(payment_cashes.cash_received,'--',0) as gold_received"),DB::raw("if(payment_cashes.cash_received,'Received','--') as statement"))
-                  ->where('person_id',$id)
-                  ->get();
+            ->where('person_id',$id)
+            ->get();
 
         $data4 =  PaymentGold::select('payment_gold.gold_received','payment_gold.created_at',DB::raw("if(payment_gold.gold_received,'--',0) as cash_received"),DB::raw("if(payment_gold.gold_received,'Received','--') as statement"))
-                  ->where('person_id',$id)
-                  ->get();
+            ->where('person_id',$id)
+            ->get();
 
         for($i=0;$i<count($data3);$i++) {
 
@@ -481,8 +539,43 @@ class CustomerController extends Controller
         }
         array_multisort($date, SORT_ASC, $testLC, SORT_NUMERIC);
 
+       foreach ($testLC as $value){
+           if($value['statement'] == 'Opening Balance')
+           {
+                $LC_balance = $value['LC_balance'];
+                $gold_balance  = $value['gold_balance'];
+//                $value['LC_balance'] = $LC_balance;
+//                $value['gold_balance'] = $gold_balance;
+//                return  $value;
+           }
+           elseif($value['statement'] == 'Billed')
+           {
+               $LC_balance = $LC_balance + $value['cash_received'];
+               $gold_balance = $gold_balance +  $value['gold_received'];
 
-        return response()->json(['success' =>100, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
+               $value['LC_balance'] = $LC_balance ;
+               $value['gold_balance'] =  $gold_balance ;
+           }
+           else
+           {
+               if($value['cash_received'] != '--')
+               {
+                   $LC_balance = $LC_balance - $value['cash_received'];
+                   $value['LC_balance'] = $LC_balance ;
+                   $value['gold_balance'] =  $gold_balance ;
+               }
+               else
+               {
+                   $gold_balance = $gold_balance - $value['gold_received'];
+                   $value['gold_balance'] =  $gold_balance ;
+                   $value['LC_balance'] = $LC_balance;
+               }
+
+           }
+
+       }
+
+       return response()->json(['success' =>1, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
 
     }
 }
