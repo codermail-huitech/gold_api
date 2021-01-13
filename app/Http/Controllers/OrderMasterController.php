@@ -116,10 +116,15 @@ class OrderMasterController extends Controller
             if($orderMaster){
 //                $data = CustomerToAgent::select()->where('customer_id',$orderMaster->person_id)->where('agent_id',$orderMaster->agent_id)->first();
 //                if(!$data) {
-                    $CustomerToAgent = new CustomerToAgent();
-                    $CustomerToAgent->customer_id = $orderMaster->person_id;
-                    $CustomerToAgent->agent_id = $orderMaster->agent_id;
-                    $CustomerToAgent->save();
+
+                    $CustomerToAgent = CustomerToAgent::where('customer_id',$orderMaster->person_id)->first();
+                    if(!$CustomerToAgent){
+                        $CustomerToAgent = new CustomerToAgent();
+                        $CustomerToAgent->customer_id = $orderMaster->person_id;
+                        $CustomerToAgent->agent_id = $orderMaster->agent_id;
+                        $CustomerToAgent->save();
+                    }
+
 //                }
             }
 

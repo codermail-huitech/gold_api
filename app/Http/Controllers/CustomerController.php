@@ -492,33 +492,36 @@ class CustomerController extends Controller
         $testLC = [];
         $LC_balance=0 ;
         $gold_balance=0 ;
+//
+//        $data1 = (array) DB::table('users')
+////        $data1 = User::
+//            ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.opening_balance_LC as LC_balance','users.opening_balance_Gold as gold_balance','users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
+////            select(DB::raw("users.opening_balance_LC as cash_received"),DB::raw("users.opening_balance_Gold as gold_received"),'users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
+//            ->where('users.id',$id)
+//            ->first();
 
         $data1 = (array) DB::table('users')
-            ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.opening_balance_LC as LC_balance','users.opening_balance_Gold as gold_balance','users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
+            ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.created_at','users.opening_balance_LC as LC_balance','users.opening_balance_Gold as gold_balance' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"),DB::raw("if(users.opening_balance_Gold,'--','--') as reference_number"))
             ->where('id',$id)
-            ->get()[0];
-
-//        $data1 = (array) DB::table('users')
-//            ->select('users.opening_balance_LC as cash_received','users.opening_balance_Gold as gold_received','users.created_at' ,DB::raw("if(users.opening_balance_Gold,'Opening Balance','Opening Balance') as statement"))
-//            ->where('id',$id)
-//            ->first();
+            ->first();
 
         array_push($testLC,$data1);
 
-        $data2 =   BillDetail::select('bill_masters.id','bill_masters.created_at',DB::raw("sum(bill_details.quantity * bill_details.rate) as cash_received"),DB::raw("sum(bill_details.pure_gold) as  gold_received"),DB::raw("if(sum(bill_details.quantity * bill_details.rate),'Billed','--') as statement"))
+        $data2 =   BillDetail::select('bill_masters.id','bill_masters.created_at',DB::raw("bill_masters.bill_number as reference_number"),DB::raw("sum(bill_details.quantity * bill_details.rate) - bill_masters.discount as cash_received"),DB::raw("sum(bill_details.pure_gold) as  gold_received"),DB::raw("if(sum(bill_details.quantity * bill_details.rate),'Billed','--') as statement"))
             ->join('bill_masters','bill_masters.id','=','bill_details.bill_master_id')
             ->where('bill_masters.customer_id',$id)
             ->groupBy('bill_masters.id')
             ->get();
+
         for($i=0;$i<count($data2);$i++) {
 
             array_push($testLC,$data2[$i]);
         }
-        $data3 =  PaymentCash::select('payment_cashes.cash_received','payment_cashes.created_at' ,DB::raw("if(payment_cashes.cash_received,'--',0) as gold_received"),DB::raw("if(payment_cashes.cash_received,'Received','--') as statement"))
+        $data3 =  PaymentCash::select('payment_cashes.cash_received','payment_cashes.created_at',DB::raw("payment_cashes.transaction_id as reference_number") ,DB::raw("if(payment_cashes.cash_received,'--',0) as gold_received"),DB::raw("if(payment_cashes.cash_received,'Received','--') as statement"))
             ->where('person_id',$id)
             ->get();
 
-        $data4 =  PaymentGold::select('payment_gold.gold_received','payment_gold.created_at',DB::raw("if(payment_gold.gold_received,'--',0) as cash_received"),DB::raw("if(payment_gold.gold_received,'Received','--') as statement"))
+        $data4 =  PaymentGold::select('payment_gold.gold_received','payment_gold.created_at',DB::raw("payment_gold.transaction_id as reference_number") ,DB::raw("if(payment_gold.gold_received,'--',0) as cash_received"),DB::raw("if(payment_gold.gold_received,'Received','--') as statement"))
             ->where('person_id',$id)
             ->get();
 
@@ -544,9 +547,9 @@ class CustomerController extends Controller
            {
                 $LC_balance = $value['LC_balance'];
                 $gold_balance  = $value['gold_balance'];
-//                $value['LC_balance'] = $LC_balance;
-//                $value['gold_balance'] = $gold_balance;
-//                return  $value;
+//                $value['LC_balance'] = $value['cash_received'];
+//                $value['gold_balance'] = $value['gold_received'];
+
            }
            elseif($value['statement'] == 'Billed')
            {
@@ -555,6 +558,7 @@ class CustomerController extends Controller
 
                $value['LC_balance'] = $LC_balance ;
                $value['gold_balance'] =  $gold_balance ;
+//               return $testLC;
            }
            else
            {
@@ -575,7 +579,7 @@ class CustomerController extends Controller
 
        }
 
-       return response()->json(['success' =>1, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
+       return response()->json(['success' =>200, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
 
     }
 }
