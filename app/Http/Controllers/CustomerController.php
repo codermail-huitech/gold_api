@@ -46,6 +46,7 @@ class CustomerController extends Controller
         $finalQuery = Str::replaceArray('?', $query->getBindings(), $query->toSql());
         $result = DB::table(DB::raw("($finalQuery) as table1"))->select()->get();
         return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
+
     }
 
 
@@ -582,4 +583,6 @@ class CustomerController extends Controller
        return response()->json(['success' =>200, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
 
     }
+
+
 }

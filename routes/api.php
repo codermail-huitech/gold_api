@@ -109,6 +109,8 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/MyTest', 'CustomerController@MyTest');
     Route::get('/employeeTransactionTest/{id}', 'CustomerController@employeeTransactionTest');
     Route::get('/getCustomerPassbook/{id}', 'CustomerController@CustomerTransactionTest');
+    //my testing
+    Route::post('/testPhp', 'AgentController@testPhp');
 
 
 
@@ -244,6 +246,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('/getEmployeeMaterial', 'CustomerController@getEmployeeMaterial');
     Route::get('/myTest', 'CustomerController@MyTest');
     Route::get('/getCustomerPassbook/{id}', 'CustomerController@CustomerTransactionTest');
+
 
 
 

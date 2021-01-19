@@ -25,7 +25,7 @@ class BillMasterController extends Controller
 
 
 
-        DB::beginTransaction();
+//        DB::beginTransaction();
         $temp_date = explode("-",$master['billDate']);
         $accounting_year='';
         if($temp_date[1]>3){
@@ -79,11 +79,13 @@ class BillMasterController extends Controller
 //                    $newResult->order_master_id = $newData['order_master_id'];
                     if(array_key_exists("tag",$newDetails)){
                         $newResult->tag = $newDetails['tag'];
+//                        $newResult->rate = $newDetails['amount'];
+
                     }
                     else{
                         $newResult->job_master_id = $newDetails['id'];
-                    }
 
+                    }
                     $newResult->model_number = $newDetails['model_number'];
                     $newResult->size = $newDetails['size'];
                     $newResult->gross_weight = $newDetails['gross_weight'];
@@ -117,11 +119,11 @@ class BillMasterController extends Controller
                 }
 
             }
-            DB::commit();
+//            DB::commit();
         }
         catch (\Exception $e)
         {
-            DB::rollBack();
+//            DB::rollBack();
             return response()->json(['Success'=>1,'Exception'=>$e], 401);
         }
 

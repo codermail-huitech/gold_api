@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\BillMaster;
 use App\Model\CustomerToAgent;
 use App\Model\TransactionType;
 use App\User;
@@ -158,4 +159,8 @@ class AgentController extends Controller
 
         return response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }
+
+
+
+
 }
