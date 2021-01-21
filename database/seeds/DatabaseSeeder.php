@@ -147,32 +147,32 @@ class DatabaseSeeder extends Seeder
 
         //rates  table data
         //base Rate
-        Rate::create(['price_code_id'=>1,'price'=>'175','p_loss'=>'0.1','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>2,'price'=>'200','p_loss'=>'0.19','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>3,'price'=>'225','p_loss'=>'0.28','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>4,'price'=>'250','p_loss'=>'0.37','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>5,'price'=>'275','p_loss'=>'0.46','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>6,'price'=>'300','p_loss'=>'0.55','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>7,'price'=>'325','p_loss'=>'0.64','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>8,'price'=>'350','p_loss'=>'0.73','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>9,'price'=>'375','p_loss'=>'0.82','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>10,'price'=>'400','p_loss'=>'0.91','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>11,'price'=>'425','p_loss'=>'1','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>12,'price'=>'450','p_loss'=>'1.09','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>13,'price'=>'475','p_loss'=>'1.18','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>14,'price'=>'500','p_loss'=>'1.27','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>15,'price'=>'525','p_loss'=>'1.36','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>16,'price'=>'550','p_loss'=>'1.45','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>17,'price'=>'575','p_loss'=>'1.54','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>18,'price'=>'600','p_loss'=>'1.63','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>19,'price'=>'625','p_loss'=>'1.72','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>20,'price'=>'650','p_loss'=>'1.81','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>21,'price'=>'675','p_loss'=>'1.9','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>22,'price'=>'700','p_loss'=>'1.99','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>23,'price'=>'725','p_loss'=>'2.08','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>24,'price'=>'750','p_loss'=>'2.17','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>25,'price'=>'775','p_loss'=>'2.26','customer_category_id'=>1]);
-        Rate::create(['price_code_id'=>26,'price'=>'800','p_loss'=>'2.35','customer_category_id'=>1]);
+        Rate::create(['price_code_id'=>1,'price'=>'175','p_loss'=>'0.1','customer_category_id'=>1 ,'discount'=>20]);
+        Rate::create(['price_code_id'=>2,'price'=>'200','p_loss'=>'0.19','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>3,'price'=>'225','p_loss'=>'0.28','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>4,'price'=>'250','p_loss'=>'0.37','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>5,'price'=>'275','p_loss'=>'0.46','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>6,'price'=>'300','p_loss'=>'0.55','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>7,'price'=>'325','p_loss'=>'0.64','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>8,'price'=>'350','p_loss'=>'0.73','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>9,'price'=>'375','p_loss'=>'0.82','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>10,'price'=>'400','p_loss'=>'0.91','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>11,'price'=>'425','p_loss'=>'1','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>12,'price'=>'450','p_loss'=>'1.09','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>13,'price'=>'475','p_loss'=>'1.18','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>14,'price'=>'500','p_loss'=>'1.27','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>15,'price'=>'525','p_loss'=>'1.36','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>16,'price'=>'550','p_loss'=>'1.45','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>17,'price'=>'575','p_loss'=>'1.54','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>18,'price'=>'600','p_loss'=>'1.63','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>19,'price'=>'625','p_loss'=>'1.72','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>20,'price'=>'650','p_loss'=>'1.81','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>21,'price'=>'675','p_loss'=>'1.9','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>22,'price'=>'700','p_loss'=>'1.99','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>23,'price'=>'725','p_loss'=>'2.08','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>24,'price'=>'750','p_loss'=>'2.17','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>25,'price'=>'775','p_loss'=>'2.26','customer_category_id'=>1,'discount'=>20]);
+        Rate::create(['price_code_id'=>26,'price'=>'800','p_loss'=>'2.35','customer_category_id'=>1,'discount'=>20]);
 
         //base-50
         Rate::create(['price_code_id'=>1,'price'=>'125','p_loss'=>'0.1','customer_category_id'=>2]);
