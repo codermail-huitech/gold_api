@@ -111,6 +111,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/getCustomerPassbook/{id}', 'CustomerController@CustomerTransactionTest');
     //my testing
     Route::post('/testPhp', 'AgentController@testPhp');
+    Route::get('/joinTest', 'CustomerController@joinTest');
 
 
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\CustomerCategory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,6 +51,12 @@ class User extends Authenticatable implements JWTSubject
         if ( !empty($password) ) {
             $this->attributes['password'] = bcrypt($password);
         }
+    }
+
+    public function customerCategoryId(){
+       return  $this->belongsTo('App\Model\CustomerCategory','customer_category_id');
+
+
     }
 
 

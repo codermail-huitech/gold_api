@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Array_;
 use PhpParser\Node\Expr\Cast\Object_;
+use function foo\func;
 
 class CustomerController extends Controller
 {
@@ -196,7 +197,7 @@ class CustomerController extends Controller
     public function getFinishedJobData(Request $request)
     {
         $input = ($request->json()->all());
-        $data = JobMaster::select(DB::raw('order_masters.id as order_master_id'),'rates.price', DB::raw('karigarh.person_name as karigarh_name'), DB::raw('users.id as customer_id'), DB::raw('karigarh.id as karigarh_id'),'users.mv','users.customer_category_id', 'order_masters.order_number', 'order_masters.date_of_order', 'order_masters.agent_id','job_masters.gross_weight', 'products.model_number', 'order_details.size', 'order_details.quantity','order_details.material_id', 'order_details.price','order_details.discount','order_masters.date_of_order', 'job_masters.job_number', 'users.person_name', 'users.address1', 'users.mobile1', 'users.state', 'users.po', 'users.area', 'users.city', 'users.pin', 'job_masters.id','job_masters.status_id', DB::raw("if(job_masters.status_id = 100,'COMPLETED',if(job_masters.status_id = 102,'STOCK CREATED','WORK IN PROGRESS')) as status"))
+        $data = JobMaster::select(DB::raw('order_masters.id as order_master_id'),'rates.price','products.model_number', DB::raw('karigarh.person_name as karigarh_name'), DB::raw('users.id as customer_id'), DB::raw('karigarh.id as karigarh_id'),'users.mv','users.customer_category_id', 'order_masters.order_number', 'order_masters.date_of_order', 'order_masters.agent_id','job_masters.gross_weight', 'products.model_number', 'order_details.size', 'order_details.quantity','order_details.material_id', 'order_details.price','order_details.discount','order_masters.date_of_order', 'job_masters.job_number', 'users.person_name', 'users.address1', 'users.mobile1', 'users.state', 'users.po', 'users.area', 'users.city', 'users.pin', 'job_masters.id','job_masters.status_id', DB::raw("if(job_masters.status_id = 100,'COMPLETED',if(job_masters.status_id = 102,'STOCK CREATED','WORK IN PROGRESS')) as status"))
             ->join('users as karigarh', 'job_masters.karigarh_id', '=', 'karigarh.id')
             ->join('order_details', 'job_masters.order_details_id', '=', 'order_details.id')
             ->join('order_masters', 'order_details.order_master_id', '=', 'order_masters.id')
@@ -583,6 +584,55 @@ class CustomerController extends Controller
        return response()->json(['success' =>200, 'data' => $testLC], 200, [], JSON_NUMERIC_CHECK);
 
     }
+
+    public  function  joinTest(){
+
+        //type-1
+        $result = User::select()
+                  ->join('bill_masters','bill_masters.customer_id','=','users.id')
+                  ->get();
+        return response()->json(['success'=>300,'result'=>$result],200,[],JSON_NUMERIC_CHECK);
+
+        //type-2
+
+        $result1 = User::select()
+                   ->join('customer_categories',function ($join){
+                      $join->on('customer_categories.id','=','users.customer_category_id') ;
+                   })
+                   ->get();
+
+        //type-3
+
+        $result2 = DB::table('users')
+                   ->select()
+                   ->join('customer_categories','customer_categories.id','=','users.customer_category_id')
+                   ->get();
+
+        //type-4
+
+        $result3=DB::table('users')
+                 ->join('customer_categories',function($join){
+                     $join->on('customer_categories.id','=','users.customer_category_id');
+                })
+                ->get();
+
+        return response()->json(['success'=>300,'result'=>$result3],200,[],JSON_NUMERIC_CHECK);
+    }
+
+//    public function testModel(){
+//        $result = User::find(18);
+//
+//
+//        $result->CC = 123;
+//
+////        $result->setAttribute('CC',$result->customerCategoryId->customer_category_name) ;
+//        return $result;
+//
+////         $result->customerCategoryId->customer_category_name);
+//
+//       return response()->json(['success'=>200,'result'=> $result],200,[],JSON_NUMERIC_CHECK);
+//
+//    }
 
 
 }

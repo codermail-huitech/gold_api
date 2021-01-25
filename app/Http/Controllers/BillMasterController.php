@@ -25,7 +25,7 @@ class BillMasterController extends Controller
 
 
 
-//        DB::beginTransaction();
+        DB::beginTransaction();
         $temp_date = explode("-",$master['billDate']);
         $accounting_year='';
         if($temp_date[1]>3){
@@ -119,11 +119,11 @@ class BillMasterController extends Controller
                 }
 
             }
-//            DB::commit();
+            DB::commit();
         }
         catch (\Exception $e)
         {
-//            DB::rollBack();
+            DB::rollBack();
             return response()->json(['Success'=>1,'Exception'=>$e], 401);
         }
 
