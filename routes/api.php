@@ -110,7 +110,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/employeeTransactionTest/{id}', 'CustomerController@employeeTransactionTest');
     Route::get('/getCustomerPassbook/{id}', 'CustomerController@CustomerTransactionTest');
     //my testing
-    Route::post('/testPhp', 'AgentController@testPhp');
+    Route::get('/testModel', 'CustomerController@testModel');
     Route::get('/joinTest', 'CustomerController@joinTest');
 
 

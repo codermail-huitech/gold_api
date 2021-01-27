@@ -17,6 +17,7 @@ class CreateBillAdjustmentsTable extends Migration
             $table->id();
             $table->String('name', 100)->nullable(false);
             $table->double('value')->nullable(false);
+            $table->string('comment')->nullable(false);
             $table->timestamps();
         });
     }

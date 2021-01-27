@@ -620,17 +620,10 @@ class CustomerController extends Controller
     }
 
 //    public function testModel(){
-//        $result = User::find(18);
+//       $test = 'test';
+//       $test1 = 'test is going on';
+//       print_r(ucfirst($test));
 //
-//
-//        $result->CC = 123;
-//
-////        $result->setAttribute('CC',$result->customerCategoryId->customer_category_name) ;
-//        return $result;
-//
-////         $result->customerCategoryId->customer_category_name);
-//
-//       return response()->json(['success'=>200,'result'=> $result],200,[],JSON_NUMERIC_CHECK);
 //
 //    }
 

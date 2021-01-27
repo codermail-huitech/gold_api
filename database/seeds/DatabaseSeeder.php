@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
 //        StatusType::create(['id'=>101, 'name'=>'Bill Created']);
         StatusType::create(['id'=>102, 'name'=>'Stock Created']);
 
-        BillAdjustment::create(['name'=>'pan', 'value'=>40]);
-        BillAdjustment::create(['name'=>'nitric', 'value'=>96]);
+        BillAdjustment::create(['name'=>'pan', 'value'=>40,'comment'=>'40% of pan value taken']);
+        BillAdjustment::create(['name'=>'nitric', 'value'=>96,'comment'=>'96% of nitric value taken']);
 
         //customer_categories table data
         CustomerCategory::create(['customer_category_name'=>'Base']);

@@ -243,4 +243,13 @@ class BillMasterController extends Controller
     {
         //
     }
+
+    public function testModel(){
+        $result = BillMaster::find(1);
+        $result->setAttribute('Customer',$result->getCustomer->person_name);
+
+        return $result->getBills;
+
+        return response()->json(['success'=>100,'result'=>$result]);
+    }
 }

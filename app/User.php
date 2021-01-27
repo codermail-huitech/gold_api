@@ -53,11 +53,7 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public function customerCategoryId(){
-       return  $this->belongsTo('App\Model\CustomerCategory','customer_category_id');
 
-
-    }
 
 
 }
