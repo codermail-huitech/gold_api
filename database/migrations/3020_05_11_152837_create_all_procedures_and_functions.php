@@ -64,7 +64,7 @@ class CreateAllProceduresAndFunctions extends Migration
 
 
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_due_by_customer_id_by_agent_id_for_customer;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_gold_due_by_customer_id_by_agent_id_for_customer;
             CREATE FUNCTION test_db.`get_gold_due_by_customer_id_by_agent_id_for_customer`(`param_customer_id` INT, `param_agent_id` INT) RETURNS double
                 DETERMINISTIC
             BEGIN
@@ -90,7 +90,7 @@ class CreateAllProceduresAndFunctions extends Migration
                         END;
             ');
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_LC_due_by_customer_id_and_by_agent_id_for_customer;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_LC_due_by_customer_id_and_by_agent_id_for_customer;
             CREATE FUNCTION test_db.`get_LC_due_by_customer_id_and_by_agent_id_for_customer`(`param_customer_id` INT, `param_agent_id` INT) RETURNS double
                 DETERMINISTIC
             BEGIN
@@ -152,7 +152,7 @@ class CreateAllProceduresAndFunctions extends Migration
 
         //UPDATED FUNCTION
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_quantity;
-            CREATE FUNCTION test_db.`get_gold_quantity`(`param_job_master_id` INT) RETURNS double
+            CREATE FUNCTION get_gold_quantity(param_job_master_id INT) RETURNS double
                 DETERMINISTIC
             BEGIN
                   DECLARE temp_gold_send double;
@@ -213,8 +213,8 @@ class CreateAllProceduresAndFunctions extends Migration
 //                    END;'
 //            );
 
-        DB::unprepared( 'DROP PROCEDURE IF EXISTS test_db.getStockWithTag;
-                    CREATE PROCEDURE test_db.`getStockWithTag`()
+        DB::unprepared( 'DROP PROCEDURE IF EXISTS getStockWithTag;
+                    CREATE PROCEDURE getStockWithTag()
                     BEGIN
 
 
@@ -235,7 +235,7 @@ class CreateAllProceduresAndFunctions extends Migration
 
         );
 
-        DB::unprepared( 'DROP PROCEDURE IF EXISTS test_db.getBillByMasterId;
+        DB::unprepared( 'DROP PROCEDURE IF EXISTS getBillByMasterId;
                     CREATE PROCEDURE test_db.`getBillByMasterId`(IN `temp_bill_master_id` INT)
                     BEGIN
 
@@ -247,7 +247,7 @@ class CreateAllProceduresAndFunctions extends Migration
 
         );
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_LC_due_by_customer_id;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_LC_due_by_customer_id;
             CREATE FUNCTION test_db.`get_LC_due_by_customer_id`(`param_customer_id` INT) RETURNS double
                 DETERMINISTIC
             BEGIN
@@ -269,7 +269,7 @@ class CreateAllProceduresAndFunctions extends Migration
                   RETURN temp_total_LC_due;
                END;');
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_due_by_customer_id;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_gold_due_by_customer_id;
                 CREATE FUNCTION test_db.`get_gold_due_by_customer_id`(`param_customer_id` INT) RETURNS double
                     DETERMINISTIC
                 BEGIN
@@ -294,7 +294,7 @@ class CreateAllProceduresAndFunctions extends Migration
             END;'
         );
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_bill_info;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_bill_info;
             CREATE FUNCTION test_db.`get_bill_info`(`param_bill_master_id` INT) RETURNS double
             DETERMINISTIC
             BEGIN
@@ -312,7 +312,7 @@ class CreateAllProceduresAndFunctions extends Migration
             END;'
         );
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_billed_gold_by_bill_master_id;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_billed_gold_by_bill_master_id;
         CREATE FUNCTION test_db.`get_billed_gold_by_bill_master_id`(`param_bill_master_id` INT) RETURNS double
         DETERMINISTIC
         BEGIN
@@ -328,7 +328,7 @@ class CreateAllProceduresAndFunctions extends Migration
                END;'
         );
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_billed_LC_by_bill_master_id;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_billed_LC_by_bill_master_id;
                 CREATE FUNCTION test_db.`get_billed_LC_by_bill_master_id`(`param_bill_master_id` INT) RETURNS double
                     DETERMINISTIC
                 BEGIN
@@ -349,7 +349,7 @@ class CreateAllProceduresAndFunctions extends Migration
                  END;'
         );
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_opening_balance_gold_by_customer_id;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_opening_balance_gold_by_customer_id;
                 CREATE FUNCTION test_db.`get_opening_balance_gold_by_customer_id`(`param_customer_id` INT) RETURNS double
                     DETERMINISTIC
                 BEGIN
@@ -365,7 +365,7 @@ class CreateAllProceduresAndFunctions extends Migration
                  END;'
         );
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_opening_balance_LC_by_customer_id;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_opening_balance_LC_by_customer_id;
                 CREATE FUNCTION test_db.`get_opening_balance_LC_by_customer_id`(`param_customer_id` INT) RETURNS double
                     DETERMINISTIC
                 BEGIN
@@ -382,7 +382,7 @@ class CreateAllProceduresAndFunctions extends Migration
         );
 
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_total_gold_payment_by_customer_id;
+        DB::unprepared('DROP FUNCTION IF EXISTS get_total_gold_payment_by_customer_id;
                 CREATE FUNCTION test_db.`get_total_gold_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
                     DETERMINISTIC
                 BEGIN
@@ -399,7 +399,7 @@ class CreateAllProceduresAndFunctions extends Migration
         );
 
         DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_total_LC_payment_by_customer_id;
-                CREATE FUNCTION test_db.`get_total_LC_payment_by_customer_id`(`param_customer_id` INT) RETURNS double
+                CREATE FUNCTION get_total_LC_payment_by_customer_id(param_customer_id INT) RETURNS double
                     DETERMINISTIC
                 BEGIN
 
@@ -414,8 +414,8 @@ class CreateAllProceduresAndFunctions extends Migration
                 END;'
         );
 
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_employee_balance;
-                CREATE FUNCTION test_db.`get_employee_balance`(`param_employee_id` INT , `param_material_id` INT  ) RETURNS double
+        DB::unprepared('DROP FUNCTION IF EXISTS get_employee_balance;
+                CREATE FUNCTION get_employee_balance(param_employee_id INT , param_material_id INT  ) RETURNS double
                     DETERMINISTIC
                 BEGIN
                                   DECLARE temp_opening_balance double;
@@ -602,8 +602,8 @@ class CreateAllProceduresAndFunctions extends Migration
 //            END;
 //        ');
 
-        DB::unprepared('DROP PROCEDURE IF EXISTS test_db.employeeTransaction;
-            CREATE PROCEDURE test_db.`employeeTransaction`(IN `param_employee_id` INT, IN `param_transaction_masters_id`  INT)
+        DB::unprepared('DROP PROCEDURE IF EXISTS employeeTransaction;
+            CREATE PROCEDURE employeeTransaction(IN param_employee_id INT, IN param_transaction_masters_id  INT)
             BEGIN
 
                                    select transaction_types.transaction_type, x.employee_id as user1 ,y.employee_id as user2 ,user1.person_name as user1_person_name,user2.person_name  as user2_person_name,x.transaction_value as user1_val,  y.transaction_value as user2_val ,x.transaction_masters_id, materials.material_name,x.quantity, x.created_at
