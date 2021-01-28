@@ -181,6 +181,14 @@ class CreateAllProceduresAndFunctions extends Migration
                   inner join order_details ON order_details.id = job_masters.order_details_id
                   where job_masters.id=param_job_master_id;
 
+
+                  select (users.mv *order_details.quantity) into temp_total_mv from  job_masters
+                  inner join order_details ON order_details.id = job_masters.order_details_id
+                  inner join order_masters ON order_masters.id = order_details.order_master_id
+                  inner join users ON users.id = order_masters.person_id
+                  where job_masters.id = param_job_master_id;
+
+
                   select (((temp_pan_send + temp_pan_ret)*bill_adjustments.value)/100) into total_pan FROM bill_adjustments where id=1;
 
                   select temp_gold_send + temp_gold_ret  + total_pan + temp_nitric_ret + temp_ploss_info into temp_gold_quantity ;
