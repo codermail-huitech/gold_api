@@ -619,13 +619,16 @@ class CustomerController extends Controller
         return response()->json(['success'=>300,'result'=>$result3],200,[],JSON_NUMERIC_CHECK);
     }
 
-//    public function testModel(){
-//       $test = 'test';
-//       $test1 = 'test is going on';
-//       print_r(ucfirst($test));
-//
-//
-//    }
+    public function testModel(){
+       $test = ["person"=>"100","city"=>"200","Type"=>"50"];
+       print_r('test');
+
+       print_r( asort($test));
+       print_r( arsort($test));
+
+
+
+    }
 
 
 }

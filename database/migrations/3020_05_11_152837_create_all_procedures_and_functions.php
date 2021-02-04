@@ -114,9 +114,9 @@ class CreateAllProceduresAndFunctions extends Migration
                                END;
             ');
 
-        //OLD FUNCTION
-//            DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_quantity;
-//                CREATE FUNCTION test_db.`get_gold_quantity`(`param_job_master_id` INT) RETURNS double
+       // OLD FUNCTION
+//            DB::unprepared('DROP FUNCTION IF EXISTS get_gold_quantity;
+//                CREATE FUNCTION `get_gold_quantity`(`param_job_master_id` INT) RETURNS double
 //                    DETERMINISTIC
 //                BEGIN
 //                  DECLARE temp_gold_send double;
@@ -151,54 +151,54 @@ class CreateAllProceduresAndFunctions extends Migration
 //            );
 
         //UPDATED FUNCTION
-        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_quantity;
-            CREATE FUNCTION get_gold_quantity(param_job_master_id INT) RETURNS double
-                DETERMINISTIC
-            BEGIN
-                  DECLARE temp_gold_send double;
-                  DECLARE temp_gold_ret double;
-                  DECLARE temp_pan_send double;
-                  DECLARE temp_pan_ret double;
-                  DECLARE total_pan double;
-                  DECLARE temp_nitric_ret double;
-                  DECLARE temp_ploss_info double;
-                  DECLARE temp_gold_quantity double;
-                  DECLARE temp_billAdjustment_nitric double;
-
-                  select bill_adjustments.value into temp_billAdjustment_nitric FROM bill_adjustments where id=2;
-
-                  select ifNull(sum(material_quantity),0) into temp_gold_send   from job_details where job_master_id=param_job_master_id and job_task_id =1 ;
-
-                  select ifNull(sum(material_quantity),0) into temp_gold_ret   from job_details where job_master_id=param_job_master_id and job_task_id =2;
-
-                  select ifNull(sum(material_quantity),0) into temp_pan_send   from job_details where job_master_id=param_job_master_id and job_task_id =5;
-
-                  select ifNull(sum(material_quantity),0) into temp_pan_ret   from job_details where job_master_id=param_job_master_id and job_task_id =6;
-
-                  select ifNull((sum(material_quantity)*temp_billAdjustment_nitric)/100,0) into temp_nitric_ret from job_details where job_master_id=param_job_master_id and job_task_id =7;
-
-                  select (order_details.p_loss*order_details.quantity) into temp_ploss_info from job_masters
-                  inner join order_details ON order_details.id = job_masters.order_details_id
-                  where job_masters.id=param_job_master_id;
-
-
-                  select (users.mv *order_details.quantity) into temp_total_mv from  job_masters
-                  inner join order_details ON order_details.id = job_masters.order_details_id
-                  inner join order_masters ON order_masters.id = order_details.order_master_id
-                  inner join users ON users.id = order_masters.person_id
-                  where job_masters.id = param_job_master_id;
-
-
-                  select (((temp_pan_send + temp_pan_ret)*bill_adjustments.value)/100) into total_pan FROM bill_adjustments where id=1;
-
-                  select temp_gold_send + temp_gold_ret  + total_pan + temp_nitric_ret + temp_ploss_info into temp_gold_quantity ;
-
-                IF temp_gold_quantity IS NULL THEN
-                    RETURN 0;
-                END IF;
-                RETURN temp_gold_quantity;
-                END;
-'       );
+//        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_gold_quantity;
+//            CREATE FUNCTION test_db.`get_gold_quantity`(`param_job_master_id` INT) RETURNS double
+//                DETERMINISTIC
+//            BEGIN
+//                  DECLARE temp_gold_send double;
+//                  DECLARE temp_gold_ret double;
+//                  DECLARE temp_pan_send double;
+//                  DECLARE temp_pan_ret double;
+//                  DECLARE total_pan double;
+//                  DECLARE temp_nitric_ret double;
+//                  DECLARE temp_ploss_info double;
+//                  DECLARE temp_gold_quantity double;
+//                  DECLARE temp_billAdjustment_nitric double;
+//
+//                  select bill_adjustments.value into temp_billAdjustment_nitric FROM bill_adjustments where id=2;
+//
+//                  select ifNull(sum(material_quantity),0) into temp_gold_send   from job_details where job_master_id=param_job_master_id and job_task_id =1 ;
+//
+//                  select ifNull(sum(material_quantity),0) into temp_gold_ret   from job_details where job_master_id=param_job_master_id and job_task_id =2;
+//
+//                  select ifNull(sum(material_quantity),0) into temp_pan_send   from job_details where job_master_id=param_job_master_id and job_task_id =5;
+//
+//                  select ifNull(sum(material_quantity),0) into temp_pan_ret   from job_details where job_master_id=param_job_master_id and job_task_id =6;
+//
+//                  select ifNull((sum(material_quantity)*temp_billAdjustment_nitric)/100,0) into temp_nitric_ret from job_details where job_master_id=param_job_master_id and job_task_id =7;
+//
+//                  select (order_details.p_loss*order_details.quantity) into temp_ploss_info from job_masters
+//                  inner join order_details ON order_details.id = job_masters.order_details_id
+//                  where job_masters.id=param_job_master_id;
+//
+//
+//                  select (users.mv * order_details.quantity) into temp_total_mv from  job_masters
+//                  inner join order_details ON order_details.id = job_masters.order_details_id
+//                  inner join order_masters ON order_masters.id = order_details.order_master_id
+//                  inner join users ON users.id = order_masters.person_id
+//                  where job_masters.id = param_job_master_id;
+//
+//
+//                  select (((temp_pan_send + temp_pan_ret)*bill_adjustments.value)/100) into total_pan FROM bill_adjustments where id=1;
+//
+//                  select temp_gold_send + temp_gold_ret  + total_pan + temp_nitric_ret + temp_ploss_info + temp_total_mv into temp_gold_quantity ;
+//
+//                IF temp_gold_quantity IS NULL THEN
+//                    RETURN 0;
+//                END IF;
+//                RETURN temp_gold_quantity;
+//                END;'
+//        );
 
 //
 //            DB::unprepared('DROP PROCEDURE IF EXISTS test_db.getStockWithTag;
@@ -220,6 +220,60 @@ class CreateAllProceduresAndFunctions extends Migration
 //
 //                    END;'
 //            );
+
+
+
+
+        //new updated function------------
+        DB::unprepared('DROP FUNCTION IF EXISTS get_gold_quantity;
+                CREATE FUNCTION `get_gold_quantity`(`param_job_master_id` INT) RETURNS double
+                    DETERMINISTIC
+         BEGIN
+                  DECLARE temp_gold_send double;
+                  DECLARE temp_gold_ret double;
+                  DECLARE temp_pan_send double;
+                  DECLARE temp_pan_ret double;
+                  DECLARE total_pan double;
+                  DECLARE temp_nitric_ret double;
+                  DECLARE temp_ploss_info double;
+                  DECLARE temp_gold_quantity double;
+                  DECLARE temp_billAdjustment_nitric double;
+                  DECLARE temp_total_mv double;
+
+                  select bill_adjustments.value into temp_billAdjustment_nitric FROM bill_adjustments where id=2;
+
+                  select ifNull(sum(material_quantity),0) into temp_gold_send   from job_details where job_master_id=param_job_master_id and job_task_id =1 ;
+
+                  select ifNull(sum(material_quantity),0) into temp_gold_ret   from job_details where job_master_id=param_job_master_id and job_task_id =2;
+
+                  select ifNull(sum(material_quantity),0) into temp_pan_send   from job_details where job_master_id=param_job_master_id and job_task_id =5;
+
+                  select ifNull(sum(material_quantity),0) into temp_pan_ret   from job_details where job_master_id=param_job_master_id and job_task_id =6;
+
+                  select ifNull((sum(material_quantity)*temp_billAdjustment_nitric)/100,0) into temp_nitric_ret from job_details where job_master_id=param_job_master_id and job_task_id =7;
+
+                  select (order_details.p_loss*order_details.quantity) into temp_ploss_info from job_masters
+                  inner join order_details ON order_details.id = job_masters.order_details_id
+                  where job_masters.id=param_job_master_id;
+
+
+                  select (users.mv * order_details.quantity) into temp_total_mv from  job_masters
+                  inner join order_details ON order_details.id = job_masters.order_details_id
+                  inner join order_masters ON order_masters.id = order_details.order_master_id
+                  inner join users ON users.id = order_masters.person_id
+                  where job_masters.id = param_job_master_id;
+
+
+                  select (((temp_pan_send + temp_pan_ret)*bill_adjustments.value)/100) into total_pan FROM bill_adjustments where id=1;
+
+                  select temp_gold_send + temp_gold_ret  + total_pan + temp_nitric_ret + temp_ploss_info + temp_total_mv into temp_gold_quantity ;
+
+                IF temp_gold_quantity IS NULL THEN
+                    RETURN 0;
+                END IF;
+                RETURN temp_gold_quantity;
+                END;'
+        );
 
         DB::unprepared( 'DROP PROCEDURE IF EXISTS getStockWithTag;
                     CREATE PROCEDURE getStockWithTag()
