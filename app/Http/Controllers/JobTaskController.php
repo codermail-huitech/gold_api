@@ -125,7 +125,7 @@ class JobTaskController extends Controller
 
     public function getOneJobData($id)
     {
-        $data=JobMaster::select('users.person_name','job_masters.id','job_masters.status_id','job_masters.job_number','job_masters.order_details_id','job_masters.karigarh_id','job_masters.date','order_details.quantity','order_details.size','order_details.material_id','order_details.product_id','order_details.p_loss','products.model_number','order_masters.order_number','order_masters.date_of_delivery','materials.material_name')
+        $data=JobMaster::select('order_details.approx_gold','users.person_name','job_masters.id','job_masters.status_id','job_masters.job_number','job_masters.order_details_id','job_masters.karigarh_id','job_masters.date','order_details.quantity','order_details.size','order_details.material_id','order_details.product_id','order_details.p_loss','products.model_number','order_masters.order_number','order_masters.date_of_delivery','materials.material_name')
             ->join('order_details','job_masters.order_details_id','order_details.id')
             ->join('materials','order_details.material_id','materials.id')
             ->join('order_masters','order_details.order_master_id','=','order_masters.id')
