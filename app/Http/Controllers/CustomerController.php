@@ -40,7 +40,10 @@ class CustomerController extends Controller
             'pin',
             'opening_balance_LC',
             'opening_balance_Gold',
-            'mv')->where('person_type_id', '=', 10);
+            'mv')
+            ->where('person_type_id', '=', 10)
+            ->where('customer_category_id', '!=', 5);
+//            ->whereNotIn('customer_category_id',4);
 
         //to bind the parameters, the above statement does not bind the parameters so we need to bind them
         // using following statement

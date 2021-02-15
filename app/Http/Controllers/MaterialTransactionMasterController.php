@@ -61,12 +61,6 @@ class MaterialTransactionMasterController extends Controller
         return  response()->json(['success'=>1,'data'=>$data],200,[],JSON_NUMERIC_CHECK);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
