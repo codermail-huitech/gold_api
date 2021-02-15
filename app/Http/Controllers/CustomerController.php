@@ -70,8 +70,9 @@ class CustomerController extends Controller
         $customer->pin = $request->input('pin');
         $customer->opening_balance_LC = $request->input('opening_balance_LC');
         $customer->opening_balance_Gold = $request->input('opening_balance_Gold');
+
 //        if ($request->input('mv')) {
-        $customer->mv = $request->input('mv');
+//        $customer->mv = $request->input('mv');
 //        }
         $customer->save();
         return response()->json(['success' => 1, 'data' => $customer], 200,[],JSON_NUMERIC_CHECK);
@@ -620,11 +621,11 @@ class CustomerController extends Controller
     }
 
     public function testModel(){
-       $test = ["person"=>"100","city"=>"200","Type"=>"50"];
-       print_r('test');
-
-       print_r( asort($test));
-       print_r( arsort($test));
+     $test = ['New York','US','UK','prtugl','Russ'];
+     foreach ($test as $item){
+         print_r($item);
+         print_r('</br>');
+     }
 
 
 
