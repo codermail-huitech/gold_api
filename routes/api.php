@@ -54,6 +54,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
     Route::get('/finishedJobs', 'JobTaskController@getFinishedJobs');
     Route::get('/getOneJobData/{id}', 'JobTaskController@getOneJobData');
+    Route::get('/countTaskBadgeValue/{id}', 'JobTaskController@countTaskBadgeValue');
 
     //job_master
     Route::post('/jobs', 'JobMasterController@saveJob');
@@ -197,6 +198,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     Route::get('/savedJobs', 'JobTaskController@getSavedJobs');
     Route::get('/finishedJobs', 'JobTaskController@getFinishedJobs');
     Route::get('/getOneJobData/{id}', 'JobTaskController@getOneJobData');
+    Route::get('/countTaskBadgeValue/{id}', 'JobTaskController@countTaskBadgeValue');
 
     //job_master
     Route::post('/jobs', 'JobMasterController@saveJob');

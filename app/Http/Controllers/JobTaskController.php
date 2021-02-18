@@ -145,9 +145,33 @@ class JobTaskController extends Controller
      * @param  \App\Model\JobTask  $jobTask
      * @return \Illuminate\Http\Response
      */
-    public function show(JobTask $jobTask)
+    public function countTaskBadgeValue($id)
     {
-        //
+//        $table1 = JobDetail::select()
+//                  ->where('id',$id);
+//
+//        $result = JobTask::select('job_tasks.id','job_tasks.task_name',DB::raw("count(table1.job_task_id) as badgeValue"))
+//                  ->leftJoinSub($table1, 'table1', function ($join) {
+//                          $join->on('job_tasks.id', '=', 'table1.job_task_id');
+//                  })
+//                  ->groupBy('table1.job_task_id','job_tasks.id')
+//                  ->get();
+//
+//        return $result;
+
+
+        $table1 = DB::table('job_details')
+                      ->where('job_details.job_master_id', $id);
+
+
+        $result = DB::table('job_tasks')->select('job_tasks.id','job_tasks.task_name',DB::raw("count(table1.job_task_id) as badgeValue"))
+            ->leftJoinSub($table1, 'table1', function ($join) {
+                $join->on('job_tasks.id', '=', 'table1.job_task_id');
+            })
+            ->groupBy( 'table1.job_task_id','job_tasks.id')
+            ->get();
+
+        return $result;
     }
 
     /**
