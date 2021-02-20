@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\BillAdjustment;
 use App\Model\JobDetail;
 use App\Model\JobMaster;
 use App\Model\OrderDetail;
@@ -160,9 +161,55 @@ class JobMasterController extends Controller
 
     }
 
-    public function edit(JobMaster $jobMaster)
+    public function getBilledJobInfo($id)
     {
-        //
+        $queryResult = DB::select('call getBilledJobInfo(?)',[$id]);
+        $result1 = collect($queryResult);
+
+        $result2 = BillAdjustment::select()->get();
+
+        $result3 = array(
+                        array("task_name"=>"gold",
+                            "id"=>1,
+                            "submit"=>$result1[0]->material_submitted,
+                            "return"=>$result1[1]->material_submitted,
+                            "total"=> $result1[0]->material_submitted + $result1[1]->material_submitted,
+                            "discount"=>0,
+                            "rate" => $result1[0]->rate,
+                            "quantity" => $result1[0]->quantity,
+                            "mv" => $result1[0]->mv,
+                            "p_loss" => $result1[0]->p_loss
+                        ),
+                        array("task_name"=>"dal",
+                            "id"=>2,
+                            "submit"=>$result1[2]->material_submitted,
+                            "return"=>$result1[3]->material_submitted,
+                            "total"=> $result1[2]->material_submitted + $result1[3]->material_submitted,
+                            "discount"=>0
+                        ),
+                        array("task_name"=>"pan",
+                            "id"=>3,
+                            "submit"=>$result1[4]->material_submitted,
+                            "return"=>$result1[5]->material_submitted,
+                            "total"=> (($result1[4]->material_submitted + $result1[5]->material_submitted) * $result2[0]->value)/100,
+                            "discount"=>$result2[0]->value
+                        ),
+                        array("task_name"=>"nitric",
+                            "id"=>4,
+                            "submit"=> 0,
+                            "return"=>$result1[6]->material_submitted,
+                            "total"=> ($result1[6]->material_submitted * $result2[1]->value)/100,
+                            "discount"=>$result2[1]->value
+                        ),
+                        array("task_name"=>"bronze",
+                            "id"=>5,
+                            "submit"=> $result1[7]->material_submitted,
+                            "return"=> 0,
+                            "total"=> $result1[7]->material_submitted,
+                            "discount"=> 0
+                        ),
+        );
+        return response()->json(['success'=>1,'result3'=>$result3], 200,[],JSON_NUMERIC_CHECK);
     }
 
     /**

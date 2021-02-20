@@ -43,6 +43,7 @@ Route::group(array('prefix' => 'dev'), function() {
 
     //testing for stock bill save
     Route::post('/testBillSave', 'BillMasterController@testBillSave');
+    Route::get('/getBilledJobList/{id}', 'BillMasterController@getBilledJobList');
 
 
 
@@ -64,6 +65,7 @@ Route::group(array('prefix' => 'dev'), function() {
     Route::get('/getTotalPanSendById/{id}', 'JobMasterController@getTotalPanSendById');
     Route::get('/getTotalPanReturnById/{id}', 'JobMasterController@getTotalPanReturnById');
     Route::get('/getTotalNitricReturnById/{id}', 'JobMasterController@getTotalNitricReturnById');
+    Route::get('/getBilledJobInfo/{id}', 'JobMasterController@getBilledJobInfo');
 
     //rate
     Route::get('/getRates', 'RateController@getRates');
@@ -186,6 +188,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
 
     //bill_master
     Route::post('/saveBillMaster', 'BillMasterController@saveBillMaster');
+    Route::get('/getBilledJobList/{id}', 'BillMasterController@getBilledJobList');
 
     //testing for stock bill save
     Route::post('/testBillSave', 'BillMasterController@testBillSave');
@@ -203,6 +206,7 @@ Route::group(['middleware' => ['jwt.auth']], function() {
     //job_master
     Route::post('/jobs', 'JobMasterController@saveJob');
     Route::post('/finishJob', 'JobMasterController@updateGrossWeight');
+    Route::get('/getBilledJobInfo/{id}', 'JobMasterController@getBilledJobInfo');
 
 
     //rate

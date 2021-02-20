@@ -183,9 +183,14 @@ class BillMasterController extends Controller
         return response()->json(['success' => 1, 'data' => $data], 200, [], JSON_NUMERIC_CHECK);
     }
 
-    public function create()
+    public function getBilledJobList($id)
     {
-        //
+        $result = BillDetail::select('job_masters.id','job_masters.job_number')
+                  ->join('job_masters','job_masters.id' ,'=','bill_details.job_master_id')
+                  ->where('bill_master_id',$id)
+                  ->get();
+
+        return response()->json(['success' => 1, 'data' => $result], 200, [], JSON_NUMERIC_CHECK);
     }
 
     /**
