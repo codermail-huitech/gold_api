@@ -575,6 +575,23 @@ class CreateAllProceduresAndFunctions extends Migration
                 '
         );
 
+        DB::unprepared('DROP PROCEDURE IF EXISTS test_db.getBilledJobInfo;
+                    CREATE PROCEDURE test_db.`getBilledJobInfo`(IN `job_master_id` INT)
+                    BEGIN
+                              select job_tasks.task_name,job_tasks.id,ifNull(sum(table1.material_quantity),0)as material_submitted,table1.p_loss, table1.rate, table1.quantity, table1.mv  from  job_tasks left join
+                              (select job_details.job_master_id, job_details.job_task_id, job_details.material_quantity,order_details.p_loss,bill_details.rate, bill_details.quantity, bill_details.mv
+                              from job_details
+                              inner join job_masters ON job_masters.id = job_details.job_master_id
+                              inner join order_details ON order_details.id = job_masters.order_details_id
+                              inner join bill_details on job_details.job_master_id = bill_details.job_master_id
+                              where job_details.job_master_id = job_master_id) as table1
+                              on job_tasks.id = table1.job_task_id
+                              group by job_tasks.id,table1.p_loss, table1.rate, table1.quantity, table1.mv ;
+
+                     END;'
+        );
+
+
 //        DB::unprepared('DROP FUNCTION IF EXISTS test_db.get_employee_balance;
 //            CREATE FUNCTION test_db.`get_employee_balance`(`param_employee_id` INT , `param_material_id` INT  ) RETURNS double
 //                DETERMINISTIC
