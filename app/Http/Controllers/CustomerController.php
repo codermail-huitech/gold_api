@@ -56,6 +56,8 @@ class CustomerController extends Controller
 
     public function saveCustomer(Request $request)
     {
+
+//        return $request;
         $customer = new User();
         $customer->person_name = $request->input('person_name');
         $customer->email = $request->input('email');
@@ -73,12 +75,15 @@ class CustomerController extends Controller
         $customer->pin = $request->input('pin');
         $customer->opening_balance_LC = $request->input('opening_balance_LC');
         $customer->opening_balance_Gold = $request->input('opening_balance_Gold');
+        $customer->mv = $request->input('mv');
 
 //        if ($request->input('mv')) {
 //        $customer->mv = $request->input('mv');
 //        }
         $customer->save();
-        return response()->json(['success' => 1, 'data' => $customer], 200,[],JSON_NUMERIC_CHECK);
+
+
+        return response()->json(['success'=>1, 'data'=>$customer], 200,[],JSON_NUMERIC_CHECK);
     }
 
     public function updateCustomer($id, Request $request)

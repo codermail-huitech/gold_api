@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
             $table->String('area', 50)->nullable(true);
             $table->String('city', 50)->nullable(true);
             $table->String('pin', 10)->nullable(true);
-            $table->double('mv')->default(0)->nullable(false);
+            $table->double('mv')->default(0);
 
             $table->double('opening_balance_LC')->default(0);
             $table->double('opening_balance_Gold')->default(0);
