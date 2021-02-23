@@ -34,6 +34,7 @@ $factory->define(User::class, function (Faker $faker) {
         'area'=>$faker->cityPrefix,
         'city'=>$faker->city,
         'pin'=>$faker->postcode,
+        'mv'=>0.111,
 
 
         'customer_category_id'=>function(){
