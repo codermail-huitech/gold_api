@@ -40,7 +40,8 @@ class CustomerController extends Controller
             'pin',
             'opening_balance_LC',
             'opening_balance_Gold',
-            'mv')
+            'mv',
+            'discount')
             ->where('person_type_id', '=', 10)
             ->where('customer_category_id', '!=', 5);
 //            ->whereNotIn('customer_category_id',4);
@@ -307,7 +308,12 @@ class CustomerController extends Controller
     }
 
     public function showCompletedBills($id){
-        $data = BillDetail::select()
+        $data = BillDetail::select('users.id','bill_details.bill_master_id','bill_details.job_master_id','bill_details.tag'
+            ,'bill_details.model_number','bill_details.size','bill_details.gross_weight','bill_details.material_id',
+            'bill_details.ginnie','bill_details.rate','bill_details.pure_gold','bill_details.quantity','bill_details.mv'
+            ,'bill_masters.bill_number','bill_masters.bill_date','bill_masters.order_master_id','bill_masters.agent_id'
+            ,'order_details.discount','job_masters.job_number','users.person_name','users.address1','users.address2'
+            ,'users.state','users.po','users.area','users.city','users.pin','order_masters.date_of_order','order_masters.order_number')
                 ->join('bill_masters', 'bill_masters.id', '=', 'bill_details.bill_master_id')
                 ->join('job_masters', 'job_masters.id', '=', 'bill_details.job_master_id')
                 ->join('users as karigarh', 'job_masters.karigarh_id', '=', 'karigarh.id')

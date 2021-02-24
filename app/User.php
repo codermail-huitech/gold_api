@@ -27,7 +27,8 @@ class User extends Authenticatable implements JWTSubject
         'pin',
         'opening_balance_LC',
         'opening_balance_Gold',
-        'mv'];
+        'mv',
+        'discount'];
     protected $guarded = ['id'];
     protected $hidden = [
         'password', 'remember_token',

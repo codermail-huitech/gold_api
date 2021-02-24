@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
 
             $table->double('opening_balance_LC')->default(0);
             $table->double('opening_balance_Gold')->default(0);
+            $table->double('discount')->default(0);
 
 
             $table->tinyInteger('inforced')->default(1);

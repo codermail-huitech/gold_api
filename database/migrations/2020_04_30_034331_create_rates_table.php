@@ -20,7 +20,6 @@ class CreateRatesTable extends Migration
 
             $table->integer('price');
             $table->double('p_loss');
-            $table->double('discount')->default(0);
 
 
             $table->bigInteger('customer_category_id')->unsigned();
