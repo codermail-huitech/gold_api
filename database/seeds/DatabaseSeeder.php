@@ -272,7 +272,6 @@ class DatabaseSeeder extends Seeder
         ProductCategory::create(['category_name'=>'Mima Churi']);
         ProductCategory::create(['category_name'=>'Holo Churi']);
         ProductCategory::create(['category_name'=>'Holo']);
-
         TransactionType::create(['transaction_type'=>'Inward']);
         TransactionType::create(['transaction_type'=>'Outward']);
         TransactionType::create(['transaction_type'=>'Transferred']);
